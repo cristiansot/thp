@@ -1,6 +1,38 @@
-# THP
+# THP web site 2.0 
 
-## THP web site 2.0
+## 🚀 Instalación y Ejecución
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://git@github.com:cristiansot/thp.git
+cd thp
+```
+
+### 2. Instalar dependencias del servidor (scraping)
+
+cd server/scraping
+npm install
+
+### 3. Instalar dependencias del cliente (React)
+
+cd ../../client
+npm install
+
+### Ejecutar proyecto
+
+Ejecutar el scraping (modo manual)
+
+cd server/scraping
+node index.js
+
+
+### Ejecutar el frontend
+
+cd client
+npm run dev
+
+## Estructura del sitio
 
 ```bash
     /thp
