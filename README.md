@@ -11,47 +11,56 @@ cd thp
 
 ### 2. Instalar dependencias del servidor (scraping)
 
+```bash
 cd server/scraping
 npm install
+```
 
 ### 3. Instalar dependencias del cliente (React)
 
+```bash
 cd ../../client
 npm install
+```
 
 ### Ejecutar proyecto
 
 Ejecutar el scraping (modo manual)
 
+```bash
 cd server/scraping
 node index.js
-
+```
 
 ### Ejecutar el frontend
 
+```bash
 cd client
 npm run dev
+```
 
 ## Estructura del sitio
 
 ```bash
     /thp
     ├── server/
-    │   ├── scraping/
-    │   │   ├── index.js         
-    │   │   ├── scraper.js              # Función principal que hace el scraping
-    │   │   └── properties.json         # URLs de las propiedades a scrapear
+    │   └── scraping/
+    │   │   ├── index.js               # Entrada del scraping
+    │   │   ├── scraper.js             # Función principal de scraping
+    │   │   └── properties.json        # URLs de propiedades
+    │   └── package.json    
     ├── client/
-    │   ├── public/                     # Archivos públicos
+    │   ├── public/
     │   │   └── vite.svg
-    │   ├── src/                        # Código fuente
+    │   ├── src/
     │   │   ├── assets/
-    │   │   ├── components/             # Componentes reutilizables
-    │   │   │   └── PropertyCard.jsx    # Componente para mostrar propiedad
+    │   │   ├── components/
+    │   │   │   └── PropertyCard.jsx   # Componente de propiedad
     │   │   ├── img/
-    │   │   ├── App.jsx                 # Componente principal
-    │   │   └── main.jsx                # Punto de entrada de ReactDOM
+    │   │   ├── App.jsx                # Componente principal
+    │   │   └── main.jsx               # Entrada de React
+    │   │
+    │   └── package.json
     ├── .gitignore
-    └── README.md                       # Documentación del proyecto
-
+    └── README.md
 ```

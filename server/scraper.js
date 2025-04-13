@@ -23,27 +23,20 @@ export const scrapeData = async () => {
 
     const results = [];
     
-    for (let url of properties) {
+    for (let property of properties) {
+      const { url, size, bedrooms, bathrooms } = property;
+
       console.log(`Scraping la URL: ${url}`); // Verifica cada URL
       const { data } = await axios.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
 
       const $ = cheerio.load(data);
 
       const title = $('h1.ui-pdp-title').text().trim();
-			const price = $('.andes-money-amount').first().text().trim();
+      const price = $('.andes-money-amount').first().text().trim();
       const location = $('.ui-pdp-location').text().trim();
 
-      let size = 'No disponible';
-      let bedrooms = 'No disponible';
-      let bathrooms = 'No disponible';
-
-      $('.ui-pdp-color--BLACK.ui-pdp-size--SMALL.ui-pdp-family--REGULAR.ui-pdp-label').each((_, el) => {
-        const text = $(el).text().trim();
-        if (text.includes('m²')) size = text;
-        else if (text.includes('dormitorio')) bedrooms = text;
-        else if (text.includes('baño')) bathrooms = text;
-      });
-
+      // Aquí utilizamos los valores manuales para size, bedrooms, y bathrooms
+      // ya que los estamos pasando directamente desde el JSON
 
       // Extraer la URL de la imagen
       const imageUrl = $('figure.ui-pdp-gallery__figure img').attr('data-zoom') || $('figure.ui-pdp-gallery__figure img').attr('src');

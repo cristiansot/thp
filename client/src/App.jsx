@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import PropertyCard from './components/PropertyCard.jsx';
+import './app.css';
 
 function App() {
   const [properties, setProperties] = useState([]);
@@ -15,7 +16,7 @@ function App() {
   }, []);  
 
   return (
-    <div className="container mt-4">
+    <div className="container">
       <div className="row d-flex">
         {properties.length > 0 ? (
           properties.map((p, idx) => (
@@ -28,7 +29,7 @@ function App() {
         )}
       </div>
     </div>
-  );  
+  );
 }
 
 export default App;
