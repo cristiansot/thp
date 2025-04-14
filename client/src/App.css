@@ -19,43 +19,6 @@ body {
 
 .container {
   margin-top: 40px;
-
-}
-
-.card {
-  border-radius: 24px;
-  border-color: #373737;
-  background-color: rgb(16, 21, 26);
-}
-
-.card--title {
-  font-family: Quicksand;
-  font-size: 1.2rem;
-  font-weight: 300;
-  margin-top: 10px;
-  color: #f1f1f1;
-}
-
-.card--price {
-  font-family: Quicksand;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #bababa;
-}
-
-.card--text {
-  margin-top: -8px !important; 
-  margin-bottom: 20px !important;
-  font-family: Quicksand;
-  font-size: 1rem;
-  font-weight: 400;
-  color: #d5d5d5;
-}
-
-.button-ver-propiedades {
-  border-radius: 18px;
-  background-color: transparent;
-  color:rgb(197, 203, 211)
 }
 
 

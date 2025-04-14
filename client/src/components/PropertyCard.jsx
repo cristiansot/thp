@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import bedroomIcon from '../img/icons/bedroom.svg';
 import bathroomIcon from '../img/icons/bathroom.svg';
 import metersIcon from '../img/icons/meters.svg';
+import '../assets/css/propertyCard.css'
 
 function PropertyCard({ title, price, link, img, size, bedrooms, bathrooms }) {
   // Usar una URL dinámica para la imagen
@@ -24,22 +25,22 @@ function PropertyCard({ title, price, link, img, size, bedrooms, bathrooms }) {
         <Card.Text className="card--price">{price}</Card.Text>
 
         {/* Mostrar tamaño, dormitorios y baños en una sola fila */}
-        <div className="d-flex">
+        <div className="container--icons">
           {/* Mostrar el tamaño con icono */}
           <Card.Text className="card--text mr-3 m-1">
-            <img src={metersIcon} alt="Metros cuadrados" style={{ width: '35px', marginRight: '8px' }} />
+            <img className='icons' src={metersIcon} alt="Metros cuadrados" />
             {size}
           </Card.Text>
 
           {/* Mostrar los dormitorios con icono */}
           <Card.Text className="card--text mr-3 m-1">
-            <img src={bedroomIcon} alt="Dormitorios" style={{ width: '35px', marginRight: '8px' }} />
+            <img className='icons' src={bedroomIcon} alt="Dormitorios" />
             {bedrooms}
           </Card.Text>
 
           {/* Mostrar los baños con icono */}
           <Card.Text className="card--text mr-3 m-1">
-            <img src={bathroomIcon} alt="Baños" style={{ width: '35px', marginRight: '8px' }} />
+            <img className='icons' src={bathroomIcon} alt="Baños" />
             {bathrooms}
           </Card.Text>
         </div>

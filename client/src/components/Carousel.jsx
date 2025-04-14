@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../assets/css/carousel.css';
 
 import image1 from '../assets/img/carousel/image1.jpg';
@@ -35,6 +35,14 @@ const Carousel = () => {
   const nextSlide = () => setCurrent((prev) => (prev + 1) % slides.length);
   const prevSlide = () => setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5000); // Cambiar cada 3 segundos
+
+    return () => clearInterval(interval); // Limpiar el intervalo al desmontar
+  }, [current]); // Dependencia para que se actualice correctamente
+
   return (
     <div className="carousel">
       <div className="carousel__nav">
@@ -51,7 +59,7 @@ const Carousel = () => {
       </div>
 
       {slides.map((slide, index) => (
-        <div key={index} id='wrap' className={`carousel-item ${index === current ? 'active' : ''}`}>
+        <div key={index} id="wrap" className={`carousel-item ${index === current ? 'active' : ''}`}>
           <div
             className="carousel-item__image"
             style={{ backgroundImage: `url(${slide.imageUrl})` }}

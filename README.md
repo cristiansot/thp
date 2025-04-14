@@ -12,14 +12,14 @@ cd thp
 ### 2. Instalar dependencias del servidor (scraping)
 
 ```bash
-cd server/scraping
+cd server
 npm install
 ```
 
 ### 3. Instalar dependencias del cliente (React)
 
 ```bash
-cd ../../client
+cd client
 npm install
 ```
 
@@ -28,7 +28,7 @@ npm install
 Ejecutar el scraping (modo manual)
 
 ```bash
-cd server/scraping
+cd server
 node index.js
 ```
 

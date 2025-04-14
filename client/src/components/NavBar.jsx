@@ -21,8 +21,8 @@ const NavBar = () => {
   }, []);
 
   return (
-    <nav className={`navbar navbar-expand-lg fixed-top ${scrolling ? "black" : ""}`}>
-      <div className="container-fluid">
+      <nav className={`navbar navbar-expand-lg fixed-top ${(scrolling || menuOpen) ? "black" : ""}`}>
+        <div className="container-fluid">
         <div className="logo">
           Total Home Propiedades
         </div>
