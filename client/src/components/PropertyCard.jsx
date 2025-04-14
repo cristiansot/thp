@@ -1,8 +1,8 @@
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import bedroomIcon from '../img/icons/bedroom.png';
-import bathroomIcon from '../img/icons/bathroom.png';
-import metersIcon from '../img/icons/meters.png';
+import bedroomIcon from '../img/icons/bedroom.svg';
+import bathroomIcon from '../img/icons/bathroom.svg';
+import metersIcon from '../img/icons/meters.svg';
 
 function PropertyCard({ title, price, link, imageUrl, size, bedrooms, bathrooms }) {
   return (
@@ -36,7 +36,7 @@ function PropertyCard({ title, price, link, imageUrl, size, bedrooms, bathrooms 
           </Card.Text>
         </div>
 
-        <Button type="button" class="btn btn-dark" href={link} target="_blank">Ver Propiedad</Button>
+        <Button type="button" className='button-ver-propiedades' class="btn btn-dark" href={link} target="_blank">Ver Propiedad</Button>
       </Card.Body>
     </Card>
   );

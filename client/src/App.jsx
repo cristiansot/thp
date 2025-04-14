@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import PropertyCard from './components/PropertyCard.jsx';
+import ContainerCard from './components/ContainerCards';
+import NavBar from './components/NavBar'; 
+import Carousel from './components/Carousel';
 import './app.css';
 
 function App() {
@@ -13,22 +15,14 @@ function App() {
         setProperties(res.data);
       })
       .catch(err => console.error('Error fetching properties:', err));
-  }, []);  
+  }, []);
 
   return (
-    <div className="container">
-      <div className="row d-flex">
-        {properties.length > 0 ? (
-          properties.map((p, idx) => (
-            <div key={idx} className="col-md-4">
-              <PropertyCard {...p} />
-            </div>
-          ))
-        ) : (
-          <p>Cargando propiedades...</p>
-        )}
-      </div>
-    </div>
+    <>
+      <NavBar />
+      <Carousel />
+      <ContainerCard properties={properties} />
+    </>
   );
 }
 

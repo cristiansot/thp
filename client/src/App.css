@@ -11,6 +11,10 @@ body {
   background-color: #1f2428;
 }
 
+.container {
+  padding-top: 40px; /* Ajusta esta altura según la altura de tu navbar */
+}
+
 .card {
   /* padding: 1em; */
   border-radius: 24px;
@@ -20,17 +24,17 @@ body {
 
 .card--title {
   font-family: Quicksand;
-  font-size: 1.4rem;
-  font-weight: 400;
+  font-size: 1.2rem;
+  font-weight: 300;
   margin-top: 10px;
-  color: #b8b8b8;
+  color: #f1f1f1;
 }
 
 .card--price {
   font-family: Quicksand;
   font-size: 1.5rem;
-  font-weight: 500;
-  color: #c9c9c9;
+  font-weight: 600;
+  color: #bababa;
 }
 
 .card--text {
@@ -38,9 +42,14 @@ body {
   margin-bottom: 20px !important;
   font-family: Quicksand;
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: 400;
   color: #d5d5d5;
 }
 
+.button-ver-propiedades {
+  border-radius: 18px;
+  background-color: transparent;
+  color:rgb(197, 203, 211)
+}
 
 

@@ -43,24 +43,32 @@ npm run dev
 
 ```bash
     /thp
-    ├── server/
-    │   └── scraping/
-    │   │   ├── index.js               # Entrada del scraping
-    │   │   ├── scraper.js             # Función principal de scraping
-    │   │   └── properties.json        # URLs de propiedades
-    │   └── package.json    
-    ├── client/
-    │   ├── public/
-    │   │   └── vite.svg
-    │   ├── src/
-    │   │   ├── assets/
-    │   │   ├── components/
-    │   │   │   └── PropertyCard.jsx   # Componente de propiedad
-    │   │   ├── img/
-    │   │   ├── App.jsx                # Componente principal
-    │   │   └── main.jsx               # Entrada de React
-    │   │
-    │   └── package.json
-    ├── .gitignore
-    └── README.md
+    ├── server/                         # Backend del proyecto
+    │   └── scraping/                   # Módulo de scraping
+    │   │   ├── index.js                # Archivo de entrada para ejecutar el scraping
+    │   │   ├── scraper.js              # Lógica principal de scraping
+    │   │   └── properties.json         # URLs o datos de entrada para el scraping
+    │   └── package.json                # Dependencias y scripts del servidor
+    ├── client/                         # Frontend del proyecto (React + Vite)
+    │   ├── public/                     # Archivos públicos accesibles directamente
+    │   │   └── vite.svg                # Logo de Vite (default)
+    │   ├── src/                        # Código fuente del cliente
+    │   │   ├── assets/                 # Recursos como estilos y scripts reutilizables
+    │   │   │   ├── css/
+    │   │   │   │   └── NavBar.css      # Estilos del componente NavBar
+    │   │   │   ├── img/                # Recursos gráficos y relacionados
+    │   │   │   │   ├── icons           # SVGs usados como íconos en JSX 
+    │   │   │   │   ├── carousel        
+    │   │   │   │   └── properties      # Rutas o imports de imágenes de propiedades
+    │   │   │   └── js/
+    │   │   │       └── NavBar.js       # Lógica o funcionalidad del NavBar
+    │   │   ├── components/             # Componentes reutilizables de React
+    │   │   │   ├── PropertyCard.jsx 
+    │   │   │   └── NavBar.jsx          # Código jsx del °Navbar
+    │   │   ├── App.jsx                 # Componente principal de la aplicación
+    │   │   └── main.jsx                # Punto de entrada para React
+    │   └── package.json                # Dependencias y scripts del cliente
+    ├── .gitignore                      # Archivos/Carpetas a ignorar por Git
+    └── README.md                       # Documentación del proyecto
+
 ```
