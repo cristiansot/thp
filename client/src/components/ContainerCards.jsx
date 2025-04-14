@@ -1,6 +1,7 @@
 // ContainerCard.jsx
 import React from "react";
-import PropertyCard from "./PropertyCard"; 
+import PropertyCard from "./PropertyCard";
+import '../app.css'
 
 const ContainerCard = ({ properties }) => {
   return (
@@ -13,7 +14,7 @@ const ContainerCard = ({ properties }) => {
             </div>
           ))
         ) : (
-          <p>Cargando propiedades...</p>
+          <p className='loading'>Cargando propiedades...</p>
         )}
       </div>
     </div>

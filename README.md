@@ -59,7 +59,7 @@ npm run dev
     │   │   │   ├── img/                # Recursos gráficos y relacionados
     │   │   │   │   ├── icons           # SVGs usados como íconos en JSX 
     │   │   │   │   ├── carousel        
-    │   │   │   │   └── properties      # Rutas o imports de imágenes de propiedades
+    │   │   │   │   └── properties      # Rutas o imports de imágenes de propiedades en formato jpg
     │   │   │   └── js/
     │   │   │       └── NavBar.js       # Lógica o funcionalidad del NavBar
     │   │   ├── components/             # Componentes reutilizables de React

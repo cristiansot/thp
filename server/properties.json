@@ -2,120 +2,140 @@
   "properties": [
     {
       "url": "https://www.portalinmobiliario.com/MLC-2756924584-vendo-departamento-cercano-a-estacion-de-metro-san-miguel-_JM",
+      "img": "san-miguel.jpg",      
       "size": "80 m²",
       "bedrooms": "3 dormitorios",
       "bathrooms": "2 baños"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-1597649635-arriendo-departamento-cercano-a-metro-macul-_JM",
+      "img": "macul.jpg",  
       "size": "45 m²",
       "bedrooms": "2 dormitorios",
       "bathrooms": "2 baños"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-2869595412-vendo-casa-con-local-comercial-en-llico-san-miguel-_JM",
+      "img": "llico.jpg",  
       "size": "400 m²",
       "bedrooms": "4 dormitorios",
       "bathrooms": "3 baños"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-1594938707-vendo-casa-en-villa-napoli-ii-san-vicente-de-tagua-tagua-_JM",
+      "img": "san-vicente.jpg",  
       "size": "150 m²",
       "bedrooms": "3 dormitorios",
       "bathrooms": "1 baño"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-1591375943-arriendo-amplia-casa-en-ciudad-satelite-maipu-_JM",
+      "img": "ciudad-satelite.jpg",  
       "size": "150 m²",
       "bedrooms": "4 dormitorios",
       "bathrooms": "4 baño"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-1584807613-vendo-departamento-en-s-lucia-a-pasos-del-barrio-lastarria-_JM",
+      "img": "santiago-centro.jpg",
       "size": "185 m²",
       "bedrooms": "6 dormitorios",
       "bathrooms": "3 baños"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-2854464882-vendo-departamento-cercano-a-metro-el-parron-la-cisterna-_JM",
+      "img": "parron.jpg",
       "size": "50 m²",
       "bedrooms": "2 dormitorios",
       "bathrooms": "1 baño"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-2846673330-vendo-gran-casa-en-carriel-sur-frente-a-mall-plaza-oeste-_JM",
+      "img": "carriel-sur.jpg",
       "size": "130 m²",
       "bedrooms": "4 dormitorios",
       "bathrooms": "3 baños"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-1536945491-vendo-departamento-a-pasos-de-estacion-metro-ciudad-del-nino-_JM",
+      "img": "ciudad-del-nino.jpg",
       "size": "64 m²",
       "bedrooms": "3 dormitorios",
       "bathrooms": "2 baños"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-1573825921-vendo-casa-en-lomas-del-maipo-cercano-a-las-vizcachas-_JM",
+      "img": "lomas-del-maipo.jpg",
       "size": "83 m²",
       "bedrooms": "2 dormitorios",
       "bathrooms": "2 baños"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-1597327155-vendo-parcela-en-condominio-huertos-de-rangue-laguna-aculeo-_JM",
+      "img": "aculeo.jpg",
       "size": "5000 m²",
       "bedrooms": "2 dormitorios",
       "bathrooms": "1 baños"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-2837655690-vendo-parcela-en-condominio-alto-linares--_JM",
+      "img": "linares.jpg",
       "size": "5000 m²",
       "bedrooms": "",
       "bathrooms": ""
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-2828435846-vendo-departamento-a-pasos-de-av-apoquindo-las-condes-_JM",
+      "img": "las-condes.jpg",
       "size": "104 m²",
       "bedrooms": "4 dormitorios",
       "bathrooms": "2 baños"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-2790358548-vendo-casa-en-condominio-los-cormoranes-ciudad-de-los-valles-_JM",
+      "img": "cormoranes.jpg",
       "size": "223 m²",
       "bedrooms": "3 dormitorios",
       "bathrooms": "3 baños"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-2869584574-vendo-departamento-g-mackenna-a-pasos-de-metro-cal-y-canto-_JM",
+      "img": "mackenna.jpg",
       "size": "40 m²",
       "bedrooms": "1 dormitorios",
       "bathrooms": "1 baño"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-2729017104-vendo-casa-en-nueva-san-martin-con-tres-poniente-maipu-_JM",
+      "img": "san-martin.jpg",
       "size": "150 m²",
       "bedrooms": "3 dormitorios",
       "bathrooms": "1 baño"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-2856622608-vendo-departamento-en-lazo-cerca-de-metro-lo-vial-san-miguel-_JM",
+      "img": "lazo.jpg",
       "size": "54 m²",
       "bedrooms": "2 dormitorios",
       "bathrooms": "2 baños"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-2628803452-vendo-departamento-condominio-parque-las-palmas-metro-macul-_JM",
+      "img": "las-palmas.jpg",
       "size": "55 m²",
       "bedrooms": "2 dormitorios",
       "bathrooms": "2 baños"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-2832963280-vendo-casa-en-padre-vicente-irarrazaval-ecentral-_JM",
+      "img": "est-central.jpg",
       "size": "100 m²",
       "bedrooms": "4 dormitorios",
       "bathrooms": "1 baño"
     },
     {
       "url": "https://www.portalinmobiliario.com/MLC-2839032200-vendo-oficina-en-guardia-vieja-metro-los-leones-_JM",
+      "img": "guardia-vieja.jpg",
       "size": "94 m²",
       "bedrooms": "3 dormitorios",
       "bathrooms": "4 baños"

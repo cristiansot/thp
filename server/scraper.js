@@ -24,7 +24,7 @@ export const scrapeData = async () => {
     const results = [];
     
     for (let property of properties) {
-      const { url, size, bedrooms, bathrooms } = property;
+      const { url, size, bedrooms, bathrooms, img } = property;
 
       console.log(`Scraping la URL: ${url}`); // Verifica cada URL
       const { data } = await axios.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
@@ -35,13 +35,16 @@ export const scrapeData = async () => {
       const price = $('.andes-money-amount').first().text().trim();
       const location = $('.ui-pdp-location').text().trim();
 
-      // Aquí utilizamos los valores manuales para size, bedrooms, y bathrooms
-      // ya que los estamos pasando directamente desde el JSON
-
-      // Extraer la URL de la imagen
-      const imageUrl = $('figure.ui-pdp-gallery__figure img').attr('data-zoom') || $('figure.ui-pdp-gallery__figure img').attr('src');
-
-      results.push({ title, price, location, size, bedrooms, bathrooms, imageUrl, link: url });
+      results.push({
+        title, 
+        price, 
+        location, 
+        size, 
+        bedrooms, 
+        bathrooms, 
+        img, 
+        link: url 
+      });
     }
 
     console.log('Datos obtenidos del scraping:', results); // Verifica los resultados finales

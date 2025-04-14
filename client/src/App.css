@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Quicksand:300,400,500,600,700");
 
-
 /* * {
   outline: 1px red dashed;
 } */
@@ -12,6 +11,10 @@
 body {
   align-items: center;
   background-color: #161e24;
+}
+
+.loading {
+  color: aliceblue;
 }
 
 .container {
