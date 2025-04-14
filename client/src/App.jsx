@@ -8,9 +8,11 @@ import './app.css';
 function App() {
   const [properties, setProperties] = useState([]);
 
+  const backendUrl = 'https://thp-backend-16jj.onrender.com';
+
   useEffect(() => {
-    axios.get('http://localhost:3001/api/properties')
-      .then(res => {
+    axios.get(`${backendUrl}/api/properties`)
+     .then(res => {
         console.log(res.data);
         setProperties(res.data);
       })
