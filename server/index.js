@@ -1,4 +1,3 @@
-import fs from 'fs';
 import express from 'express';
 import cors from 'cors';
 import { scrapeData } from './scraper.js';
@@ -8,37 +7,16 @@ const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 
-let cachedData = [];
-
-const loadCachedData = () => {
-  try {
-    const data = fs.readFileSync('./cachedProperties.json', 'utf8');
-    cachedData = JSON.parse(data);
-  } catch (err) {
-    console.error('No se pudo cargar cachedProperties.json:', err.message);
-  }
-};
-
-// Al iniciar el servidor, cargar caché si existe
-loadCachedData();
-
-// Endpoint para el frontend
-app.get('/api/properties', (req, res) => {
-  res.json(cachedData);
-});
-
-// Actualizar scraping cada 1 hora
-const scrapeAndCache = async () => {
+// Endpoint que hace scraping en vivo
+app.get('/api/properties', async (req, res) => {
   try {
     const data = await scrapeData();
-    cachedData = data;
+    res.json(data);
   } catch (err) {
-    console.error('Scraping falló. Usando última caché.');
+    console.error('Error durante scraping:', err);
+    res.status(500).json({ error: 'Error al obtener datos' });
   }
-};
-
-scrapeAndCache(); // hacer scraping al inicio
-setInterval(scrapeAndCache, 60 * 60 * 1000); // cada 1 hora
+});
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

@@ -46,8 +46,8 @@ npm run dev
     ├── server/                         # Backend del proyecto
     │   └── scraping/                   # Módulo de scraping
     │   │   ├── index.js                # Archivo de entrada para ejecutar el scraping
-    │   │   ├── scraper.js              # Lógica principal de scraping
-    │   │   └── properties.json         # URLs o datos de entrada para el scraping
+    │   │   └── scraper.js              # Lógica principal de scraping
+    │   ├── .env                        # Dependencias y scripts del cliente
     │   └── package.json                # Dependencias y scripts del servidor
     ├── client/                         # Frontend del proyecto (React + Vite)
     │   ├── public/                     # Archivos públicos accesibles directamente
@@ -67,7 +67,8 @@ npm run dev
     │   │   │   └── NavBar.jsx          # Código jsx del °Navbar
     │   │   ├── App.jsx                 # Componente principal de la aplicación
     │   │   └── main.jsx                # Punto de entrada para React
-    │   └── package.json                # Dependencias y scripts del cliente
+    │   ├── package.json                # Dependencias y scripts del cliente
+    │   └── properties.json             # URLs o datos de entrada para el scraping
     ├── .gitignore                      # Archivos/Carpetas a ignorar por Git
     └── README.md                       # Documentación del proyecto
 
