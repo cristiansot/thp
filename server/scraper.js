@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 
 const readPropertiesFile = () => {
   return new Promise((resolve, reject) => {
-    fs.readFile('./scraping/properties.json', 'utf8', (err, data) => {
+    fs.readFile('./properties.json', 'utf8', (err, data) => {
       if (err) reject('Error al leer properties.json: ' + err);
       else resolve(JSON.parse(data));
     });
@@ -44,7 +44,7 @@ export const scrapeData = async () => {
     }
 
     // Guardar en caché
-    fs.writeFileSync('./scraping/cachedProperties.json', JSON.stringify(results, null, 2));
+    fs.writeFileSync('./cachedProperties.json', JSON.stringify(results, null, 2));
     console.log('Datos de propiedades actualizados');
     return results;
   } catch (error) {

@@ -12,7 +12,7 @@ let cachedData = [];
 
 const loadCachedData = () => {
   try {
-    const data = fs.readFileSync('./scraping/cachedProperties.json', 'utf8');
+    const data = fs.readFileSync('./cachedProperties.json', 'utf8');
     cachedData = JSON.parse(data);
   } catch (err) {
     console.error('No se pudo cargar cachedProperties.json:', err.message);
