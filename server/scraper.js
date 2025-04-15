@@ -2,32 +2,26 @@ import fs from 'fs';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
-// Leer el archivo properties.json
 const readPropertiesFile = () => {
   return new Promise((resolve, reject) => {
-    fs.readFile('./properties.json', 'utf8', (err, data) => {
-      if (err) {
-        reject('Error para leer properties.json: ' + err);
-      } else {
-        resolve(JSON.parse(data)); // Parseamos el archivo JSON
-      }
+    fs.readFile('./scraping/properties.json', 'utf8', (err, data) => {
+      if (err) reject('Error al leer properties.json: ' + err);
+      else resolve(JSON.parse(data));
     });
   });
 };
 
-// Hacer scraping de cada propiedad usando las URLs
 export const scrapeData = async () => {
   try {
     const { properties } = await readPropertiesFile();
-    console.log('Propiedades a scrapear:', properties); // Verifica que se estén leyendo correctamente
-
     const results = [];
-    
+
     for (let property of properties) {
       const { url, size, bedrooms, bathrooms, img } = property;
 
-      console.log(`Scraping la URL: ${url}`); // Verifica cada URL
-      const { data } = await axios.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+      const { data } = await axios.get(url, {
+        headers: { 'User-Agent': 'Mozilla/5.0' },
+      });
 
       const $ = cheerio.load(data);
 
@@ -36,21 +30,25 @@ export const scrapeData = async () => {
       const location = $('.ui-pdp-location').text().trim();
 
       results.push({
-        title, 
-        price, 
-        location, 
-        size, 
-        bedrooms, 
-        bathrooms, 
-        img, 
-        link: url 
+        title,
+        price,
+        location,
+        size,
+        bedrooms,
+        bathrooms,
+        img,
+        link: url,
       });
+
+      await new Promise((res) => setTimeout(res, 500)); // delay opcional
     }
 
-    console.log('Datos obtenidos del scraping:', results); // Verifica los resultados finales
+    // Guardar en caché
+    fs.writeFileSync('./scraping/cachedProperties.json', JSON.stringify(results, null, 2));
+    console.log('Datos de propiedades actualizados');
     return results;
   } catch (error) {
-    console.error('Error durante el scraping:', error); // Detalle del error
-    throw error; // Re-lanza el error para que el servidor lo maneje
+    console.error('Error durante scraping:', error);
+    throw error;
   }
 };
