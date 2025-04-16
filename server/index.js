@@ -40,7 +40,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Algo salió mal. Por favor, inténtelo de nuevo más tarde.' });
 });
 
-const PORT = process.env.PORT || 1000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
