@@ -1,8 +1,8 @@
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import bedroomIcon from '../img/icons/bedroom.svg';
-import bathroomIcon from '../img/icons/bathroom.svg';
-import metersIcon from '../img/icons/meters.svg';
+import bedroomIcon from '../assets/img/icons/bedroom.svg';
+import bathroomIcon from '../assets/img/icons/bathroom.svg';
+import metersIcon from '../assets/img/icons/meters.svg';
 import '../assets/css/propertyCard.css'
 
 function PropertyCard({ title, price, link, img, size, bedrooms, bathrooms }) {

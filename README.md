@@ -43,33 +43,37 @@ npm run dev
 
 ```bash
     /thp
-    ├── server/                         # Backend del proyecto
-    │   └── scraping/                   # Módulo de scraping
-    │   │   ├── index.js                # Archivo de entrada para ejecutar el scraping
-    │   │   └── scraper.js              # Lógica principal de scraping
-    │   ├── .env                        # Dependencias y scripts del cliente
-    │   └── package.json                # Dependencias y scripts del servidor
-    ├── client/                         # Frontend del proyecto (React + Vite)
-    │   ├── public/                     # Archivos públicos accesibles directamente
-    │   │   └── vite.svg                # Logo de Vite (default)
-    │   ├── src/                        # Código fuente del cliente
-    │   │   ├── assets/                 # Recursos como estilos y scripts reutilizables
-    │   │   │   ├── css/
-    │   │   │   │   └── NavBar.css      # Estilos del componente NavBar
-    │   │   │   ├── img/                # Recursos gráficos y relacionados
-    │   │   │   │   ├── icons           # SVGs usados como íconos en JSX 
-    │   │   │   │   ├── carousel        
-    │   │   │   │   └── properties      # Rutas o imports de imágenes de propiedades en formato jpg
-    │   │   │   └── js/
-    │   │   │       └── NavBar.js       # Lógica o funcionalidad del NavBar
-    │   │   ├── components/             # Componentes reutilizables de React
-    │   │   │   ├── PropertyCard.jsx 
-    │   │   │   └── NavBar.jsx          # Código jsx del °Navbar
-    │   │   ├── App.jsx                 # Componente principal de la aplicación
-    │   │   └── main.jsx                # Punto de entrada para React
-    │   ├── package.json                # Dependencias y scripts del cliente
-    │   └── properties.json             # URLs o datos de entrada para el scraping
+    ├── server/
+    │   ├── routes/
+    │   │   └── properties.js       # Endpoint para obtener propiedades
+    │   ├── services/
+    │   │   └── mercadoLibre.js     # Lógica de integración con la API
+    │   ├── oauth/
+    │   │   ├── login.js 
+    │   │   └── callback.js 
+    │   ├── .env
+    │   ├── index.js                # Entry point del servidor
+    │   └── package.json
+    ├── client/
+    │   ├── public/
+    │   ├── src/
+    │   │   ├── assets/
+    │   │   │   ├── css
+    │   │   │   └── img
+    │   │   │       ├── carousel
+    │   │   │       └── icons
+    │   │   ├── components/
+    │   │   │   ├── Carousel.jsx
+    │   │   │   ├── ContainerCard.jsx
+    │   │   │   ├── Navbar.jsx
+    │   │   │   └── PropertyCard.jsx
+    │   │   ├── pages/
+    │   │   ├── App.jsx
+    │   │   └── main.jsx
+    │   ├── index.html
+    │   ├── package.json
+    │   └── viteconfig.js
+    ├── vite.config.js
     ├── .gitignore                      # Archivos/Carpetas a ignorar por Git
     └── README.md                       # Documentación del proyecto
-
 ```
