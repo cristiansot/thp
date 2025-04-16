@@ -1,7 +1,10 @@
 export async function callback(req, res) {
   const { code } = req.query;
-
-  console.log('Received code:', code);  // Agregar para ver si se recibe el código
+  console.log('Received code:', code);  // Verificar si se recibe el código correctamente
+  
+  if (!code) {
+    return res.status(400).send('No code received from Mercado Libre.');
+  }
 
   try {
     const response = await axios.post('https://api.mercadolibre.com/oauth/token', null, {
@@ -17,10 +20,9 @@ export async function callback(req, res) {
       }
     });
 
-    console.log('Token Response:', response.data); // Verificar que la respuesta contiene el token
+    console.log('Token Response:', response.data); // Verificar la respuesta del token
 
     const { access_token, refresh_token, user_id, expires_in } = response.data;
-
     res.send('Autenticación exitosa. Ya podés usar la API de Mercado Libre.');
   } catch (err) {
     console.error('Error al obtener el token:', err.response?.data || err.message);
