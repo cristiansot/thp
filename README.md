@@ -73,6 +73,7 @@ npm run dev
     │   ├── index.html
     │   ├── package.json
     │   └── viteconfig.js
+    ├── .env
     ├── vite.config.js
     ├── .gitignore                      # Archivos/Carpetas a ignorar por Git
     └── README.md                       # Documentación del proyecto

@@ -35,10 +35,12 @@ import React from 'react';
 
 function App() {
   const handleLogin = () => {
-    const isDev = import.meta.env.DEV;
+    const isDev = import.meta.env.MODE === 'development';
     const loginUrl = isDev
-      ? 'http://localhost:3001/oauth/login'
-      : 'https://www.thp.cl/oauth/login';
+      ? import.meta.env.VITE_ML_LOGIN_DEV
+      : import.meta.env.VITE_ML_LOGIN_PROD;
+
+    console.log('Login URL:', loginUrl); // Verifica que la URL esté correcta
 
     window.location.href = loginUrl;
   };
@@ -52,5 +54,3 @@ function App() {
 }
 
 export default App;
-
-
