@@ -32,19 +32,26 @@
 
 // client/src/pages/App.jsx
 import React from 'react';
+import axios from 'axios';
 
 function App() {
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const isDev = import.meta.env.MODE === 'development'; // Verifica si estás en modo de desarrollo
     const loginUrl = isDev
       ? import.meta.env.VITE_ML_LOGIN_DEV  // URL de login para desarrollo
       : import.meta.env.VITE_ML_LOGIN_PROD;    // URL de login para producción
-  
-    console.log('Redirigiendo a la URL de login:', loginUrl); // Verifica que la URL de redirección sea correcta
-  
-    window.location.href = loginUrl; // Redirige a la URL de login
+
+    try {
+      // Enviar solicitud al backend para iniciar el flujo de OAuth
+      const response = await axios.get(loginUrl);
+      
+      // Si la respuesta es exitosa, el backend ya habrá redirigido al usuario
+      console.log('Redirigiendo a Mercado Libre...');
+    } catch (error) {
+      console.error('Error al iniciar sesión en Mercado Libre:', error);
+    }
   };
-  
+
   return (
     <div>
       <button onClick={handleLogin}>Login with Mercado Libre</button>
