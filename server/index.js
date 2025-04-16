@@ -19,7 +19,7 @@ try {
 const corsOptions = {
   origin: [
     'http://localhost:3000',         // Frontend local
-    process.env.FRONTEND_URL        // Frontend en Render
+    process.env.FRONTEND_URL        // URL del frontend en producción
   ],
   credentials: true,
 };
