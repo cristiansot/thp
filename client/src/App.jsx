@@ -35,20 +35,19 @@ import React from 'react';
 
 function App() {
   const handleLogin = () => {
-    const isDev = import.meta.env.MODE === 'development';
+    const isDev = import.meta.env.MODE === 'development'; // Verifica si estás en modo de desarrollo
     const loginUrl = isDev
-      ? import.meta.env.VITE_ML_LOGIN_DEV
-      : import.meta.env.VITE_ML_LOGIN_PROD;
+      ? import.meta.env.VITE_ML_LOGIN_DEV   // Para desarrollo
+      : import.meta.env.VITE_ML_LOGIN_PROD; // Para producción
 
-    console.log('Login URL:', loginUrl); // Verifica que la URL esté correcta
+    console.log('Redirigiendo a la URL de login:', loginUrl); // Verifica la URL de redirección en la consola
 
-    window.location.href = loginUrl;
+    window.location.href = loginUrl; // Redirige a la URL de login
   };
 
   return (
     <div>
       <button onClick={handleLogin}>Login with Mercado Libre</button>
-      {/* Otros componentes y contenido */}
     </div>
   );
 }

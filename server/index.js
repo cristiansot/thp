@@ -18,8 +18,8 @@ try {
 // Configuración de CORS
 const corsOptions = {
   origin: [
-    'http://localhost:3000',        // Frontend en local
-    process.env.FRONTEND_URL        // Frontend externo (ej: en producción)
+    'http://localhost:3000',  // Frontend local en desarrollo
+    process.env.FRONTEND_URL  // URL en producción
   ],
   credentials: true,
 };
@@ -40,7 +40,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Algo salió mal. Por favor, inténtelo de nuevo más tarde.' });
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 1000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
