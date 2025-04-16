@@ -18,7 +18,7 @@ try {
 // Configuración de CORS
 const corsOptions = {
   origin: [
-    'http://localhost:3001',         // Frontend local
+    'http://localhost:5173',         // Frontend local
     process.env.FRONTEND_URL        // URL del frontend en producción
   ],
   credentials: true,
