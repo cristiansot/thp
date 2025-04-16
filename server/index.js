@@ -8,12 +8,19 @@ import { callback } from './oauth/callback.js';
 dotenv.config();
 const app = express();
 
-// Seguridad adicional con Helmet
-app.use(helmet());
+// Middleware para seguridad con Helmet (usalo solo si está instalado)
+try {
+  app.use(helmet());
+} catch (error) {
+  console.warn('⚠️ Helmet no está instalado. Ejecutá: npm install helmet');
+}
 
 // Configuración de CORS
 const corsOptions = {
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  origin: [
+    'http://localhost:3000',        // Frontend en local
+    process.env.FRONTEND_URL        // Frontend externo (ej: en producción)
+  ],
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -29,11 +36,11 @@ app.get('/oauth/callback', callback);
 
 // Middleware global de errores
 app.use((err, req, res, next) => {
-  console.error(err);
+  console.error('🔴 Error:', err);
   res.status(500).json({ error: 'Algo salió mal. Por favor, inténtelo de nuevo más tarde.' });
 });
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
 });
