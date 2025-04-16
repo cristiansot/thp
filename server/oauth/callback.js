@@ -1,6 +1,3 @@
-// server/oauth/callback.js
-import axios from 'axios';
-
 export async function callback(req, res) {
   const { code } = req.query;
 
@@ -19,18 +16,14 @@ export async function callback(req, res) {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     });
-  
+
+    console.log('Token Response:', response.data); // Verificar que la respuesta contiene el token
+
     const { access_token, refresh_token, user_id, expires_in } = response.data;
-    console.log('Access Token:', access_token);
-    console.log('Refresh Token:', refresh_token);
-    console.log('User ID:', user_id);
-  
+
     res.send('Autenticación exitosa. Ya podés usar la API de Mercado Libre.');
   } catch (err) {
     console.error('Error al obtener el token:', err.response?.data || err.message);
     res.status(500).send('Error en la autenticación.');
   }
-  
 }
-
-

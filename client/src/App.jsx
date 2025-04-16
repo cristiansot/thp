@@ -37,13 +37,14 @@ function App() {
   const handleLogin = () => {
     const isDev = import.meta.env.MODE === 'development'; // Verifica si estás en modo de desarrollo
     const loginUrl = isDev
-      ? import.meta.env.VITE_ML_LOGIN_DEV   // Para desarrollo
-      : import.meta.env.VITE_ML_LOGIN_PROD; // Para producción
-
+      ? import.meta.env.VITE_ML_LOGIN_DEV  // Usar la variable de entorno para desarrollo
+      : import.meta.env.VITE_ML_LOGIN_PROD;    // Usar la variable de entorno para producción
+  
     console.log('Redirigiendo a la URL de login:', loginUrl); // Verifica la URL de redirección en la consola
-
+  
     window.location.href = loginUrl; // Redirige a la URL de login
   };
+  
 
   return (
     <div>
