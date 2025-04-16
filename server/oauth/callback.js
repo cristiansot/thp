@@ -1,6 +1,6 @@
 export async function callback(req, res) {
   const { code } = req.query;
-  console.log('Received code:', code);  // Verificar si se recibe el código correctamente
+  console.log('Received code:', code);  // Verifica si el código llega correctamente  
   
   if (!code) {
     return res.status(400).send('No code received from Mercado Libre.');
@@ -19,13 +19,10 @@ export async function callback(req, res) {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     });
-
-    console.log('Token Response:', response.data); // Verificar la respuesta del token
-
-    const { access_token, refresh_token, user_id, expires_in } = response.data;
-    res.send('Autenticación exitosa. Ya podés usar la API de Mercado Libre.');
+  
+    console.log('Token Response:', response.data);  // Verificar la respuesta del token
   } catch (err) {
     console.error('Error al obtener el token:', err.response?.data || err.message);
     res.status(500).send('Error en la autenticación.');
   }
-}
+}  
