@@ -1,9 +1,14 @@
 export async function callback(req, res) {
   const { code } = req.query;
 
-  console.log('Received code:', code);  // Aquí verificamos si el código llega correctamente
+  console.log('Received code:', code);  // Verifica que el código llegue correctamente
+
+  if (!code) {
+    return res.status(400).send('No code received');
+  }
 
   try {
+    // Intercambia el código por el token
     const response = await axios.post('https://api.mercadolibre.com/oauth/token', null, {
       params: {
         grant_type: 'authorization_code',
@@ -17,7 +22,7 @@ export async function callback(req, res) {
       }
     });
 
-    console.log('Token Response:', response.data); // Verifica que la respuesta contiene el token
+    console.log('Token Response:', response.data);  // Verifica que la respuesta contiene el token
 
     const { access_token, refresh_token, user_id, expires_in } = response.data;
 
