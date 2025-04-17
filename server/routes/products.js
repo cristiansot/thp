@@ -12,6 +12,7 @@ export const getProducts = async (req, res) => {
       params: { q: query }
     });
     res.json(response.data);
+    console.log('Productos obtenidos:', response.data);
   } catch (error) {
     console.error('Error al obtener productos:', error);
     res.status(500).json({ error: 'Error al obtener productos' });
