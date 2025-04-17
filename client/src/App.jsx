@@ -1,54 +1,55 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
-import ProtectedRoute from './components/ProtectedRoute';
-import CategorySearch from './components/CategorySearch';
 
 function App() {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    fetchUserData(); // Llamada a la API del backend para obtener datos del usuario
+    // Intentamos obtener el token del backend
+    const fetchAccessToken = async () => {
+      try {
+        const response = await axios.get('/api/access_token');
+        const { access_token } = response.data;
+        if (access_token) {
+          console.log("Access Token recibido:", access_token);
+          fetchUserData(access_token); // Llamada a la API con el token
+        } else {
+          console.log("No se encontró access_token en el servidor.");
+        }
+      } catch (error) {
+        console.error("Error al obtener el access_token:", error.message);
+      }
+    };
+
+    fetchAccessToken();
   }, []);
 
-  const fetchUserData = async () => {
+  const fetchUserData = async (accessToken) => {
     try {
-      const response = await axios.get('http://localhost:3001/api/user'); // Tu servidor backend
-      setUserData(response.data);
+      const response = await axios.get('https://api.mercadolibre.com/users/me', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       console.log('User Data:', response.data);
+      setUserData(response.data);  // Actualiza el estado con los datos del usuario
     } catch (error) {
-      console.error('Error al obtener los datos del usuario:', error);
+      console.error('Error al obtener los datos del usuario:', error.message);
     }
   };
 
   return (
-    <Router>
-      <div>
-        {userData ? (
-          <div>
-            <h2>Bienvenido {userData.nickname}</h2>
-            <p>ID de usuario: {userData.id}</p>
-            <p>Email: {userData.email}</p>
-            {/* Aquí puedes mostrar otros datos del usuario */}
-          </div>
-        ) : (
-          <p>Cargando datos...</p>
-        )}
-
-        <Routes>
-          <Route path="/" element={<h1>Home Page</h1>} />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <h1>Profile Page</h1>
-                <Route path="/categories" element={<CategorySearch />} />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </div>
-    </Router>
+    <div>
+      {userData ? (
+        <div>
+          <h2>Bienvenido {userData.nickname}</h2>
+          <p>ID de usuario: {userData.id}</p>
+          <p>Email: {userData.email}</p>
+        </div>
+      ) : (
+        <p>Cargando datos...</p>
+      )}
+    </div>
   );
 }
 
