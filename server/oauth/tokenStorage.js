@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const filePath = path.resolve('./server/oauth/tokens.json');
+const filePath = path.resolve('./oauth/tokens.json');
 
 export const saveTokens = (tokens) => {
   fs.writeFileSync(filePath, JSON.stringify(tokens, null, 2));
