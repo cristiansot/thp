@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export function login(req, res) {
   const clientId = process.env.ML_CLIENT_ID;
   const redirectUri = process.env.ML_REDIRECT_URI;
