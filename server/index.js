@@ -4,8 +4,6 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
-import { getMLUserInfo } from './services/mercadoLibre.js';
-
 
 dotenv.config();
 const app = express();
@@ -32,16 +30,6 @@ if (!process.env.FRONTEND_URL) {
 // Ruta de prueba
 app.get('/test', (req, res) => {
   res.send('Test page');
-});
-
-app.get('/ml/user', async (req, res) => {
-  try {
-    const userInfo = await getMLUserInfo();
-    res.json(userInfo);
-  } catch (error) {
-    console.error('Error al obtener info de ML:', error.message);
-    res.status(500).json({ error: 'No se pudo obtener la info del usuario' });
-  }
 });
 
 // Health Check
