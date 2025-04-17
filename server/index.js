@@ -6,7 +6,6 @@ import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
 import { getProducts } from './routes/products.js';
 
-
 dotenv.config();
 const app = express();
 
