@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
-import { getProducts } from './routes/products.js';
+import { getProducts } from './routes/products.js'; 
 
 dotenv.config();
 const app = express();
@@ -37,9 +37,8 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK' });
 });
 
-//API
-app.get('/api/products', getProducts);
-
+// API: Obtener productos
+app.get('/api/products', getProducts);  // Usamos el endpoint aquí
 
 // Rutas OAuth
 app.get('/oauth/login', login);
