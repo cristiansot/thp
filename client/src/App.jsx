@@ -6,7 +6,6 @@ import CategorySearch from './components/CategorySearch';
 
 function App() {
   const [property, setProperty] = useState(null);
-  const [products, setProducts] = useState([]);  // Estado para los productos
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -25,7 +24,6 @@ function App() {
     }
 
     fetchUserData();
-    fetchProducts('laptop', 'MLA');  // Buscar productos de ejemplo
   }, []);
 
   const handleLogin = () => {
@@ -56,17 +54,6 @@ function App() {
     }
   };
 
-  const fetchProducts = async (query, site) => {
-    try {
-      const response = await axios.get('http://localhost:10000/api/products', {
-        params: { query, site },
-      });
-      setProducts(response.data.results || []);  // Guardar los productos en el estado
-    } catch (error) {
-      console.error('Error al obtener productos:', error);
-    }
-  };
-
   return (
     <Router>
       <div>
@@ -78,24 +65,6 @@ function App() {
             <img src={property.image} alt="Property" style={{ width: '300px' }} />
           </div>
         )}
-        
-        <div>
-          <h2>Productos</h2>
-          {products.length > 0 ? (
-            <ul>
-              {products.map((product) => (
-                <li key={product.id}>
-                  <img src={product.thumbnail} alt={product.title} style={{ width: '100px' }} />
-                  <h3>{product.title}</h3>
-                  <p>Price: ${product.price}</p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No se encontraron productos.</p>
-          )}
-        </div>
-
         <Routes>
           <Route path="/" element={<h1>Home Page</h1>} />
           <Route
@@ -114,3 +83,4 @@ function App() {
 }
 
 export default App;
+
