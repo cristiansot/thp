@@ -26,7 +26,7 @@ export async function callback(req, res) {
 
     const { access_token, refresh_token, user_id, expires_in } = response.data;
 
-    //Guardamos el refresh_token en un archivo
+    // Guardamos el refresh_token en un archivo
     const tokenData = {
       refresh_token,
       saved_at: new Date().toISOString()
@@ -35,8 +35,13 @@ export async function callback(req, res) {
     await fs.writeFile('./oauth/tokens.json', JSON.stringify(tokenData, null, 2));
     console.log('✅ Refresh token guardado correctamente');
 
-    // Redirecciona al frontend (opcional)
-    res.redirect(`${process.env.FRONTEND_URL}?access_token=${access_token}`);
+    // Verificación del access_token y redirección
+    const redirectUrl = `${process.env.FRONTEND_URL}?access_token=${access_token}`;
+    console.log('Redirecting to:', redirectUrl);
+    
+    // Redirige al frontend con el access_token
+    res.redirect(redirectUrl);
+
   } catch (err) {
     console.error('Error al obtener el token:', err.response?.data || err.message);
     res.status(500).send('Error en la autenticación.');
