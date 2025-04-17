@@ -1,5 +1,5 @@
 import axios from 'axios';
-import fs from 'fs/promises'; // ⬅️ Para guardar el token
+import fs from 'fs/promises'; 
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -26,13 +26,13 @@ export async function callback(req, res) {
 
     const { access_token, refresh_token, user_id, expires_in } = response.data;
 
-    // 🔐 Guardamos el refresh_token en un archivo
+    //Guardamos el refresh_token en un archivo
     const tokenData = {
       refresh_token,
       saved_at: new Date().toISOString()
     };
 
-    await fs.writeFile('./server/oauth/tokens.json', JSON.stringify(tokenData, null, 2));
+    await fs.writeFile('./oauth/tokens.json', JSON.stringify(tokenData, null, 2));
     console.log('✅ Refresh token guardado correctamente');
 
     // Redirecciona al frontend (opcional)

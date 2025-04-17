@@ -15,7 +15,7 @@ function App() {
     const image = urlParams.get('image');
 
     if (accessToken) {
-      console.log('Access Token:', accessToken);
+      console.log('Access Token recibido de URL:', accessToken);
       localStorage.setItem('access_token', accessToken);
     }
 
@@ -26,19 +26,10 @@ function App() {
     fetchUserData();
   }, []);
 
-  const handleLogin = () => {
-    const isDev = import.meta.env.MODE === 'development';
-    const loginUrl = isDev
-      ? import.meta.env.VITE_ML_LOGIN_DEV
-      : import.meta.env.VITE_ML_LOGIN_PROD;
-
-    window.location.href = loginUrl;
-  };
-
   const fetchUserData = async () => {
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) {
-      console.error('No access token found');
+      console.error('❌ No access token found');
       return;
     }
 
@@ -48,6 +39,7 @@ function App() {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      console.log('✅ Conectado a la API de Mercado Libre');
       console.log('User Data:', response.data);
     } catch (error) {
       console.error('Error fetching user data:', error.response?.data || error.message);
@@ -57,7 +49,6 @@ function App() {
   return (
     <Router>
       <div>
-        <button onClick={handleLogin}>Login with Mercado Libre</button>
         {property && (
           <div>
             <h2>{property.title}</h2>
@@ -83,4 +74,3 @@ function App() {
 }
 
 export default App;
-
