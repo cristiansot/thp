@@ -8,6 +8,7 @@ import { getProducts } from './routes/products.js';
 
 dotenv.config();
 const app = express();
+const cors = require('cors');
 
 // Middleware para seguridad con Helmet
 app.use(helmet());

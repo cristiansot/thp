@@ -2,21 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import ProtectedRoute from './components/ProtectedRoute';
-import CategorySearch from './components/CategorySearch';
 
 function App() {
   const [property, setProperty] = useState(null);
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    fetchProducts('laptop', 'MLC'); // Cambia 'laptop' por lo que necesites buscar
-  }, []);
-
+  // Obtener productos desde el backend con token incluido
   const fetchProducts = async (query, site) => {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.warn('No access token found');
+      return;
+    }
+
     try {
       const response = await axios.get('http://localhost:10000/api/products', {
-        params: { query, site }
+        params: { query, site },
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
       });
+
       console.log('Productos:', response.data.results);
       setProducts(response.data.results);
     } catch (error) {
@@ -24,40 +30,10 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const accessToken = urlParams.get('access_token');
-    const title = urlParams.get('title');
-    const price = urlParams.get('price');
-    const image = urlParams.get('image');
-
-    if (accessToken) {
-      console.log('Access Token:', accessToken);
-      localStorage.setItem('access_token', accessToken);
-    }
-
-    if (title && price && image) {
-      setProperty({ title, price, image });
-    }
-
-    fetchUserData();
-  }, []);
-
-  const handleLogin = () => {
-    const isDev = import.meta.env.MODE === 'development';
-    const loginUrl = isDev
-      ? import.meta.env.VITE_ML_LOGIN_DEV
-      : import.meta.env.VITE_ML_LOGIN_PROD;
-
-    window.location.href = loginUrl;
-  };
-
+  // Obtener datos del usuario logueado
   const fetchUserData = async () => {
     const accessToken = localStorage.getItem('access_token');
-    if (!accessToken) {
-      console.error('No access token found');
-      return;
-    }
+    if (!accessToken) return;
 
     try {
       const response = await axios.get('https://api.mercadolibre.com/users/me', {
@@ -71,16 +47,45 @@ function App() {
     }
   };
 
+  // Procesar parámetros de la URL y cargar datos iniciales
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get('access_token');
+    const title = urlParams.get('title');
+    const price = urlParams.get('price');
+    const image = urlParams.get('image');
+
+    if (accessToken) {
+      localStorage.setItem('access_token', accessToken);
+    }
+
+    if (title && price && image) {
+      setProperty({ title, price, image });
+    }
+
+    fetchUserData();
+    fetchProducts('laptop', 'MLC'); // Chile = MLC
+  }, []);
+
+  const handleLogin = () => {
+    const isDev = import.meta.env.MODE === 'development';
+    const loginUrl = isDev
+      ? import.meta.env.VITE_ML_LOGIN_DEV
+      : import.meta.env.VITE_ML_LOGIN_PROD;
+
+    window.location.href = loginUrl;
+  };
+
   return (
     <Router>
       <div>
-        <button onClick={handleLogin}>Login with Mercado Libre</button>
+        <button onClick={handleLogin}>Login con Mercado Libre</button>
 
         {property && (
           <div>
             <h2>{property.title}</h2>
-            <p>Price: ${property.price}</p>
-            <img src={property.image} alt="Property" style={{ width: '300px' }} />
+            <p>Precio: ${property.price}</p>
+            <img src={property.image} alt="Propiedad" style={{ width: '300px' }} />
           </div>
         )}
 
@@ -104,7 +109,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <h1>Profile Page</h1>
-                <Route path="/categories" element={<CategorySearch />} />
               </ProtectedRoute>
             }
           />
