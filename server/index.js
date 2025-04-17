@@ -13,7 +13,6 @@ const app = express();
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.get('/api/products', getProducts);
 app.use(cors());
 
 // Configuración de CORS
@@ -37,6 +36,8 @@ app.get('/test', (req, res) => {
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK' });
 });
+//API
+app.get('/api/products', getProducts);
 
 // Rutas OAuth
 app.get('/oauth/login', login);
