@@ -1,17 +1,16 @@
-// ./server/oauth/callback.js
 import axios from 'axios';
-import fs from 'fs/promises';
-import dotenv from 'dotenv';
-dotenv.config();
 
 export async function callback(req, res) {
   const { code } = req.query;
+
+  console.log('Received code:', code);  // Verifica que el código esté llegando correctamente
 
   if (!code) {
     return res.status(400).send('No code received');
   }
 
   try {
+    // Intercambia el código por el token
     const response = await axios.post('https://api.mercadolibre.com/oauth/token', null, {
       params: {
         grant_type: 'authorization_code',
@@ -22,24 +21,40 @@ export async function callback(req, res) {
       },
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json',
       },
     });
 
+    console.log('Token Response:', response.data);
+
     const { access_token, refresh_token, user_id, expires_in } = response.data;
 
-    // Guardamos el refresh_token en un archivo
-    const tokenData = {
-      refresh_token,
-      saved_at: new Date().toISOString()
-    };
+    // Aquí puedes almacenar el refresh_token en tu base de datos si es necesario
 
-    await fs.writeFile('./oauth/tokens.json', JSON.stringify(tokenData, null, 2));
-    console.log('✅ Refresh token guardado correctamente');
-
-    // Redirigir al frontend con el access_token
     res.redirect(`${process.env.FRONTEND_URL}?access_token=${access_token}`);
   } catch (err) {
     console.error('Error al obtener el token:', err.response?.data || err.message);
     res.status(500).send('Error en la autenticación.');
   }
 }
+
+// Función para refrescar el token
+export const refreshToken = async (refreshToken) => {
+  try {
+    const response = await axios.post('https://api.mercadolibre.com/oauth/token', null, {
+      params: {
+        grant_type: 'refresh_token',
+        client_id: process.env.ML_CLIENT_ID,
+        client_secret: process.env.ML_CLIENT_SECRET,
+        refresh_token: refreshToken,
+      },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+    console.log('New Token:', response.data);
+    return response.data;
+  } catch (err) {
+    console.error('Error refreshing token:', err.response?.data || err.message);
+  }
+};
