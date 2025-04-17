@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
-import mlRoutes from './routes/ml.js';
+import { getProducts } from './routes/products.js';
+
 
 dotenv.config();
 const app = express();
@@ -13,7 +14,7 @@ const app = express();
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/ml', mlRoutes);
+app.get('/api/products', getProducts);
 
 // Configuración de CORS
 const corsOptions = {
