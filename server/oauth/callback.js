@@ -17,25 +17,44 @@ export async function callback(req, res) {
         client_id: process.env.ML_CLIENT_ID,
         client_secret: process.env.ML_CLIENT_SECRET,
         code,
-        redirect_uri: process.env.ML_REDIRECT_URI
+        redirect_uri: process.env.ML_REDIRECT_URI,
       },
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Accept': 'application/json',
-      }
+      },
     });
 
-    console.log('Token Response:', response.data); // Verifica que la respuesta contiene el token
+    console.log('Token Response:', response.data);
 
     const { access_token, refresh_token, user_id, expires_in } = response.data;
-    
 
-    // Aquí puedes hacer lo que necesitaes con el token: almacenarlo, enviarlo al frontend, etc.
-    
-    // Redirige al frontend con el token o muestra un mensaje
-    res.send('Autenticación exitosa. Ya podés usar la API de Mercado Libre.');
+    // Aquí puedes almacenar el refresh_token en tu base de datos si es necesario
+
+    res.redirect(`${process.env.FRONTEND_URL}?access_token=${access_token}`);
   } catch (err) {
     console.error('Error al obtener el token:', err.response?.data || err.message);
     res.status(500).send('Error en la autenticación.');
   }
 }
+
+// Función para refrescar el token
+export const refreshToken = async (refreshToken) => {
+  try {
+    const response = await axios.post('https://api.mercadolibre.com/oauth/token', null, {
+      params: {
+        grant_type: 'refresh_token',
+        client_id: process.env.ML_CLIENT_ID,
+        client_secret: process.env.ML_CLIENT_SECRET,
+        refresh_token: refreshToken,
+      },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+    console.log('New Token:', response.data);
+    return response.data;
+  } catch (err) {
+    console.error('Error refreshing token:', err.response?.data || err.message);
+  }
+};
