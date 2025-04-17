@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
-import { login } from './oauth/login.js';
+import { login } from './oauth/login.js';  // Verifica si este archivo existe y contiene la lógica de login
 import { callback } from './oauth/callback.js';
 
 dotenv.config();
@@ -36,7 +36,7 @@ app.get('/health', (req, res) => {
 });
 
 // Rutas OAuth
-app.get('/oauth/login', login);
+app.get('/oauth/login', login);  // Verifica que login.js esté configurado correctamente
 app.get('/oauth/callback', callback);
 
 // Middleware global de errores
@@ -47,7 +47,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 3001;  // Ajusta el puerto si es necesario
 const ENV = process.env.NODE_ENV || 'development';
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT} in ${ENV} mode`);
