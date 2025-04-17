@@ -5,59 +5,36 @@ import ProtectedRoute from './components/ProtectedRoute';
 import CategorySearch from './components/CategorySearch';
 
 function App() {
-  const [property, setProperty] = useState(null);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    // Verifica si hay un access_token en la URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const accessToken = urlParams.get('access_token');
-    
-    console.log('URL Params:', window.location.search);  // Imprime la URL para verificar los parámetros
-
-    if (accessToken) {
-      console.log('Access Token recibido de URL:', accessToken);
-      // Guarda el access_token en el localStorage
-      localStorage.setItem('access_token', accessToken);
-    }
-
-    // Llama a la función para obtener los datos del usuario
-    fetchUserData();
+    fetchUserData(); // Llamada a la API del backend para obtener datos del usuario
   }, []);
 
   const fetchUserData = async () => {
-    // Obtiene el access_token del localStorage
-    const accessToken = localStorage.getItem('access_token');
-    
-    // Si no se encuentra el access_token, muestra un mensaje de error
-    if (!accessToken) {
-      console.error('❌ No access token found');
-      return;
-    }
-
     try {
-      // Realiza una solicitud a la API de Mercado Libre con el access_token
-      const response = await axios.get('https://api.mercadolibre.com/users/me', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await axios.get('http://localhost:3001/api/user'); // Tu servidor backend
+      setUserData(response.data);
       console.log('User Data:', response.data);
     } catch (error) {
-      console.error('Error fetching user data:', error.response?.data || error.message);
+      console.error('Error al obtener los datos del usuario:', error);
     }
   };
 
   return (
     <Router>
       <div>
-        {/* Ya no necesitas el botón de login, así que lo eliminamos */}
-        {property && (
+        {userData ? (
           <div>
-            <h2>{property.title}</h2>
-            <p>Price: ${property.price}</p>
-            <img src={property.image} alt="Property" style={{ width: '300px' }} />
+            <h2>Bienvenido {userData.nickname}</h2>
+            <p>ID de usuario: {userData.id}</p>
+            <p>Email: {userData.email}</p>
+            {/* Aquí puedes mostrar otros datos del usuario */}
           </div>
+        ) : (
+          <p>Cargando datos...</p>
         )}
+
         <Routes>
           <Route path="/" element={<h1>Home Page</h1>} />
           <Route
