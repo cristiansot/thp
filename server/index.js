@@ -15,6 +15,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.get('/api/products', getProducts);
+app.use(cors());
 
 // Configuración de CORS
 const corsOptions = {
