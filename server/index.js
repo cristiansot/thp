@@ -1,8 +1,9 @@
-// ./server/index.js
 import express from 'express';
+import axios from 'axios';
+import fs from 'fs/promises'; // Importa fs/promises para leer el archivo
 import dotenv from 'dotenv';
 import { callback } from './oauth/callback.js';
-import { getAccessToken } from './oauth/getAccessToken.js'; // Nueva función para obtener el token si ya está almacenado
+import { getAccessToken } from './oauth/getAccessToken.js'; // Asegúrate de que esta función esté correctamente importada
 
 dotenv.config();
 const app = express();
@@ -16,7 +17,7 @@ app.get('/api/access_token', async (req, res) => {
     const tokenData = await fs.readFile('./oauth/tokens.json', 'utf8');
     const { refresh_token } = JSON.parse(tokenData);
 
-    // Aquí puedes usar el refresh_token para obtener un nuevo access_token de Mercado Libre
+    // Usamos el refresh_token para obtener un nuevo access_token de Mercado Libre
     const response = await axios.post('https://api.mercadolibre.com/oauth/token', null, {
       params: {
         grant_type: 'refresh_token',
@@ -32,6 +33,7 @@ app.get('/api/access_token', async (req, res) => {
     const { access_token } = response.data;
     res.json({ access_token }); // Devuelve el access_token al frontend
   } catch (err) {
+    console.error('Error al obtener el access_token:', err.message);
     res.status(500).send('Error al obtener el access_token');
   }
 });
