@@ -9,7 +9,7 @@ function App() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetchProducts('laptop', 'MLA'); // Cambia 'laptop' por lo que necesites buscar
+    fetchProducts('laptop', 'MLC'); // Cambia 'laptop' por lo que necesites buscar
   }, []);
 
   const fetchProducts = async (query, site) => {
