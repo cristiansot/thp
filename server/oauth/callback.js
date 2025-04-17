@@ -31,7 +31,7 @@ export async function callback(req, res) {
     const { access_token, refresh_token, user_id, expires_in } = response.data;    
     const expires_at = Date.now() + expires_in * 1000;
 
-    // Aquí puedes almacenar el refresh_token en tu base de datos si es necesario
+    // Aquí puedes almacenar el refresh_token en tu base de datos si es necesario, tokens funcioando ok
     saveTokens({ access_token, refresh_token, user_id, expires_at });
     res.redirect(`${process.env.FRONTEND_URL}?access_token=${access_token}`);
 
