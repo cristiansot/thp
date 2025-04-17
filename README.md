@@ -67,7 +67,6 @@ npm run dev
     │   │   │   ├── ContainerCard.jsx
     │   │   │   ├── Navbar.jsx
     │   │   │   └── PropertyCard.jsx
-    │   │   ├── pages/
     │   │   ├── App.jsx
     │   │   └── main.jsx
     │   ├── index.html

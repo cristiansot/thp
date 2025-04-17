@@ -4,14 +4,12 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
-import categoriesRoutes from './routes/categories.js';
 
 dotenv.config();
 const app = express();
 
 // Middleware para seguridad con Helmet
 app.use(helmet());
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -21,7 +19,6 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
-app.use('/categories', categoriesRoutes);
 
 // Advertencia si FRONTEND_URL no está definido
 if (!process.env.FRONTEND_URL) {
