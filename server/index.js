@@ -9,6 +9,41 @@ import { getProducts } from './routes/products.js';
 dotenv.config();
 const app = express();
 
+app.get('/oauth/callback', async (req, res) => {
+  const code = req.query.code;
+  if (!code) {
+    return res.status(400).json({ error: 'No se recibió el código de autorización' });
+  }
+
+  console.log('Código recibido:', code);
+
+  try {
+    const response = await axios.post('https://api.mercadolibre.com/oauth/token', null, {
+      params: {
+        grant_type: 'authorization_code',
+        client_id: process.env.ML_CLIENT_ID,
+        client_secret: process.env.ML_CLIENT_SECRET,
+        code,
+        redirect_uri: process.env.ML_REDIRECT_URI,
+      },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Accept: 'application/json',
+      },
+    });
+
+    console.log('Token recibido:', response.data);
+
+    const { access_token, refresh_token, user_id } = response.data;
+    // Puedes guardar el access_token en tu base de datos o en donde sea necesario
+    res.redirect(`http://localhost:5173/?access_token=${access_token}`);
+  } catch (err) {
+    console.error('Error al obtener el token:', err.response?.data || err.message);
+    res.status(500).json({ error: 'Error al intercambiar el código por el token' });
+  }
+});
+
+
 // Middleware para seguridad con Helmet
 app.use(helmet());
 app.use(express.json());
@@ -36,8 +71,10 @@ app.get('/test', (req, res) => {
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK' });
 });
+
 //API
 app.get('/api/products', getProducts);
+
 
 // Rutas OAuth
 app.get('/oauth/login', login);

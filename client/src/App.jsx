@@ -5,30 +5,6 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   const [property, setProperty] = useState(null);
-  const [products, setProducts] = useState([]);
-
-  // Obtener productos desde el backend con token incluido
-  const fetchProducts = async (query, site) => {
-    const accessToken = localStorage.getItem('access_token');
-    if (!accessToken) {
-      console.warn('No access token found');
-      return;
-    }
-
-    try {
-      const response = await axios.get('http://localhost:10000/api/products', {
-        params: { query, site },
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      });
-
-      console.log('Productos:', response.data.results);
-      setProducts(response.data.results);
-    } catch (error) {
-      console.error('Error al obtener productos:', error);
-    }
-  };
 
   // Obtener datos del usuario logueado
   const fetchUserData = async () => {
@@ -41,7 +17,7 @@ function App() {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log('User Data:', response.data);
+      console.log('User Data:', response.data.address);
     } catch (error) {
       console.error('Error fetching user data:', error.response?.data || error.message);
     }
@@ -64,18 +40,13 @@ function App() {
     }
 
     fetchUserData();
-    fetchProducts('laptop', 'MLC'); // Chile = MLC
   }, []);
 
   const handleLogin = () => {
-    const isDev = import.meta.env.MODE === 'development';
-    const loginUrl = isDev
-      ? import.meta.env.VITE_ML_LOGIN_DEV
-      : import.meta.env.VITE_ML_LOGIN_PROD;
-
+    const loginUrl = `https://auth.mercadolibre.com/authorization?response_type=code&client_id=${import.meta.env.VITE_ML_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_ML_REDIRECT_URI}`;
     window.location.href = loginUrl;
   };
-
+  
   return (
     <Router>
       <div>
@@ -86,19 +57,6 @@ function App() {
             <h2>{property.title}</h2>
             <p>Precio: ${property.price}</p>
             <img src={property.image} alt="Propiedad" style={{ width: '300px' }} />
-          </div>
-        )}
-
-        {products.length > 0 && (
-          <div>
-            <h2>Resultados</h2>
-            {products.map((item) => (
-              <div key={item.id} style={{ border: '1px solid #ccc', marginBottom: '10px', padding: '10px' }}>
-                <h3>{item.title}</h3>
-                <p>Precio: ${item.price}</p>
-                <img src={item.thumbnail} alt={item.title} />
-              </div>
-            ))}
           </div>
         )}
 
