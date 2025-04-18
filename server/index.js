@@ -40,6 +40,21 @@ app.get('/health', (req, res) => {
 // API: Obtener productos
 app.get('/api/products', getProducts);  // Usamos el endpoint aquí
 
+app.get('/api/me', async (req, res) => {
+  const accessToken = req.query.token;
+
+  try {
+    const response = await axios.get('https://api.mercadolibre.com/users/me', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: error.response?.data || error.message });
+  }
+});
+
 // Rutas OAuth
 app.get('/oauth/login', login);
 app.get('/oauth/callback', callback);
