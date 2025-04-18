@@ -16,10 +16,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Configuración de CORS
+import cors from 'cors';
+
 const corsOptions = {
-  origin: ['http://localhost:5173', process.env.FRONTEND_URL],
+  origin: ['http://localhost:5173', 'https://thp-backend-16jj.onrender.com'], // Agrega las URLs permitidas
   credentials: true,
 };
+
 app.use(cors(corsOptions));
 
 // Advertencia si FRONTEND_URL no está definido
