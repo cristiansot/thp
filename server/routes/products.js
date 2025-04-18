@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export const getProducts = async (req, res) => {
   try {
     const {
@@ -27,6 +25,9 @@ export const getProducts = async (req, res) => {
     res.status(200).json(data.results); // Solo enviamos los resultados
   } catch (error) {
     console.error('Error al obtener productos:', error.response?.data || error.message);
-    res.status(500).json({ error: 'No se pudieron obtener los productos' });
+    res.status(500).json({ 
+      error: 'No se pudieron obtener los productos',
+      details: error.response?.data || error.message, // Agrega más detalles del error
+    });
   }
 };

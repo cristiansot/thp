@@ -6,6 +6,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 function App() {
   const [property, setProperty] = useState(null);
   const [products, setProducts] = useState([]); // Estado para almacenar los productos
+  const [categories, setCategories] = useState([]); // Estado para almacenar las categorías
 
   // Obtener datos del usuario logueado
   const fetchUserData = async () => {
@@ -27,7 +28,7 @@ function App() {
   // Obtener productos desde el backend
   const fetchProducts = async () => {
     try {
-      const sellerId = '1628129303'; // Reemplaza esto con el ID del vendedor que deseas buscar
+      const sellerId = '1628129303'; // ID del vendedor
       const response = await axios.get('http://localhost:3001/api/products', {
         params: { seller_id: sellerId, site: 'MLC', page: 1, sort: 'price_asc' },
       });
@@ -37,6 +38,28 @@ function App() {
       console.error('Error fetching products:', error.response?.data || error.message);
     }
   };
+
+  // Obtener categorías desde la API de Mercado Libre
+  const fetchCategories = async () => {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.error('No access token found');
+      return;
+    }
+
+    try {
+      const response = await axios.get('https://api.mercadolibre.com/sites/MLC/categories', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log('Categorías:', response.data);
+      setCategories(response.data); // Guardar las categorías en el estado
+    } catch (error) {
+      console.error('Error fetching categories:', error.response?.data || error.message);
+    }
+  };
+
   // Procesar parámetros de la URL y cargar datos iniciales
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -55,6 +78,7 @@ function App() {
 
     fetchUserData();
     fetchProducts(); // Llamar a la función para obtener productos
+    fetchCategories(); // Llamar a la función para obtener categorías
   }, []);
 
   const handleLogin = () => {
@@ -82,6 +106,15 @@ function App() {
               <h2>{product.title}</h2>
               <p>Precio: ${product.price}</p>
               <img src={product.thumbnail} alt={product.title} />
+            </li>
+          ))}
+        </ul>
+
+        <h1>Categorías</h1>
+        <ul>
+          {categories.map((category) => (
+            <li key={category.id}>
+              {category.name}
             </li>
           ))}
         </ul>
