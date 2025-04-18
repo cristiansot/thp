@@ -8,7 +8,7 @@ export async function callback(req, res) {
 
   if (!code) {
     return res.status(400).send('No code received');
-  }
+  }a
 
   try {
     // Intercambia el código por el token
@@ -38,9 +38,7 @@ export async function callback(req, res) {
     res.redirect(`${process.env.FRONTEND_URL}?access_token=${access_token}`);
   } catch (err) {
     console.error('Error al obtener el token:', err.response?.data || err.message);
-
-    // Retorna un error más detallado al frontend
-    res.status(500).send('Error en la autenticación. Intenta nuevamente.');
+    res.status(500).send('Error en la autenticación.');
   }
 }
 

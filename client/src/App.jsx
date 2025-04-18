@@ -16,24 +16,40 @@ function App() {
     return new URLSearchParams(useLocation().search);
   };
 
+  // Callback page to handle redirect from Mercado Libre OAuth
   function CallbackPage() {
     const query = useQuery();
     const code = query.get('code');  // Aquí obtienes el 'code' de la URL
   
     useEffect(() => {
       if (code) {
-        // Aquí puedes hacer la solicitud al backend para obtener el ACCESS_TOKEN
-        console.log("Código de autorización: ", code);
+        // Realizar la solicitud al backend para intercambiar el código por el access token
+        axios
+          .post('/api/callback', { code })
+          .then((response) => {
+            const { access_token } = response.data;
+            localStorage.setItem('access_token', access_token);  // Guarda el token en localStorage
+            window.location.href = '/';  // Redirige a la página principal después de obtener el token
+          })
+          .catch((error) => {
+            console.error('Error al obtener el token:', error);
+            setError('Error al obtener el token de acceso');
+          });
       }
     }, [code]);
 
-    return null;  // Si no vas a renderizar nada en esta página, devolvemos null
+    return (
+      <div>
+        <h2>Autenticación de Mercado Libre</h2>
+        {error && <p>{error}</p>}
+      </div>
+    );
   }
 
-  // Función para obtener los datos del usuario y sus publicaciones
+  // Fetch user and items
   const fetchData = async () => {
     if (!accessToken) {
-      console.error('No se encontró el token de acceso');
+      console.error('No access token found');
       setError('No se ha encontrado el token de acceso');
       return;
     }
@@ -57,7 +73,7 @@ function App() {
     }
   };
 
-  // Handler de login (Redirige a la página de login de Mercado Libre)
+  // Login handler (Redirige a la página de login de Mercado Libre)
   const handleLogin = () => {
     const loginUrl = `https://auth.mercadolibre.com/authorization?response_type=code&client_id=${APPLICATION_ID}&redirect_uri=${import.meta.env.VITE_ML_REDIRECT_URI}`;
     window.location.href = loginUrl;
@@ -85,18 +101,8 @@ function App() {
                 <li><strong>Email:</strong> {userInfo.email}</li>
               </ul>
             ) : (
-              <p>No se han encontrado datos del usuario.</p>
+              <p>No hay datos del usuario.</p>
             )}
-
-            {/* Mostramos el código de autorización si está disponible */}
-            <div>
-              <h1>Autenticación Completa</h1>
-              {code ? (
-                <p>Código de Autorización: {code}</p>
-              ) : (
-                <p>No se ha recibido el código de autorización</p>
-              )}
-            </div>
 
             <h2>Publicaciones Activas</h2>
             {error && <p className="error">{error}</p>}
@@ -113,15 +119,9 @@ function App() {
         )}
 
         <Routes>
-          <Route path="/" element={<h1>Página de Inicio</h1>} />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <h1>Página de Perfil</h1>
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/" element={<h1>Home Page</h1>} />
+          <Route path="/profile" element={<ProtectedRoute><h1>Profile Page</h1></ProtectedRoute>} />
+          <Route path="/callback" element={<CallbackPage />} />
         </Routes>
       </div>
     </Router>
