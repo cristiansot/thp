@@ -3,7 +3,7 @@ import axios from 'axios';
 export const getProducts = async (req, res) => {
   try {
     const {
-      seller_id,        // ID del vendedor
+      seller_id = 1628129303,        // ID del vendedor
       site = 'MLC',     // Por defecto Chile
       page = 1,         // Página por defecto
       sort = 'DEFAULT', // Orden por defecto

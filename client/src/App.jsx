@@ -18,7 +18,7 @@ function App() {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log('User Data:', response.data.address);
+      console.log('User Data:', response.data.id);
     } catch (error) {
       console.error('Error fetching user data:', error.response?.data || error.message);
     }
@@ -27,7 +27,7 @@ function App() {
   // Obtener productos desde el backend
   const fetchProducts = async () => {
     try {
-      const sellerId = 'TU_SELLER_ID'; // Reemplaza esto con el ID del vendedor que deseas buscar
+      const sellerId = '1628129303'; // Reemplaza esto con el ID del vendedor que deseas buscar
       const response = await axios.get('http://localhost:3001/api/products', {
         params: { seller_id: sellerId, site: 'MLC', page: 1, sort: 'price_asc' },
       });
