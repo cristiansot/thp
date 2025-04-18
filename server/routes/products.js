@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getTokens } from './oauth/tokenStorage.js';
+import { getTokens } from '../oauth/tokenStorage.js';
 
 export const getProducts = async (req, res) => {
   try {
