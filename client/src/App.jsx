@@ -27,16 +27,16 @@ function App() {
   // Obtener productos desde el backend
   const fetchProducts = async () => {
     try {
+      const sellerId = 'TU_SELLER_ID'; // Reemplaza esto con el ID del vendedor que deseas buscar
       const response = await axios.get('http://localhost:3001/api/products', {
-        params: { q: 'celular', site: 'MLA', page: 1, sort: 'price_asc' },
+        params: { seller_id: sellerId, site: 'MLC', page: 1, sort: 'price_asc' },
       });
-      console.log('Productos:', response.data);
+      console.log('Productos del vendedor:', response.data);
       setProducts(response.data); // Guardar los productos en el estado
     } catch (error) {
       console.error('Error fetching products:', error.response?.data || error.message);
     }
   };
-
   // Procesar parámetros de la URL y cargar datos iniciales
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
