@@ -18,6 +18,9 @@ export const getProducts = async (req, res) => {
 
     const { data } = await axios.get(url, {
       params: { seller_id, offset: (page - 1) * 50, sort },
+      headers: {
+        Authorization: `Bearer ${process.env.ACCESS_TOKEN}`, // Asegúrate de tener un token válido
+      },
     });
 
     console.log('Respuesta de la API de Mercado Libre:', data);
