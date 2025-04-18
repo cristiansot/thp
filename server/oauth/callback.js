@@ -4,7 +4,7 @@ import { saveTokens } from './tokenStorage.js';
 export async function callback(req, res) {
   const { code } = req.query;
 
-  console.log('Received code:', code);  // Verifica que el código esté llegando correctamente
+  console.log('Received code:', code); // Verifica que el código esté llegando correctamente
 
   if (!code) {
     return res.status(400).send('No code received');
@@ -28,13 +28,14 @@ export async function callback(req, res) {
 
     console.log('Token Response:', response.data);
 
-    const { access_token, refresh_token, user_id, expires_in } = response.data;    
+    const { access_token, refresh_token, user_id, expires_in } = response.data;
     const expires_at = Date.now() + expires_in * 1000;
 
-    // Aquí puedes almacenar el refresh_token en tu base de datos si es necesario, tokens funcioando ok
+    // Guarda los tokens en un archivo o base de datos
     saveTokens({ access_token, refresh_token, user_id, expires_at });
-    res.redirect(`${process.env.FRONTEND_URL}?access_token=${access_token}`);
 
+    // Redirige al frontend con el token de acceso
+    res.redirect(`${process.env.FRONTEND_URL}?access_token=${access_token}`);
   } catch (err) {
     console.error('Error al obtener el token:', err.response?.data || err.message);
     res.status(500).send('Error en la autenticación.');
@@ -56,8 +57,11 @@ export const refreshToken = async (refreshToken) => {
       },
     });
     console.log('New Token:', response.data);
+
+    // Devuelve los nuevos tokens
     return response.data;
   } catch (err) {
     console.error('Error refreshing token:', err.response?.data || err.message);
+    throw new Error('Error al refrescar el token');
   }
 };
