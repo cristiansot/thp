@@ -8,6 +8,7 @@ function App() {
   const [userInfo, setUserInfo] = useState(null);
   const [userItems, setUserItems] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);  // Añadí un estado de carga
 
   const accessToken = localStorage.getItem('access_token');
   const APPLICATION_ID = import.meta.env.VITE_ML_CLIENT_ID;
@@ -51,6 +52,7 @@ function App() {
     if (!accessToken) {
       console.error('No access token found');
       setError('No se ha encontrado el token de acceso');
+      setLoading(false);
       return;
     }
 
@@ -67,22 +69,25 @@ function App() {
       const itemsResponse = await axios.get(`/api/items/${USER_ID}`);
       const itemIds = itemsResponse.data.results || [];
       setUserItems(itemIds);
+      setLoading(false);  // Cuando se termina de cargar, se cambia el estado de carga
     } catch (error) {
       console.error('Error al obtener los datos:', error.response?.data || error.message);
       setError('Error al obtener los datos.');
+      setLoading(false);  // En caso de error también cambiamos el estado de carga
     }
   };
 
   // Login handler (Redirige a la página de login de Mercado Libre)
   const handleLogin = () => {
     const loginUrl = `https://auth.mercadolibre.com/authorization?response_type=code&client_id=${APPLICATION_ID}&redirect_uri=${import.meta.env.VITE_ML_REDIRECT_URI}`;
+    console.log("URL de Login:", loginUrl);  // Imprime la URL para verificar que sea correcta
     window.location.href = loginUrl;
   };
 
   // Redirigir a la página de inicio de sesión si no hay token
   useEffect(() => {
     if (accessToken) {
-      fetchData();
+      fetchData();  // Llamamos a fetchData solo si el token existe
     }
   }, [accessToken]);
 
@@ -106,14 +111,18 @@ function App() {
 
             <h2>Publicaciones Activas</h2>
             {error && <p className="error">{error}</p>}
-            {userItems.length > 0 ? (
-              <ul>
-                {userItems.map((item) => (
-                  <li key={item.id}>{item.title}</li>
-                ))}
-              </ul>
+            {loading ? (
+              <p>Cargando...</p>  // Agregué un mensaje de carga
             ) : (
-              <p>No se encontraron publicaciones.</p>
+              userItems.length > 0 ? (
+                <ul>
+                  {userItems.map((item) => (
+                    <li key={item.id}>{item.title}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No se encontraron publicaciones.</p>
+              )
             )}
           </>
         )}

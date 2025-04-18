@@ -8,7 +8,7 @@ export async function callback(req, res) {
 
   if (!code) {
     return res.status(400).send('No code received');
-  }a
+  }
 
   try {
     // Intercambia el código por el token
