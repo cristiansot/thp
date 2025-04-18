@@ -1,131 +1,124 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import axios from 'axios';
+import axios from 'axios';  // Asegúrate de tener esta línea
 import ProtectedRoute from './components/ProtectedRoute';
+import { useLocation } from 'react-router-dom';
 
 function App() {
-  const [property, setProperty] = useState(null);
-  const [products, setProducts] = useState([]); // Estado para almacenar los productos
-  const [categories, setCategories] = useState([]); // Estado para almacenar las categorías
+  const [userInfo, setUserInfo] = useState(null);
+  const [userItems, setUserItems] = useState([]);
+  const [error, setError] = useState(null);
 
-  // Obtener datos del usuario logueado
-  const fetchUserData = async () => {
-    const accessToken = localStorage.getItem('access_token');
-    if (!accessToken) return;
+  const accessToken = localStorage.getItem('access_token');
+  const APPLICATION_ID = import.meta.env.VITE_ML_CLIENT_ID;
 
-    try {
-      const response = await axios.get('https://api.mercadolibre.com/users/me', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log('User Data:', response.data.id);
-    } catch (error) {
-      console.error('Error fetching user data:', error.response?.data || error.message);
-    }
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
   };
 
-  // Obtener productos desde el backend
-  const fetchProducts = async () => {
-    try {
-      const sellerId = '1628129303'; // ID del vendedor
-      const response = await axios.get('http://localhost:3001/api/products', {
-        params: { seller_id: sellerId, site: 'MLC', page: 1, sort: 'price_asc' },
-      });
-      console.log('Productos del vendedor:', response.data);
-      setProducts(response.data); // Guardar los productos en el estado
-    } catch (error) {
-      console.error('Error fetching products:', error.response?.data || error.message);
-    }
-  };
+  function CallbackPage() {
+    const query = useQuery();
+    const code = query.get('code');  // Aquí obtienes el 'code' de la URL
+  
+    useEffect(() => {
+      if (code) {
+        // Aquí puedes hacer la solicitud al backend para obtener el ACCESS_TOKEN
+        console.log("Código de autorización: ", code);
+      }
+    }, [code]);
 
-  // Obtener categorías desde la API de Mercado Libre
-  const fetchCategories = async () => {
-    const accessToken = localStorage.getItem('access_token');
+    return null;  // Si no vas a renderizar nada en esta página, devolvemos null
+  }
+
+  // Función para obtener los datos del usuario y sus publicaciones
+  const fetchData = async () => {
     if (!accessToken) {
-      console.error('No access token found');
+      console.error('No se encontró el token de acceso');
+      setError('No se ha encontrado el token de acceso');
       return;
     }
 
     try {
-      const response = await axios.get('https://api.mercadolibre.com/sites/MLC/categories', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+      // Obtener datos del usuario autenticado
+      const userResponse = await axios.get('https://api.mercadolibre.com/users/me', {
+        headers: { Authorization: `Bearer ${accessToken}` },
       });
-      console.log('Categorías:', response.data);
-      setCategories(response.data); // Guardar las categorías en el estado
+
+      setUserInfo(userResponse.data);
+      const USER_ID = userResponse.data.id;
+
+      // Obtener publicaciones del usuario desde tu backend
+      const itemsResponse = await axios.get(`/api/items/${USER_ID}`);
+      const itemIds = itemsResponse.data.results || [];
+      setUserItems(itemIds);
     } catch (error) {
-      console.error('Error fetching categories:', error.response?.data || error.message);
+      console.error('Error al obtener los datos:', error.response?.data || error.message);
+      setError('Error al obtener los datos.');
     }
   };
 
-  // Procesar parámetros de la URL y cargar datos iniciales
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const accessToken = urlParams.get('access_token');
-    const title = urlParams.get('title');
-    const price = urlParams.get('price');
-    const image = urlParams.get('image');
-
-    if (accessToken) {
-      localStorage.setItem('access_token', accessToken);
-    }
-
-    if (title && price && image) {
-      setProperty({ title, price, image });
-    }
-
-    fetchUserData();
-    fetchProducts(); // Llamar a la función para obtener productos
-    fetchCategories(); // Llamar a la función para obtener categorías
-  }, []);
-
+  // Handler de login (Redirige a la página de login de Mercado Libre)
   const handleLogin = () => {
-    const loginUrl = `https://auth.mercadolibre.com/authorization?response_type=code&client_id=${import.meta.env.VITE_ML_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_ML_REDIRECT_URI}`;
+    const loginUrl = `https://auth.mercadolibre.com/authorization?response_type=code&client_id=${APPLICATION_ID}&redirect_uri=${import.meta.env.VITE_ML_REDIRECT_URI}`;
     window.location.href = loginUrl;
   };
+
+  // Redirigir a la página de inicio de sesión si no hay token
+  useEffect(() => {
+    if (accessToken) {
+      fetchData();
+    }
+  }, [accessToken]);
 
   return (
     <Router>
       <div>
-        <button onClick={handleLogin}>Login con Mercado Libre</button>
+        {!accessToken ? (
+          <button onClick={handleLogin}>Login con Mercado Libre</button>
+        ) : (
+          <>
+            <h2>Usuario Autenticado</h2>
+            {userInfo ? (
+              <ul>
+                <li><strong>Nombre:</strong> {userInfo.nickname}</li>
+                <li><strong>ID:</strong> {userInfo.id}</li>
+                <li><strong>Email:</strong> {userInfo.email}</li>
+              </ul>
+            ) : (
+              <p>No se han encontrado datos del usuario.</p>
+            )}
 
-        {property && (
-          <div>
-            <h2>{property.title}</h2>
-            <p>Precio: ${property.price}</p>
-            <img src={property.image} alt="Propiedad" style={{ width: '300px' }} />
-          </div>
+            {/* Mostramos el código de autorización si está disponible */}
+            <div>
+              <h1>Autenticación Completa</h1>
+              {code ? (
+                <p>Código de Autorización: {code}</p>
+              ) : (
+                <p>No se ha recibido el código de autorización</p>
+              )}
+            </div>
+
+            <h2>Publicaciones Activas</h2>
+            {error && <p className="error">{error}</p>}
+            {userItems.length > 0 ? (
+              <ul>
+                {userItems.map((item) => (
+                  <li key={item.id}>{item.title}</li>
+                ))}
+              </ul>
+            ) : (
+              <p>No se encontraron publicaciones.</p>
+            )}
+          </>
         )}
 
-        <h1>Productos</h1>
-        <ul>
-          {products.map((product) => (
-            <li key={product.id}>
-              <h2>{product.title}</h2>
-              <p>Precio: ${product.price}</p>
-              <img src={product.thumbnail} alt={product.title} />
-            </li>
-          ))}
-        </ul>
-
-        <h1>Categorías</h1>
-        <ul>
-          {categories.map((category) => (
-            <li key={category.id}>
-              {category.name}
-            </li>
-          ))}
-        </ul>
-
         <Routes>
-          <Route path="/" element={<h1>Home Page</h1>} />
+          <Route path="/" element={<h1>Página de Inicio</h1>} />
           <Route
             path="/profile"
             element={
               <ProtectedRoute>
-                <h1>Profile Page</h1>
+                <h1>Página de Perfil</h1>
               </ProtectedRoute>
             }
           />

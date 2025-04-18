@@ -38,7 +38,9 @@ export async function callback(req, res) {
     res.redirect(`${process.env.FRONTEND_URL}?access_token=${access_token}`);
   } catch (err) {
     console.error('Error al obtener el token:', err.response?.data || err.message);
-    res.status(500).send('Error en la autenticación.');
+
+    // Retorna un error más detallado al frontend
+    res.status(500).send('Error en la autenticación. Intenta nuevamente.');
   }
 }
 

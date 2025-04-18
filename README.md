@@ -45,11 +45,12 @@ npm run dev
     /thp
     ├── server/
     │   ├── routes/
-    │   │   └── properties.js       # Endpoint para obtener propiedades
+    │   │   └── products.js       # Endpoint para obtener productos
     │   ├── services/
-    │   │   └── mercadoLibre.js     # Lógica de integración con la API
+    │   │   └── authManager.js  
     │   ├── oauth/
     │   │   ├── login.js 
+    │   │   ├── tokenStorage.js 
     │   │   └── callback.js 
     │   ├── .env
     │   ├── index.js                # Entry point del servidor
