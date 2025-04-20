@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
-import { getProperties } from './routes/properties.js'; 
+import { getProperties } from './routes/properties.js'; // Importa la función getProperties
 
 dotenv.config();
 const app = express();
@@ -38,7 +38,7 @@ app.get('/health', (req, res) => {
 });
 
 // API: Obtener propiedades
-app.get('/api/properties, getProperties');  // Usamos el endpoint aquí
+app.get('/api/properties', getProperties); // Usamos el endpoint aquí
 
 
 // Rutas OAuth

@@ -78,23 +78,10 @@ function App() {
           </div>
         )}
 
-        <h1>Productos</h1>
+        <h1>Publicaciones del Vendedor</h1>
         <ul>
-          {products.map((product) => (
-            <li key={product.id}>
-              <h2>{product.title}</h2>
-              <p>Precio: ${product.price}</p>
-              <img src={product.thumbnail} alt={product.title} />
-            </li>
-          ))}
-        </ul>
-
-        <h1>Categorías</h1>
-        <ul>
-          {categories.map((category) => (
-            <li key={category.id}>
-              {category.name}
-            </li>
+          {properties.map((id) => (
+            <li key={id}>{id}</li>
           ))}
         </ul>
 

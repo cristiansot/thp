@@ -3,7 +3,7 @@ import { getTokens } from '../oauth/tokenStorage.js';
 
 const seller_id = 1628129303;
 
-export const getProperties = async (req, res) => {
+const getProperties = async (req, res) => {
   try {
     if (!seller_id) {
       return res.status(400).json({ error: 'Falta el parámetro seller_id' });
@@ -20,7 +20,6 @@ export const getProperties = async (req, res) => {
 
     console.log('IDs obtenidos:', data.results);
 
-    // Enviamos solo el array `results`
     res.status(200).json(data.results);
   } catch (error) {
     console.error('Error al obtener productos:', error.response?.data || error.message);
@@ -30,3 +29,5 @@ export const getProperties = async (req, res) => {
     });
   }
 };
+
+export default { getProperties };
