@@ -5,7 +5,7 @@ import helmet from 'helmet';
 import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
 import { fetchPropertiesFromML } from './routes/properties.js';
-import { getDetailedProperties } from './routes/properties.js'; // Asegúrate de importar el endpoint adecuado
+import { getDetailedProperties } from './routes/properties.js';
 
 
 dotenv.config();
@@ -25,7 +25,7 @@ app.use(cors(corsOptions));
 app.get('/test', (req, res) => res.send('Test page'));
 app.get('/health', (req, res) => res.status(200).json({ status: 'OK' }));
 app.get('/api/properties',fetchPropertiesFromML);
-app.get('/api/properties/detailed', getDetailedProperties); // Añadir la ruta para obtener las propiedades detalladas
+app.get('/api/properties/detailed', getDetailedProperties);
 app.get('/oauth/login', login);
 app.get('/oauth/callback', callback);
 
@@ -40,16 +40,16 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 10000;
 const ENV = process.env.NODE_ENV || 'development';
 
-// app.listen(PORT, async () => {
-//   console.log(`✅ Server running on port ${PORT} in ${ENV} mode`);
+app.listen(PORT, async () => {
+  // console.log(`✅ Server running on port ${PORT} in ${ENV} mode`);
 
-//   try {
-//     const properties = await fetchPropertiesFromML();
-//     console.log('🔹 Productos del vendedor al arrancar el servidor:', properties);
-//   } catch (err) {
-//     console.error('🔴 Error inicial al obtener productos:', err.message);
-//   }
-// });
+  // try {
+  //   const properties = await fetchPropertiesFromML();
+  //   console.log('🔹 Productos del vendedor al arrancar el servidor:', properties);
+  // } catch (err) {
+  //   console.error('🔴 Error inicial al obtener productos:', err.message);
+  // }
+});
 
 // const properties = await fetchPropertiesFromML();
 // console.log('🔹 Productos del vendedor al arrancar el servidor:', properties);
