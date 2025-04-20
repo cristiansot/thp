@@ -22,11 +22,11 @@ app.use(cors(corsOptions));
 // Rutas
 app.get('/test', (req, res) => res.send('Test page'));
 app.get('/health', (req, res) => res.status(200).json({ status: 'OK' }));
-app.get('/api/properties', getProperties);
+app.get('/api/properties',fetchPropertiesFromML);
 app.get('/oauth/login', login);
 app.get('/oauth/callback', callback);
 
-// Error handler
+// Error handlerg
 app.use((err, req, res, next) => {
   console.error('🔴 Error:', err.message);
   res.status(err.status || 500).json({
