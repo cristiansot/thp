@@ -6,10 +6,10 @@ export const fetchPropertiesFromML = async () => {
 
   const { data } = await axios.get(url, {
     headers: {
-      Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+      Authorization: `Bearer APP_USR-7387383393785692-042011-1e83b1c817e9d3bf59cec17451410717-1628129303`,
     },
   });
-
+  
   console.log('IDs obtenidos:', data.results);
   return data.results;
 };
