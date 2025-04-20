@@ -8,7 +8,7 @@ import metersIcon from '../assets/img/icons/meters.svg';
 
 import '../assets/css/propertyCard.css';
 
-function PropertyCard({ title, price, link, image, area, bedrooms, bathrooms }) {
+function PropertyCard({ title, price, permalink, image, area, bedrooms, bathrooms }) {
   // Determinar si la imagen es una URL externa o local
   let imageUrl;
   try {
@@ -21,7 +21,6 @@ function PropertyCard({ title, price, link, image, area, bedrooms, bathrooms }) 
 
   return (
     <Card className="mb-4 shadow-sm">
-      {/* Mostrar imagen si está disponible */}
       {imageUrl && (
         <Card.Img
           src={imageUrl}
@@ -36,7 +35,6 @@ function PropertyCard({ title, price, link, image, area, bedrooms, bathrooms }) 
         <Card.Title className="card--title">{title}</Card.Title>
         <Card.Text className="card--price">${price}</Card.Text>
 
-        {/* Iconos con información */}
         <div className="container--icons">
           <Card.Text className="card--text mr-3 m-1">
             <img className="icons" src={metersIcon} alt="Metros cuadrados" />
@@ -54,12 +52,11 @@ function PropertyCard({ title, price, link, image, area, bedrooms, bathrooms }) 
           </Card.Text>
         </div>
 
-        {/* Botón para ver propiedad */}
-        {link && (
+        {permalink && (
           <Button
             variant="dark"
             className="button-ver-propiedades"
-            href={link}
+            href={permalink}
             target="_blank"
             rel="noopener noreferrer"
           >

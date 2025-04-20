@@ -30,8 +30,15 @@
 
 .button-ver-propiedades {
   border-radius: 18px;
+  border: 1px solid #2ab0fd98;
   background-color: transparent;
-  color:rgb(197, 203, 211)
+  color:rgb(200, 200, 200)
+}
+
+.button-ver-propiedades:hover {
+  background-color: #77c7cb;
+  border: 1px solid #77c7cb;
+  color: #000000;
 }
 
 .icons {

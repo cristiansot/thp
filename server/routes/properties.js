@@ -65,6 +65,7 @@ export const detailProperties = async () => {
         area: extractAttr('COVERED_AREA'),
         status: data.status,
         permalink,
+        video_id,
       };
 
       console.log(`Detalles de la propiedad activa ${id}:`, property);
