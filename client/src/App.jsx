@@ -73,7 +73,7 @@ function App() {
   return (
     <Router>
       <div style={{ padding: '2rem' }}>
-        {/* <button onClick={handleLogin}>Login con Mercado Libre</button> */}
+        {/* <button classname='boton' onClick={handleLogin}>Login con Mercado Libre</button> */}
 
         <NavBar />
         <Carousel />

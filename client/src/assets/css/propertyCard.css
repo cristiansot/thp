@@ -28,17 +28,17 @@
   color: #d5d5d5;
 }
 
+
 .button-ver-propiedades {
   border-radius: 18px;
-  border: 1px solid #2ab0fd98;
+  border: 1px solid #2998ff;
   background-color: transparent;
   color:rgb(200, 200, 200)
 }
 
 .button-ver-propiedades:hover {
-  background-color: #77c7cb;
-  border: 1px solid #77c7cb;
-  color: #000000;
+  background-color: #2998ff;
+  border: 1px solid #2998ff;
 }
 
 .icons {

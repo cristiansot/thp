@@ -66,7 +66,7 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
             </Button>
           )}
 
-          {video_id && (
+          {/* {video_id && typeof video_id === 'string' && video_id.trim() !== '' && (
             <Button
               variant="secondary"
               className="button-ver-propiedades"
@@ -76,7 +76,8 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
             >
               Ver Tour
             </Button>
-          )}
+          )} */}
+
         </div>
       </Card.Body>
     </Card>
