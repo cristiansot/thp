@@ -8,7 +8,7 @@ import metersIcon from '../assets/img/icons/meters.svg';
 
 import '../assets/css/propertyCard.css';
 
-function PropertyCard({ title, price, permalink, image, area, bedrooms, bathrooms }) {
+function PropertyCard({ title, price, permalink, image, area, bedrooms, bathrooms, offices }) {
   // Determinar si la imagen es una URL externa o local
   let imageUrl;
   try {
@@ -22,7 +22,7 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
   // Formatea precio con puntos y decide si es UF o CLP
   const formatPrice = (value) => {
     if (!value) return 'N/A';
-    
+
     const numericPrice = parseInt(value.toString().replace(/\D/g, ''), 10);
 
     if (isNaN(numericPrice)) return 'N/A';
@@ -32,6 +32,17 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
       .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
     return numericPrice <= 99999 ? `UF ${formatted}` : `$${formatted}`;
+  };
+
+  // Mostrar dormitorios u oficinas
+  const renderBedroomsOrOffices = () => {
+    if (bedrooms != null) {
+      return `${bedrooms} ${bedrooms === 1 ? 'Dormitorio' : 'Dormitorios'}`;
+    } else if (offices != null) {
+      return `${offices} ${offices === 1 ? 'Oficina' : 'Oficinas'}`;
+    } else {
+      return 'N/A';
+    }
   };
 
   return (
@@ -57,17 +68,16 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
           </Card.Text>
 
           <Card.Text className="card--text mr-3 m-1">
-            <img className="icons" src={bedroomIcon} alt="Dormitorios" />
-            {bedrooms != null ? `${bedrooms} ${bedrooms == 1 ? 'Dormitorio' : 'Dormitorios'}` : 'N/A'}
+            <img className="icons" src={bedroomIcon} alt="Dormitorios u Oficinas" />
+            {renderBedroomsOrOffices()}
           </Card.Text>
 
           <Card.Text className="card--text mr-3 m-1">
             <img className="icons" src={bathroomIcon} alt="Baños" />
-            {bathrooms != null ? `${bathrooms} ${bathrooms == 1 ? 'Baño' : 'Baños'}` : 'N/A'}
+            {bathrooms != null ? `${bathrooms} ${bathrooms === 1 ? 'Baño' : 'Baños'}` : 'N/A'}
           </Card.Text>
         </div>
 
-        {/* Botones de acciones */}
         <div className="d-flex mb-2">
           {permalink && (
             <Button
