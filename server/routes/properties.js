@@ -1,15 +1,17 @@
 import axios from 'axios';
 
+const seller_id = 1628129303;
+
 export const fetchPropertiesFromML = async () => {
-  const url = `https://api.mercadolibre.com/users/1628129303/items/search`;
+  const url = `https://api.mercadolibre.com/users/${seller_id}/items/search`;
   console.log('URL generada:', url);
 
   const { data } = await axios.get(url, {
     headers: {
-      Authorization: `Bearer APP_USR-7387383393785692-042011-1e83b1c817e9d3bf59cec17451410717-1628129303`,
+      Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
     },
   });
-  
+
   console.log('IDs obtenidos:', data.results);
   return data.results;
 };
