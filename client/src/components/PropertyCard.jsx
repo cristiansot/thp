@@ -8,7 +8,7 @@ import metersIcon from '../assets/img/icons/meters.svg';
 
 import '../assets/css/propertyCard.css';
 
-function PropertyCard({ title, price, permalink, image, area, bedrooms, bathrooms, video_id }) {
+function PropertyCard({ title, price, permalink, image, area, bedrooms, bathrooms }) {
   // Determinar si la imagen es una URL externa o local
   let imageUrl;
   try {
@@ -18,6 +18,21 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
   } catch {
     imageUrl = ''; // fallback si no hay imagen válida
   }
+
+  // Formatea precio con puntos y decide si es UF o CLP
+  const formatPrice = (value) => {
+    if (!value) return 'N/A';
+    
+    const numericPrice = parseInt(value.toString().replace(/\D/g, ''), 10);
+
+    if (isNaN(numericPrice)) return 'N/A';
+
+    const formatted = numericPrice
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    return numericPrice <= 99999 ? `UF ${formatted}` : `$${formatted}`;
+  };
 
   return (
     <Card className="mb-4 shadow-sm">
@@ -33,7 +48,7 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
 
       <Card.Body>
         <Card.Title className="card--title">{title}</Card.Title>
-        <Card.Text className="card--price">${price}</Card.Text>
+        <Card.Text className="card--price">{formatPrice(price)}</Card.Text>
 
         <div className="container--icons">
           <Card.Text className="card--text mr-3 m-1">
@@ -43,17 +58,17 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
 
           <Card.Text className="card--text mr-3 m-1">
             <img className="icons" src={bedroomIcon} alt="Dormitorios" />
-            {bedrooms || 'N/A'}
+            {bedrooms != null ? `${bedrooms} ${bedrooms == 1 ? 'Dormitorio' : 'Dormitorios'}` : 'N/A'}
           </Card.Text>
 
           <Card.Text className="card--text mr-3 m-1">
             <img className="icons" src={bathroomIcon} alt="Baños" />
-            {bathrooms || 'N/A'}
+            {bathrooms != null ? `${bathrooms} ${bathrooms == 1 ? 'Baño' : 'Baños'}` : 'N/A'}
           </Card.Text>
         </div>
 
         {/* Botones de acciones */}
-        <div className="d-flex gap-2 mt-3">
+        <div className="d-flex mb-2">
           {permalink && (
             <Button
               variant="dark"
@@ -65,19 +80,6 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
               Ver Propiedad
             </Button>
           )}
-
-          {/* {video_id && typeof video_id === 'string' && video_id.trim() !== '' && (
-            <Button
-              variant="secondary"
-              className="button-ver-propiedades"
-              href={video_id}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ver Tour
-            </Button>
-          )} */}
-
         </div>
       </Card.Body>
     </Card>

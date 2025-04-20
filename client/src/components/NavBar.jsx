@@ -1,28 +1,40 @@
 import React, { useState, useEffect } from "react";
-import "../assets/css/NavBar.css"; 
+import "../assets/css/NavBar.css";
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolling, setScrolling] = useState(false);
+  const [uf, setUf] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setScrolling(true);
-      } else {
-        setScrolling(false);
-      }
+      setScrolling(window.scrollY > 0);
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const fetchUF = async () => {
+      try {
+        const response = await fetch(
+          `https://api.cmfchile.cl/api-sbifv3/recursos_api/uf?apikey=${import.meta.env.VITE_CMF_API_KEY}&formato=json`
+        );
+        const data = await response.json();
+        const todayUF = data.UFs?.[0]?.Valor;
+        setUf(todayUF);
+      } catch (error) {
+        console.error("Error al obtener la UF:", error);
+      }
     };
+
+    fetchUF();
   }, []);
 
   return (
-      <nav className={`navbar navbar-expand-lg fixed-top ${(scrolling || menuOpen) ? "black" : ""}`}>
-        <div className="container-fluid">
+    <nav className={`navbar navbar-expand-lg fixed-top ${(scrolling || menuOpen) ? "black" : ""}`}>
+      <div className="container-fluid">
         <div className="logo">
           Total Home Propiedades
         </div>
@@ -52,6 +64,11 @@ const NavBar = () => {
             <li className="nav-item">
               <a className="nav-link" href="#">Contacto</a>
             </li>
+            {uf && (
+              <li className="nav-item">
+                <span className="nav-link disabled">Valor UF: ${uf}</span>
+              </li>
+            )}
           </ul>
         </div>
       </div>

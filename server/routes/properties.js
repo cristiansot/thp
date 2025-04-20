@@ -66,6 +66,7 @@ export const detailProperties = async () => {
         status: data.status,
         permalink,
         video_id,
+        offices: extractAttr('OFFICES'),
       };
 
       console.log(`Detalles de la propiedad activa ${id}:`, property);

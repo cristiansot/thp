@@ -4,7 +4,7 @@ import '../app.css';
 
 const ContainerCard = ({ properties, loading, error }) => {
   if (loading) return <p className="loading">Cargando propiedades...</p>;
-  if (error) return <p className="error">Error: {error}</p>;
+  if (error) return <p className="error">Error: {error.message || JSON.stringify(error)}</p>;
 
   return (
     <div className="container">
