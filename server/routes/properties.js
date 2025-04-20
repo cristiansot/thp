@@ -29,7 +29,7 @@ export const detailProperties = async () => {
 
   // Obtiene los IDs de las propiedades
   const ids = await fetchPropertiesFromML();
-  console.log('IDs de propiedades para obtener detalles:', ids); // Agregado
+  console.log('IDs de propiedades para obtener detalles:', ids);
 
   const properties = [];
 
@@ -44,9 +44,14 @@ export const detailProperties = async () => {
         },
       });
 
+      // Filtramos solo si el estado es "active"
+      if (data.status !== 'active') {
+        console.log(`Propiedad ${id} ignorada por no estar activa (estado: ${data.status})`);
+        continue;
+      }
+
       const { title, price, pictures, attributes } = data;
 
-      // Función para extraer el valor del atributo dado el ID del atributo
       const extractAttr = (attrId) =>
         attributes.find((attr) => attr.id === attrId)?.value_name || null;
 
@@ -54,15 +59,14 @@ export const detailProperties = async () => {
         id,
         title,
         price,
-        image: pictures?.[0]?.url || null, // Imagen de la propiedad
+        image: pictures?.[0]?.url || null,
         bedrooms: extractAttr('BEDROOMS'),
         bathrooms: extractAttr('FULL_BATHROOMS'),
         area: extractAttr('COVERED_AREA'),
+        status: data.status,
       };
 
-      console.log(`Detalles de la propiedad ${id}:`, property); // Impresión de los detalles
-
-      // Almacena la propiedad con los detalles
+      console.log(`Detalles de la propiedad activa ${id}:`, property);
       properties.push(property);
     } catch (error) {
       console.error(`Error al obtener detalles de la propiedad ${id}:`, error.response?.data || error.message);
@@ -71,7 +75,6 @@ export const detailProperties = async () => {
 
   return properties;
 };
-
 
 // Endpoint para obtener las propiedades detalladas
 export const getDetailedProperties = async (req, res) => {
