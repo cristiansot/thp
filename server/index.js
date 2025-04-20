@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
-import { getProducts } from './routes/properties.js'; 
+import { getProperties } from './routes/properties.js'; 
 
 dotenv.config();
 const app = express();
