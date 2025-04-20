@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
-import { getProducts } from './routes/products.js'; 
+import { getProducts } from './routes/properties.js'; 
 
 dotenv.config();
 const app = express();
@@ -37,24 +37,8 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK' });
 });
 
-// API: Obtener productos
-app.get('/api/products', getProducts);  // Usamos el endpoint aquí
-
-// backend: /server/routes/items.js
-app.get('/api/items/:userId', async (req, res) => {
-  const { userId } = req.params;
-  try {
-    const response = await axios.get(`https://api.mercadolibre.com/users/${userId}/items/search`, {
-      headers: {
-        Authorization: `Bearer ${process.env.ACCESS_TOKEN}`, // o como lo manejes
-      },
-    });
-    res.json(response.data);
-  } catch (error) {
-    res.status(500).json({ error: error.response?.data || error.message });
-  }
-});
-
+// API: Obtener propiedades
+app.get('/api/properties, getProperties');  // Usamos el endpoint aquí
 
 
 // Rutas OAuth
