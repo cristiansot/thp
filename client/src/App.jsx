@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import ProtectedRoute from './components/ProtectedRoute';
+import ContainerCard from './components/ContainerCards';
+import Carousel from './components/Carousel';
+import NavBar from './components/Navbar';
 
 function App() {
-  const [property, setProperty] = useState(null);
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -38,11 +40,9 @@ function App() {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log('Propiedades detalladas:', response.data);
       setProperties(response.data);
     } catch (error) {
       setError(error.response?.data || error.message);
-      console.error('Error al obtener detalles:', error.response?.data || error.message);
     } finally {
       setLoading(false);
     }
@@ -58,85 +58,38 @@ function App() {
     const price = urlParams.get('price');
     const image = urlParams.get('image');
 
-    if (accessToken) {
-      localStorage.setItem('access_token', accessToken);
-    }
-
-    if (title && price && image) {
-      setProperty({ title, price, image });
-    }
+    if (accessToken) localStorage.setItem('access_token', accessToken);
+    if (title && price && image) setProperty({ title, price, image });
 
     fetchUserData();
     fetchDetailedProperties();
   }, []);
 
-  const handleLogin = () => {
-    const loginUrl = `https://auth.mercadolibre.com/authorization?response_type=code&client_id=${import.meta.env.VITE_ML_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_ML_REDIRECT_URI}`;
-    window.location.href = loginUrl;
-  };
+  // const handleLogin = () => {
+  //   const loginUrl = `https://auth.mercadolibre.com/authorization?response_type=code&client_id=${import.meta.env.VITE_ML_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_ML_REDIRECT_URI}`;
+  //   window.location.href = loginUrl;
+  // };
 
   return (
     <Router>
       <div style={{ padding: '2rem' }}>
-        <button onClick={handleLogin}>Login con Mercado Libre</button>
+        {/* <button onClick={handleLogin}>Login con Mercado Libre</button> */}
 
-        {property && (
-          <div style={{ margin: '2rem 0' }}>
-            <h2>{property.title}</h2>
-            <p>Precio: ${property.price}</p>
-            <img src={property.image} alt="Propiedad" style={{ width: '300px' }} />
-          </div>
-        )}
+        <NavBar />
+        <Carousel />
+        <ContainerCard properties={properties} loading={loading} error={error} />
 
-        <h1>Publicaciones del Vendedor</h1>
-
-        {/* Mostrar loading spinner si está cargando */}
-        {loading && <p>Cargando propiedades...</p>}
-
-        {/* Mostrar mensaje de error si ocurre un problema */}
-        {error && <p style={{ color: 'red' }}>Error al obtener propiedades: {error}</p>}
-
-        {/* Mostrar propiedades cuando estén disponibles */}
-        {!loading && !error && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-            {properties.map((prop) => (
-              <div
-                key={prop.id}
-                style={{
-                  border: '1px solid #ccc',
-                  padding: '1rem',
-                  borderRadius: '8px',
-                  width: '300px',
-                }}
-              >
-                <h3>{prop.title}</h3>
-                <p>Precio: ${prop.price}</p>
-                <p>Dormitorios: {prop.bedrooms || 'N/A'}</p>
-                <p>Baños: {prop.bathrooms || 'N/A'}</p>
-                <p>Área cubierta: {prop.area || 'N/A'} m²</p>
-                {prop.image && (
-                  <img
-                    src={prop.image}
-                    alt={prop.title}
-                    style={{ width: '100%', borderRadius: '4px', marginTop: '0.5rem' }}
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        <Routes>
-          <Route path="/" element={<h1>Home Page</h1>} />
+        {/* <Routes>
+          <Route path="/" element={<h1>Pagina protegida para usuarios logeados</h1>} />
           <Route
             path="/profile"
             element={
               <ProtectedRoute>
-                <h1>Profile Page</h1>
               </ProtectedRoute>
             }
           />
-        </Routes>
+        </Routes> */}
+
       </div>
     </Router>
   );

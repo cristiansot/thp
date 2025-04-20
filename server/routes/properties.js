@@ -50,7 +50,7 @@ export const detailProperties = async () => {
         continue;
       }
 
-      const { title, price, pictures, attributes } = data;
+      const { title, price, pictures, attributes, permalink } = data;
 
       const extractAttr = (attrId) =>
         attributes.find((attr) => attr.id === attrId)?.value_name || null;
@@ -64,6 +64,7 @@ export const detailProperties = async () => {
         bathrooms: extractAttr('FULL_BATHROOMS'),
         area: extractAttr('COVERED_AREA'),
         status: data.status,
+        permalink,
       };
 
       console.log(`Detalles de la propiedad activa ${id}:`, property);

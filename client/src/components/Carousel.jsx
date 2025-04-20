@@ -62,7 +62,7 @@ const Carousel = () => {
         <div key={index} id="wrap" className={`carousel-item ${index === current ? 'active' : ''}`}>
           <div
             className="carousel-item__image"
-            style={{ backgroundImage: `url(${slide.imageUrl})` }}
+            style={{ backgroundImage: `url(${slide.imageUrl})`}}
           />
           <div className="carousel-item__info">
             <div className="carousel-item__container">
