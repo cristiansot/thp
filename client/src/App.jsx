@@ -7,7 +7,6 @@ function App() {
   const [property, setProperty] = useState(null);
   const [properties, setProperties] = useState([]);
 
-  // Flag para evitar llamadas duplicadas en desarrollo con StrictMode
   const hasFetched = useRef(false);
 
   const fetchUserData = async () => {
@@ -26,27 +25,26 @@ function App() {
     }
   };
 
-  const fetchPropertiesFromML = async () => {
+  const fetchDetailedProperties = async () => {
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) return;
 
     try {
-      const response = await axios.get('http://localhost:5173/api/properties', {
+      const response = await axios.get('http://localhost:5173/api/properties/detailed', {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
 
-      console.log('Productos del vendedor:', response.data);
+      console.log('Propiedades detalladas:', response.data);
       setProperties(response.data);
     } catch (error) {
-      console.error('Error fetching properties:', error.response?.data || error.message);
+      console.error('Error al obtener detalles:', error.response?.data || error.message);
     }
   };
-  
 
   useEffect(() => {
-    if (hasFetched.current) return; // Evita que se ejecute dos veces
+    if (hasFetched.current) return;
     hasFetched.current = true;
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -64,7 +62,7 @@ function App() {
     }
 
     fetchUserData();
-    fetchPropertiesFromML();
+    fetchDetailedProperties();
   }, []);
 
   const handleLogin = () => {
@@ -74,11 +72,11 @@ function App() {
 
   return (
     <Router>
-      <div>
+      <div style={{ padding: '2rem' }}>
         <button onClick={handleLogin}>Login con Mercado Libre</button>
 
         {property && (
-          <div>
+          <div style={{ margin: '2rem 0' }}>
             <h2>{property.title}</h2>
             <p>Precio: ${property.price}</p>
             <img src={property.image} alt="Propiedad" style={{ width: '300px' }} />
@@ -86,11 +84,32 @@ function App() {
         )}
 
         <h1>Publicaciones del Vendedor</h1>
-        <ul>
-          {properties.map((id) => (
-            <li key={id}>{id}</li>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+          {properties.map((prop) => (
+            <div
+              key={prop.id}
+              style={{
+                border: '1px solid #ccc',
+                padding: '1rem',
+                borderRadius: '8px',
+                width: '300px',
+              }}
+            >
+              <h3>{prop.title}</h3>
+              <p>Precio: ${prop.price}</p>
+              <p>Dormitorios: {prop.bedrooms || 'N/A'}</p>
+              <p>Baños: {prop.bathrooms || 'N/A'}</p>
+              <p>Área cubierta: {prop.covered_area || 'N/A'} m²</p>
+              {prop.image && (
+                <img
+                  src={prop.image}
+                  alt={prop.title}
+                  style={{ width: '100%', borderRadius: '4px', marginTop: '0.5rem' }}
+                />
+              )}
+            </div>
           ))}
-        </ul>
+        </div>
 
         <Routes>
           <Route path="/" element={<h1>Home Page</h1>} />

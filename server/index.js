@@ -5,10 +5,8 @@ import helmet from 'helmet';
 import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
 import { getProperties, fetchPropertiesFromML } from './routes/properties.js';
-import { getDetailedProperties } from './routes/detailProperties.js';
 
 dotenv.config();
-const router = express.Router();
 const app = express();
 
 app.use(helmet());
@@ -27,8 +25,6 @@ app.get('/health', (req, res) => res.status(200).json({ status: 'OK' }));
 app.get('/api/properties', getProperties);
 app.get('/oauth/login', login);
 app.get('/oauth/callback', callback);
-router.get('/properties/detailed', getDetailedProperties);
-
 
 // Error handler
 app.use((err, req, res, next) => {
