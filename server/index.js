@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
-import { getProperties, fetchPropertiesFromML } from './routes/properties.js';
+import { fetchPropertiesFromML } from './routes/properties.js';
 
 dotenv.config();
 const app = express();
