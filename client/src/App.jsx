@@ -6,6 +6,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 function App() {
   const [property, setProperty] = useState(null);
   const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const hasFetched = useRef(false);
 
@@ -30,16 +32,19 @@ function App() {
     if (!accessToken) return;
 
     try {
+      setLoading(true);
       const response = await axios.get('http://localhost:5173/api/properties/detailed', {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
       console.log('Propiedades detalladas:', response.data);
       setProperties(response.data);
     } catch (error) {
+      setError(error.response?.data || error.message);
       console.error('Error al obtener detalles:', error.response?.data || error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -84,32 +89,42 @@ function App() {
         )}
 
         <h1>Publicaciones del Vendedor</h1>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-          {properties.map((prop) => (
-            <div
-              key={prop.id}
-              style={{
-                border: '1px solid #ccc',
-                padding: '1rem',
-                borderRadius: '8px',
-                width: '300px',
-              }}
-            >
-              <h3>{prop.title}</h3>
-              <p>Precio: ${prop.price}</p>
-              <p>Dormitorios: {prop.bedrooms || 'N/A'}</p>
-              <p>Baños: {prop.bathrooms || 'N/A'}</p>
-              <p>Área cubierta: {prop.covered_area || 'N/A'} m²</p>
-              {prop.image && (
-                <img
-                  src={prop.image}
-                  alt={prop.title}
-                  style={{ width: '100%', borderRadius: '4px', marginTop: '0.5rem' }}
-                />
-              )}
-            </div>
-          ))}
-        </div>
+
+        {/* Mostrar loading spinner si está cargando */}
+        {loading && <p>Cargando propiedades...</p>}
+
+        {/* Mostrar mensaje de error si ocurre un problema */}
+        {error && <p style={{ color: 'red' }}>Error al obtener propiedades: {error}</p>}
+
+        {/* Mostrar propiedades cuando estén disponibles */}
+        {!loading && !error && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+            {properties.map((prop) => (
+              <div
+                key={prop.id}
+                style={{
+                  border: '1px solid #ccc',
+                  padding: '1rem',
+                  borderRadius: '8px',
+                  width: '300px',
+                }}
+              >
+                <h3>{prop.title}</h3>
+                <p>Precio: ${prop.price}</p>
+                <p>Dormitorios: {prop.bedrooms || 'N/A'}</p>
+                <p>Baños: {prop.bathrooms || 'N/A'}</p>
+                <p>Área cubierta: {prop.area || 'N/A'} m²</p>
+                {prop.image && (
+                  <img
+                    src={prop.image}
+                    alt={prop.title}
+                    style={{ width: '100%', borderRadius: '4px', marginTop: '0.5rem' }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        )}
 
         <Routes>
           <Route path="/" element={<h1>Home Page</h1>} />

@@ -29,6 +29,7 @@ export const detailProperties = async () => {
 
   // Obtiene los IDs de las propiedades
   const ids = await fetchPropertiesFromML();
+  console.log('IDs de propiedades para obtener detalles:', ids); // Agregado
 
   const properties = [];
 
@@ -59,6 +60,8 @@ export const detailProperties = async () => {
         area: extractAttr('COVERED_AREA'),
       };
 
+      console.log(`Detalles de la propiedad ${id}:`, property); // Impresión de los detalles
+
       // Almacena la propiedad con los detalles
       properties.push(property);
     } catch (error) {
@@ -68,6 +71,7 @@ export const detailProperties = async () => {
 
   return properties;
 };
+
 
 // Endpoint para obtener las propiedades detalladas
 export const getDetailedProperties = async (req, res) => {

@@ -5,6 +5,8 @@ import helmet from 'helmet';
 import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
 import { fetchPropertiesFromML } from './routes/properties.js';
+import { getDetailedProperties } from './routes/properties.js'; // Asegúrate de importar el endpoint adecuado
+
 
 dotenv.config();
 const app = express();
@@ -23,6 +25,7 @@ app.use(cors(corsOptions));
 app.get('/test', (req, res) => res.send('Test page'));
 app.get('/health', (req, res) => res.status(200).json({ status: 'OK' }));
 app.get('/api/properties',fetchPropertiesFromML);
+app.get('/api/properties/detailed', getDetailedProperties); // Añadir la ruta para obtener las propiedades detalladas
 app.get('/oauth/login', login);
 app.get('/oauth/callback', callback);
 
@@ -47,3 +50,6 @@ app.listen(PORT, async () => {
     console.error('🔴 Error inicial al obtener productos:', err.message);
   }
 });
+
+const properties = await fetchPropertiesFromML();
+console.log('🔹 Productos del vendedor al arrancar el servidor:', properties);
