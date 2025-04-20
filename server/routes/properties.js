@@ -50,7 +50,7 @@ export const detailProperties = async () => {
         continue;
       }
 
-      const { title, price, pictures, attributes, permalink } = data;
+      const { title, price, pictures, attributes, permalink, video_id } = data;
 
       const extractAttr = (attrId) =>
         attributes.find((attr) => attr.id === attrId)?.value_name || null;

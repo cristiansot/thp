@@ -8,7 +8,7 @@ import metersIcon from '../assets/img/icons/meters.svg';
 
 import '../assets/css/propertyCard.css';
 
-function PropertyCard({ title, price, permalink, image, area, bedrooms, bathrooms }) {
+function PropertyCard({ title, price, permalink, image, area, bedrooms, bathrooms, video_id }) {
   // Determinar si la imagen es una URL externa o local
   let imageUrl;
   try {
@@ -52,17 +52,32 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
           </Card.Text>
         </div>
 
-        {permalink && (
-          <Button
-            variant="dark"
-            className="button-ver-propiedades"
-            href={permalink}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Ver Propiedad
-          </Button>
-        )}
+        {/* Botones de acciones */}
+        <div className="d-flex gap-2 mt-3">
+          {permalink && (
+            <Button
+              variant="dark"
+              className="button-ver-propiedades"
+              href={permalink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver Propiedad
+            </Button>
+          )}
+
+          {video_id && (
+            <Button
+              variant="secondary"
+              className="button-ver-propiedades"
+              href={video_id}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver Tour
+            </Button>
+          )}
+        </div>
       </Card.Body>
     </Card>
   );

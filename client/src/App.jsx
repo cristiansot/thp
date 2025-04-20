@@ -59,7 +59,7 @@ function App() {
     const image = urlParams.get('image');
 
     if (accessToken) localStorage.setItem('access_token', accessToken);
-    if (title && price && image) setProperty({ title, price, image });
+    if (title && price && image) setProperties({ title, price, image });
 
     fetchUserData();
     fetchDetailedProperties();
