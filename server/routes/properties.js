@@ -67,7 +67,7 @@ export const detailProperties = async () => {
         permalink,
         video_id,
         offices: extractAttr('OFFICES'),
-        TOTAL_AREA: extractAttr('TOTAL_AREA'),
+        total_area: extractAttr('TOTAL_AREA'),
       };
 
       console.log(`Detalles de la propiedad activa ${id}:`, property);

@@ -8,7 +8,7 @@ import metersIcon from '../assets/img/icons/meters.svg';
 
 import '../assets/css/propertyCard.css';
 
-function PropertyCard({ title, price, permalink, image, area, bedrooms, bathrooms, offices }) {
+function PropertyCard({ title, price, permalink, image, area, bedrooms, bathrooms, offices, total_area }) {
   // Determinar si la imagen es una URL externa o local
   let imageUrl;
   try {
