@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const seller_id = 1628129303;
+const user_id = process.env.USER_ID;
 
 export const fetchPropertiesFromML = async () => {
-  const url = `https://api.mercadolibre.com/users/${seller_id}/items/search`;
+  const url = `https://api.mercadolibre.com/users/${user_id}/items/search`;
   console.log('URL generada:', url);
 
   const { data } = await axios.get(url, {
