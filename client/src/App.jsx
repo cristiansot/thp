@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -6,6 +6,9 @@ import ProtectedRoute from './components/ProtectedRoute';
 function App() {
   const [property, setProperty] = useState(null);
   const [properties, setProperties] = useState([]);
+
+  // Flag para evitar llamadas duplicadas en desarrollo con StrictMode
+  const hasFetched = useRef(false);
 
   const fetchUserData = async () => {
     const accessToken = localStorage.getItem('access_token');
@@ -23,7 +26,7 @@ function App() {
     }
   };
 
-  const fetchProperties = async () => {
+  const fetchPropertiesFromML = async () => {
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) return;
 
@@ -40,8 +43,12 @@ function App() {
       console.error('Error fetching properties:', error.response?.data || error.message);
     }
   };
+  
 
   useEffect(() => {
+    if (hasFetched.current) return; // Evita que se ejecute dos veces
+    hasFetched.current = true;
+
     const urlParams = new URLSearchParams(window.location.search);
     const accessToken = urlParams.get('access_token');
     const title = urlParams.get('title');
@@ -57,7 +64,7 @@ function App() {
     }
 
     fetchUserData();
-    fetchProperties();
+    fetchPropertiesFromML();
   }, []);
 
   const handleLogin = () => {

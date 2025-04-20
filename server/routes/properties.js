@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getTokens } from '../oauth/tokenStorage.js';
 
 const user_id = process.env.USER_ID;
 
@@ -27,4 +28,18 @@ export const getProperties = async (req, res) => {
       details: error.response?.data || error.message,
     });
   }
-};
+}
+
+export const detailProperty = async () =>{
+  const url = `https://https://api.mercadolibre.com/items/${user_id}`;
+  console.log('URL generada:', url);
+
+  const { data } = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+     },
+   });
+
+   console.log('detalle de las propiedades:', data);
+   return data.results;
+ };
