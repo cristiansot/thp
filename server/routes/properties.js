@@ -70,8 +70,8 @@ export const detailProperties = async () => {
         video_id,
         offices: extractAttr('OFFICES'),
         total_area: extractAttr('TOTAL_AREA'),
-        latitude: extractAttr('LATITUDE'),
-        longitude: extractAttr('LONGITUDE'),
+        latitude: data.location?.geolocation?.latitude || null,
+        longitude: data.location?.geolocation?.longitude || null,
       };
       
 
