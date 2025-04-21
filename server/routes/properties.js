@@ -1,10 +1,13 @@
 import axios from 'axios';
+import { getValidAccessToken } from '../services/authManager.js';
 
 // Esta función obtiene los IDs de las propiedades del usuario.
 export const fetchPropertiesFromML = async () => {
   const user_id = process.env.USER_ID;
   const url = `https://api.mercadolibre.com/users/${user_id}/items/search`;
+  const accessToken = await getValidAccessToken();
   console.log('URL generada para obtener propiedades:', url);
+  
 
   try {
     const { data } = await axios.get(url, {
@@ -25,7 +28,7 @@ export const fetchPropertiesFromML = async () => {
 
 // Esta función obtiene los detalles de cada propiedad usando los IDs
 export const detailProperties = async () => {
-  const accessToken = process.env.ACCESS_TOKEN;
+  const accessToken = await getValidAccessToken();
 
   // Obtiene los IDs de las propiedades
   const ids = await fetchPropertiesFromML();

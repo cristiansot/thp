@@ -6,11 +6,13 @@
 
 #root {
   margin: 0 auto;
+  padding: 0;
 }
 
 body {
   align-items: center;
   background-color: #161e24;
+  padding: 0
 }
 
 .loading {
@@ -21,4 +23,9 @@ body {
   margin-top: 40px;
 }
 
+@media (max-width: 768px) {
+  .container {
+    padding: 1;
+  }
 
+}

@@ -1,7 +1,11 @@
 .card {
-  border-radius: 24px;
+  border-radius: 14px ;
   border-color: #373737;
   background-color: rgb(16, 21, 26);
+}
+
+.card img {
+  border-radius: 14px 14px 0 0;
 }
 
 .card--title {
@@ -49,4 +53,14 @@
 .container--icons {
   display: flex;
   flex-direction: row;
+}
+
+@media (max-width: 768px) {
+  /* .card {
+    border-radius: 0 ;
+  }
+
+  .card img {
+    border-radius: 0;
+  } */
 }
