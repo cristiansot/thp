@@ -28,10 +28,9 @@ export const fetchPropertiesFromML = async () => {
 export const detailProperties = async () => {
   const accessToken = await getValidAccessToken();
   if (!accessToken) {
-    return res.status(401).json({ error: 'No hay tokens disponibles. Realiza el login.' });
+    throw new Error('No hay tokens disponibles. Realiza el login.');
   }
 
-  // Obtiene los IDs de las propiedades
   const ids = await fetchPropertiesFromML();
   console.log('IDs de propiedades para obtener detalles:', ids);
 
@@ -48,7 +47,6 @@ export const detailProperties = async () => {
         },
       });
 
-      // Filtramos solo si el estado es "active"
       if (data.status !== 'active') {
         console.log(`Propiedad ${id} ignorada por no estar activa (estado: ${data.status})`);
         continue;
@@ -84,16 +82,16 @@ export const detailProperties = async () => {
   return properties;
 };
 
+
 // Endpoint para obtener las propiedades detalladas
 export const getDetailedProperties = async (req, res) => {
   try {
     const detailed = await detailProperties();
     res.status(200).json(detailed);
   } catch (error) {
-    console.error('Error al obtener propiedades detalladas:', error.response?.data || error.message);
+    console.error('Error al obtener propiedades detalladas:', error.message);
     res.status(500).json({
-      error: 'No se pudieron obtener los detalles de las propiedades',
-      details: error.response?.data || error.message,
+      error: error.message || 'No se pudieron obtener los detalles de las propiedades',
     });
   }
 };
