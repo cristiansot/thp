@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 import ContainerCard from './components/ContainerCards';
 import Carousel from './components/Carousel';
@@ -11,10 +11,28 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Función para obtener el token del backend y guardarlo en el localStorage
+  const fetchTokenFromBackend = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/auth/token`);
+      if (response.data?.access_token) {
+        localStorage.setItem('access_token', response.data.access_token);
+      }
+    } catch (error) {
+      console.error('Error al obtener el token del backend:', error);
+    }
+  };
+
+  // Obtener propiedades detalladas
   const fetchDetailedProperties = async () => {
+    const accessToken = localStorage.getItem('access_token');
     try {
       setLoading(true);
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/properties/detailed`);
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/properties/detailed`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       setProperties(response.data);
     } catch (error) {
       setError(error.response?.data || error.message);
@@ -22,15 +40,17 @@ function App() {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
+    // Primero obtenemos el token
+    fetchTokenFromBackend();
+    // Luego obtenemos las propiedades detalladas
     fetchDetailedProperties();
   }, []);
 
   return (
     <Router>
       <div>
-        {/* Pasamos las propiedades al componente MapView */}
         <MapView properties={properties} zoom={13} />
         <NavBar />
         <Carousel />

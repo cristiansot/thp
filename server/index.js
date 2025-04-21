@@ -21,6 +21,14 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+app.get('/api/auth/token', (req, res) => {
+  const tokens = getTokens();  
+  if (tokens && tokens.access_token) {
+    return res.json({ access_token: tokens.access_token });
+  }
+  return res.status(401).json({ error: 'No token available' });
+});
+
 // Rutas
 app.get('/test', (req, res) => res.send('Test page'));
 app.get('/health', (req, res) => res.status(200).json({ status: 'OK' }));
