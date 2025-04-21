@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getTokens, saveTokens } from '../oauth/tokenStorage';
+import { getTokens, saveTokens } from '../oauth/tokenStorage.js';
 
 export const getValidAccessToken = async () => {
   const tokens = getTokens();
