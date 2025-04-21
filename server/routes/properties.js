@@ -70,7 +70,10 @@ export const detailProperties = async () => {
         video_id,
         offices: extractAttr('OFFICES'),
         total_area: extractAttr('TOTAL_AREA'),
+        latitude: extractAttr('LATITUDE'),
+        longitude: extractAttr('LONGITUDE'),
       };
+      
 
       console.log(`Detalles de la propiedad activa ${id}:`, property);
       properties.push(property);
@@ -81,7 +84,6 @@ export const detailProperties = async () => {
 
   return properties;
 };
-
 
 // Endpoint para obtener las propiedades detalladas
 export const getDetailedProperties = async (req, res) => {
