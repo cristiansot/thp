@@ -70,10 +70,9 @@ export const detailProperties = async () => {
         video_id,
         offices: extractAttr('OFFICES'),
         total_area: extractAttr('TOTAL_AREA'),
-        latitude: data.location?.geolocation?.latitude || null,
-        longitude: data.location?.geolocation?.longitude || null,
+        latitude: data.geolocation?.latitude || null, 
+        longitude: data.geolocation?.longitude || null,
       };
-      
 
       console.log(`Detalles de la propiedad activa ${id}:`, property);
       properties.push(property);
