@@ -8,7 +8,7 @@ import metersIcon from '../assets/img/icons/meters.svg';
 
 import '../assets/css/propertyCard.css';
 
-function PropertyCard({ title, price, permalink, image, area, bedrooms, bathrooms, offices, total_area }) {
+function PropertyCard({ title, price, permalink, image, area, bedrooms, bathrooms, offices, total_area, video_id }) {
   // Determinar si la imagen es una URL externa o local
   let imageUrl;
   try {
@@ -16,20 +16,15 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
       ? image
       : new URL(`../assets/img/properties/${image}`, import.meta.url).href;
   } catch {
-    imageUrl = ''; // fallback si no hay imagen válida
+    imageUrl = '';
   }
 
   // Formatea precio con puntos y decide si es UF o CLP
   const formatPrice = (value) => {
     if (!value) return '';
-
     const numericPrice = parseInt(value.toString().replace(/\D/g, ''), 10);
-    if (isNaN(numericPrice) || numericPrice === 0) return '';
-
-    const formatted = numericPrice
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
+    if (isNaN(numericPrice) || numericPrice == 0) return '';
+    const formatted = numericPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     return numericPrice <= 99999 ? `UF ${formatted}` : `$${formatted}`;
   };
 
@@ -41,6 +36,17 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
     }
     return null;
   };
+
+  // Construir URL del tour si existe video_id válido
+  let tourUrl = null;
+  if (video_id) {
+    const [code, type] = video_id.split(';');
+    if (type === 'matterport') {
+      tourUrl = `https://my.matterport.com/show/?m=${code}`;
+    } else if (type === 'youtube') {
+      tourUrl = `https://www.youtube.com/watch?v=${code}&ab_channel=TotalHomePropiedades`;
+    }
+  }
 
   return (
     <Card className="mb-4 shadow-sm">
@@ -81,16 +87,28 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
           )}
         </div>
 
-        <div className="d-flex mb-2">
+        <div className="d-flex gap-2 mb-2">
           {permalink && (
             <Button
               variant="dark"
-              className="button-ver-propiedades"
+              className="button-ver"
               href={permalink}
               target="_blank"
               rel="noopener noreferrer"
             >
               Ver Propiedad
+            </Button>
+          )}
+
+          {tourUrl && (
+            <Button
+              variant="dark"
+              className="button-ver"
+              href={tourUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver Tour
             </Button>
           )}
         </div>
@@ -100,7 +118,3 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
 }
 
 export default PropertyCard;
-
-     
-
-      

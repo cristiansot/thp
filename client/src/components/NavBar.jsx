@@ -65,8 +65,8 @@ const NavBar = () => {
               <a className="nav-link" href="#">Contacto</a>
             </li>
             {uf && (
-              <li className="nav-item">
-                <span className="nav-link disabled">Valor UF: ${uf}</span>
+              <li>
+                <span className="nav-link disabled">UF: ${uf}</span>
               </li>
             )}
           </ul>
