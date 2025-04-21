@@ -27,11 +27,11 @@ function App() {
     fetchDetailedProperties();
   }, []);
 
-
   return (
     <Router>
       <div>
-        <MapView lat={-33.45} lng={-70.6667} zoom={13} />
+        {/* Pasamos las propiedades al componente MapView */}
+        <MapView properties={properties} zoom={13} />
         <NavBar />
         <Carousel />
         <ContainerCard properties={properties} loading={loading} error={error} />
