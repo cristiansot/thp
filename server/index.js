@@ -6,7 +6,7 @@ import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
 import { fetchPropertiesFromML } from './routes/properties.js';
 import { getDetailedProperties } from './routes/properties.js';
-
+import { checkTokens } from './routes/auth.js';
 
 dotenv.config();
 const app = express();
@@ -28,6 +28,7 @@ app.get('/api/properties',fetchPropertiesFromML);
 app.get('/api/properties/detailed', getDetailedProperties);
 app.get('/oauth/login', login);
 app.get('/oauth/callback', callback);
+app.get('/oauth/check', checkTokens);
 
 // Error handlerg
 app.use((err, req, res, next) => {
