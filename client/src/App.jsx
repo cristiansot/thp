@@ -12,14 +12,22 @@ function App() {
   const [error, setError] = useState(null);
 
   // Función para obtener el token del backend y guardarlo en el localStorage
-  const fetchTokenFromBackend = async () => {
+  const fetchToken = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/auth/token`);
-      if (response.data?.access_token) {
-        localStorage.setItem('access_token', response.data.access_token);
-      }
+      localStorage.setItem('access_token', response.data.access_token);
     } catch (error) {
-      console.error('Error al obtener el token del backend:', error);
+      console.error('Error al obtener el token del backend:', error.response?.data || error.message);
+  
+      // Si el token no está disponible, intenta refrescarlo
+      if (error.response?.status === 401) {
+        try {
+          const refreshResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/auth/refresh`);
+          localStorage.setItem('access_token', refreshResponse.data.access_token);
+        } catch (refreshError) {
+          console.error('Error al refrescar el token:', refreshError.message);
+        }
+      }
     }
   };
 
@@ -43,7 +51,7 @@ function App() {
 
   useEffect(() => {
     // Primero obtenemos el token
-    fetchTokenFromBackend();
+    fetchToken(); 
     // Luego obtenemos las propiedades detalladas
     fetchDetailedProperties();
   }, []);

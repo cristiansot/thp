@@ -21,13 +21,22 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.get('/api/auth/token', (req, res) => {
-  const tokens = getTokens();  
-  if (tokens && tokens.access_token) {
-    return res.json({ access_token: tokens.access_token });
+app.get('/api/auth/refresh', async (req, res) => {
+  const tokens = getTokens();
+  if (!tokens || !tokens.refresh_token) {
+    return res.status(401).json({ error: 'No refresh token available' });
   }
-  return res.status(401).json({ error: 'No token available' });
+
+  try {
+    const newTokens = await refreshToken(tokens.refresh_token);
+    saveTokens(newTokens);  // Guarda los nuevos tokens
+    return res.json({ access_token: newTokens.access_token });
+  } catch (error) {
+    console.error('Error al refrescar token:', error.message);
+    return res.status(500).json({ error: 'Failed to refresh token' });
+  }
 });
+
 
 // Rutas
 app.get('/test', (req, res) => res.send('Test page'));
