@@ -21,11 +21,10 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
 
   // Formatea precio con puntos y decide si es UF o CLP
   const formatPrice = (value) => {
-    if (!value) return 'N/A';
+    if (!value) return '';
 
     const numericPrice = parseInt(value.toString().replace(/\D/g, ''), 10);
-
-    if (isNaN(numericPrice)) return 'N/A';
+    if (isNaN(numericPrice) || numericPrice === 0) return '';
 
     const formatted = numericPrice
       .toString()
@@ -34,15 +33,13 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
     return numericPrice <= 99999 ? `UF ${formatted}` : `$${formatted}`;
   };
 
-  // Mostrar dormitorios u oficinas
   const renderBedroomsOrOffices = () => {
-    if (bedrooms != null) {
-      return `${bedrooms} ${bedrooms === 1 ? 'Dormitorio' : 'Dormitorios'}`;
-    } else if (offices != null) {
-      return `${offices} ${offices === 1 ? 'Oficina' : 'Oficinas'}`;
-    } else {
-      return 'N/A';
+    if (bedrooms && bedrooms > 0) {
+      return `${bedrooms} ${bedrooms == 1 ? 'Dormitorio' : 'Dormitorios'}`;
+    } else if (offices && offices > 0) {
+      return `${offices} ${offices == 1 ? 'Oficina' : 'Oficinas'}`;
     }
+    return null;
   };
 
   return (
@@ -62,20 +59,26 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
         <Card.Text className="card--price">{formatPrice(price)}</Card.Text>
 
         <div className="container--icons">
-          <Card.Text className="card--text mr-3 m-1">
-            <img className="icons" src={metersIcon} alt="Metros cuadrados" />
-            {area || 'N/A'}
-          </Card.Text>
+          {(area || total_area) && (
+            <Card.Text className="card--text mr-3 m-1">
+              <img className="icons" src={metersIcon} alt="Metros cuadrados" />
+              {area || total_area}
+            </Card.Text>
+          )}
 
-          <Card.Text className="card--text mr-3 m-1">
-            <img className="icons" src={bedroomIcon} alt="Dormitorios u Oficinas" />
-            {renderBedroomsOrOffices()}
-          </Card.Text>
+          {renderBedroomsOrOffices() && (
+            <Card.Text className="card--text mr-3 m-1">
+              <img className="icons" src={bedroomIcon} alt="Dormitorios u Oficinas" />
+              {renderBedroomsOrOffices()}
+            </Card.Text>
+          )}
 
-          <Card.Text className="card--text mr-3 m-1">
-            <img className="icons" src={bathroomIcon} alt="Baños" />
-            {bathrooms != null ? `${bathrooms} ${bathrooms === 1 ? 'Baño' : 'Baños'}` : 'N/A'}
-          </Card.Text>
+          {bathrooms && bathrooms > 0 && (
+            <Card.Text className="card--text mr-3 m-1">
+              <img className="icons" src={bathroomIcon} alt="Baños" />
+              {`${bathrooms} ${bathrooms == 1 ? 'Baño' : 'Baños'}`}
+            </Card.Text>
+          )}
         </div>
 
         <div className="d-flex mb-2">
@@ -97,3 +100,7 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
 }
 
 export default PropertyCard;
+
+     
+
+      
