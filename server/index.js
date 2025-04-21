@@ -41,15 +41,15 @@ const PORT = process.env.PORT || 10000;
 const ENV = process.env.NODE_ENV || 'development';
 
 app.listen(PORT, async () => {
-  // console.log(`✅ Server running on port ${PORT} in ${ENV} mode`);
+  console.log(`✅ Server running on port ${PORT} in ${ENV} mode`);
 
-  // try {
-  //   const properties = await fetchPropertiesFromML();
-  //   console.log('🔹 Productos del vendedor al arrancar el servidor:', properties);
-  // } catch (err) {
-  //   console.error('🔴 Error inicial al obtener productos:', err.message);
-  // }
+  try {
+    const properties = await fetchPropertiesFromML();
+    console.log('🔹 Productos del vendedor al arrancar el servidor:', properties);
+  } catch (err) {
+    console.error('🔴 Error inicial al obtener productos:', err.message);
+  }
 });
 
-// const properties = await fetchPropertiesFromML();
-// console.log('🔹 Productos del vendedor al arrancar el servidor:', properties);
+const properties = await fetchPropertiesFromML();
+console.log('🔹 Productos del vendedor al arrancar el servidor:', properties);
