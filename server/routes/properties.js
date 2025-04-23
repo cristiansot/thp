@@ -1,23 +1,26 @@
 import axios from 'axios';
 import { getValidAccessToken } from '../services/authManager.js';
+import { getTokens } from './tokenStorage.js';
+
 
 // Esta función obtiene los IDs de las propiedades del usuario.
 export const fetchPropertiesFromML = async () => {
+  const { access_token } = getTokens(); // Obtener el access_token guardado en memoria
+
+  if (!access_token) {
+    throw new Error('No se encontró un token de acceso válido');
+  }
+
   const user_id = process.env.USER_ID;
   const url = `https://api.mercadolibre.com/users/${user_id}/items/search`;
-  console.log('URL generada para obtener propiedades:', url);
-  
+
   try {
     const { data } = await axios.get(url, {
       headers: {
-        Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+        Authorization: `Bearer ${access_token}`,
       },
     });
-
-    // Solo devuelve los IDs de las propiedades
-    const ids = data.results; // Array con los IDs de las propiedades
-    console.log('IDs obtenidos:', ids);
-    return ids;
+    // Resto del código...
   } catch (error) {
     console.error('Error al obtener las propiedades:', error.response?.data || error.message);
     throw new Error('No se pudieron obtener las propiedades');
