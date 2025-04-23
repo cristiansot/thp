@@ -10,7 +10,9 @@ export const getTokens = () => {
     const data = fs.readFileSync(TOKEN_PATH, 'utf-8');
     if (!data) return null;
 
-    return JSON.parse(data);
+    const tokens = JSON.parse(data);
+    console.log('Tokens leídos:', tokens); // Agrega este log
+    return tokens;
   } catch (err) {
     console.error('❌ Error al leer tokens:', err.message);
     return null;
