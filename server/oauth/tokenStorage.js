@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const filePath = path.resolve('./server/routes/tokens.json');
+const filePath = path.resolve('./tokens.json');
 
 let tokens = {
   access_token: null,
