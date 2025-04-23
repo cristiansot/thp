@@ -5,10 +5,17 @@ import { getValidAccessToken } from '../services/authManager.js';
 export const fetchPropertiesFromML = async () => {
   try {
     const user_id = process.env.USER_ID;
+    if (!user_id) {
+      throw new Error('USER_ID no está definido en las variables de entorno');
+    }
+
+    const accessToken = await getValidAccessToken();
+    if (!accessToken) {
+      throw new Error('Token de acceso no disponible');
+    }
+
     const url = `https://api.mercadolibre.com/users/${user_id}/items/search`;
     console.log('URL generada para obtener propiedades:', url);
-    
-    const accessToken = await getValidAccessToken();
 
     const { data } = await axios.get(url, {
       headers: {
@@ -16,8 +23,7 @@ export const fetchPropertiesFromML = async () => {
       },
     });
 
-    // Solo devuelve los IDs de las propiedades
-    const ids = data.results; // Array con los IDs de las propiedades
+    const ids = data.results || [];
     console.log('IDs obtenidos:', ids);
     return ids;
   } catch (error) {
@@ -28,62 +34,67 @@ export const fetchPropertiesFromML = async () => {
 
 // Esta función obtiene los detalles de cada propiedad usando los IDs
 export const detailProperties = async () => {
-  const accessToken = await getValidAccessToken();
-  if (!accessToken) {
-    throw new Error('No hay tokens disponibles. Realiza el login.');
-  }
-
-  const ids = await fetchPropertiesFromML();
-  console.log('IDs de propiedades para obtener detalles:', ids);
-
-  const properties = [];
-
-  for (const id of ids) {
-    const url = `https://api.mercadolibre.com/items/${id}`;
-    console.log('Consultando detalles para:', url);
-
-    try {
-      const { data } = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      if (data.status !== 'active') {
-        console.log(`Propiedad ${id} ignorada por no estar activa (estado: ${data.status})`);
-        continue;
-      }
-
-      const { title, price, pictures, attributes, permalink, video_id } = data;
-
-      const extractAttr = (attrId) =>
-        attributes.find((attr) => attr.id === attrId)?.value_name || null;
-
-      const property = {
-        id,
-        title,
-        price,
-        image: pictures?.[0]?.url || null,
-        bedrooms: extractAttr('BEDROOMS'),
-        bathrooms: extractAttr('FULL_BATHROOMS'),
-        area: extractAttr('COVERED_AREA'),
-        status: data.status,
-        permalink,
-        video_id,
-        offices: extractAttr('OFFICES'),
-        total_area: extractAttr('TOTAL_AREA'),
-        latitude: data.geolocation?.latitude || null, 
-        longitude: data.geolocation?.longitude || null,
-      };
-
-      console.log(`Detalles de la propiedad activa ${id}:`, property);
-      properties.push(property);
-    } catch (error) {
-      console.error(`Error al obtener detalles de la propiedad ${id}:`, error.response?.data || error.message);
+  try {
+    const accessToken = await getValidAccessToken();
+    if (!accessToken) {
+      throw new Error('No hay tokens disponibles. Realiza el login.');
     }
-  }
 
-  return properties;
+    const ids = await fetchPropertiesFromML();
+    console.log('IDs de propiedades para obtener detalles:', ids);
+
+    const properties = [];
+
+    for (const id of ids) {
+      const url = `https://api.mercadolibre.com/items/${id}`;
+      console.log('Consultando detalles para:', url);
+
+      try {
+        const { data } = await axios.get(url, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        if (data.status !== 'active') {
+          console.log(`Propiedad ${id} ignorada por no estar activa (estado: ${data.status})`);
+          continue;
+        }
+
+        const { title, price, pictures, attributes, permalink, video_id } = data;
+
+        const extractAttr = (attrId) =>
+          attributes.find((attr) => attr.id === attrId)?.value_name || null;
+
+        const property = {
+          id,
+          title,
+          price,
+          image: pictures?.[0]?.url || null,
+          bedrooms: extractAttr('BEDROOMS'),
+          bathrooms: extractAttr('FULL_BATHROOMS'),
+          area: extractAttr('COVERED_AREA'),
+          status: data.status,
+          permalink,
+          video_id,
+          offices: extractAttr('OFFICES'),
+          total_area: extractAttr('TOTAL_AREA'),
+          latitude: data.geolocation?.latitude || null,
+          longitude: data.geolocation?.longitude || null,
+        };
+
+        console.log(`Detalles de la propiedad activa ${id}:`, property);
+        properties.push(property);
+      } catch (error) {
+        console.error(`Error al obtener detalles de la propiedad ${id}:`, error.response?.data || error.message);
+      }
+    }
+
+    return properties;
+  } catch (error) {
+    console.error('Error en detailProperties:', error.message);
+    throw error;
+  }
 };
 
 // Endpoint para obtener las propiedades detalladas
