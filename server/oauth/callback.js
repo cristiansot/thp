@@ -1,46 +1,42 @@
 import axios from 'axios';
 import { saveTokens } from './tokenStorage.js';
 
-export async function callback(req, res) {
-  const { code } = req.query;
 
-  console.log('Received code:', code); // Verifica que el código esté llegando correctamente
+export const callback = async (req, res) => {
+  const code = req.query.code;
+  console.log('Received code:', code);
 
   if (!code) {
-    return res.status(400).send('No code received');
+    return res.status(400).json({ error: 'Código no proporcionado' });
   }
 
   try {
-    // Intercambia el código por el token
-    const response = await axios.post('https://api.mercadolibre.com/oauth/token', null, {
-      params: {
-        grant_type: 'authorization_code',
-        client_id: process.env.ML_CLIENT_ID,
-        client_secret: process.env.ML_CLIENT_SECRET,
-        code,
-        redirect_uri: process.env.ML_REDIRECT_URI,
-      },
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json',
-      },
-    });
+    const response = await axios.post(
+      'https://api.mercadolibre.com/oauth/token',
+      null,
+      {
+        params: {
+          grant_type: 'authorization_code',
+          client_id: process.env.ML_CLIENT_ID,
+          client_secret: process.env.ML_CLIENT_SECRET,
+          code,
+          redirect_uri: process.env.ML_REDIRECT_URI,
+        },
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      }
+    );
 
     console.log('Token Response:', response.data);
+    saveTokens(response.data); // <-- Aquí se guardan
 
-    const { access_token, refresh_token, user_id, expires_in } = response.data;
-    const expires_at = Date.now() + expires_in * 1000;
-
-    // Guarda los tokens en un archivo o base de datos
-    saveTokens({ access_token, refresh_token, user_id, expires_at });
-
-    // Redirige al frontend con el token de acceso
-    res.redirect(`${process.env.FRONTEND_URL}`);
-  } catch (err) {
-    console.error('Error al obtener el token:', err.response?.data || err.message);
-    res.status(500).send('Error en la autenticación.');
+    res.redirect('http://localhost:5173/'); // o a donde desees
+  } catch (error) {
+    console.error('Error en callback OAuth:', error.response?.data || error.message);
+    res.status(500).json({ error: 'Error al intercambiar el código por tokens' });
   }
-}
+};
 
 // Función para refrescar el token
 export const refreshToken = async (refreshToken) => {
