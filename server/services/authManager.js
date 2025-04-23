@@ -31,7 +31,7 @@ export const getValidAccessToken = async () => {
     });
 
     const { access_token, refresh_token, expires_in } = response.data;
-    const expires_at = Date.now() + expires_in * 1000;
+    const expires_at = Date.now() + tokenData.expires_in * 1000;
 
     // Guardar los nuevos tokens
     saveTokens({
