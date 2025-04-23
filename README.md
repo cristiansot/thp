@@ -45,12 +45,14 @@ npm run dev
     /thp
     ├── server/
     │   ├── routes/
+    │   │   ├── auth.js 
     │   │   └── products.js       # Endpoint para obtener productos
     │   ├── services/
     │   │   └── authManager.js  
     │   ├── oauth/
     │   │   ├── login.js 
     │   │   ├── tokenStorage.js 
+    │   │   ├── tokens.json
     │   │   └── callback.js 
     │   ├── .env
     │   ├── index.js                # Entry point del servidor
