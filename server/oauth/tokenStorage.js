@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
+// Usamos import.meta.url para obtener la ruta del directorio actual
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const tokensPath = path.join(__dirname, 'tokens.json'); // Asegúrate de que el archivo sea tokens.json
 
 // Función para cargar los tokens desde tokens.json
