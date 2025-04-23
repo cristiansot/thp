@@ -4,19 +4,19 @@ import { getTokens, saveTokens } from '../oauth/tokenStorage.js';
 export const getValidAccessToken = async () => {
   const tokens = getTokens();
 
-  if (!tokens) {
-    console.warn('⚠️ No tokens found. Retornando null.');
+  if (!tokens || !tokens.access_token || !tokens.refresh_token || !tokens.expires_at) {
+    console.warn('⚠️ Tokens incompletos o no encontrados. Retornando null.');
     return null;
   }
-  
-  // Verificar si el token está vencido
+
+  // Verificar si el token está vigente
   const now = Date.now();
   if (now < tokens.expires_at) {
     return tokens.access_token;
   }
 
-  // Si venció, usar el refresh_token
-  console.log('🔄 Access token vencido, refrescando...');
+  // Token expirado, intentar refresh
+  console.log('🔄 Access token vencido, intentando refrescar...');
   try {
     const response = await axios.post('https://api.mercadolibre.com/oauth/token', null, {
       params: {
@@ -33,9 +33,15 @@ export const getValidAccessToken = async () => {
     const { access_token, refresh_token, expires_in } = response.data;
     const expires_at = Date.now() + expires_in * 1000;
 
-    // Guardar nuevos tokens
-    saveTokens({ access_token, refresh_token, user_id: tokens.user_id, expires_at });
+    // Guardar los nuevos tokens
+    saveTokens({
+      access_token,
+      refresh_token: refresh_token || tokens.refresh_token,
+      user_id: tokens.user_id,
+      expires_at,
+    });
 
+    console.log('✅ Token refrescado y guardado correctamente');
     return access_token;
   } catch (err) {
     console.error('❌ Error al refrescar token:', err.response?.data || err.message);

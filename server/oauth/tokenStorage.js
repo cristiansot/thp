@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
-const TOKEN_PATH = path.resolve('tokens.json');
+// Asegúrate de que la ruta sea relativa a donde se ejecuta Node.js (root del proyecto)
+const TOKEN_PATH = path.resolve('./oauth/tokens.json');
 
 export const getTokens = () => {
   try {
@@ -11,14 +12,9 @@ export const getTokens = () => {
     }
 
     const data = fs.readFileSync(TOKEN_PATH, 'utf-8');
-    if (!data) {
-      console.warn('⚠️ El archivo tokens.json está vacío');
-      return null;
-    }
+    if (!data) return null;
 
-    const tokens = JSON.parse(data);
-    console.log('Tokens leídos:', tokens);
-    return tokens;
+    return JSON.parse(data);
   } catch (err) {
     console.error('❌ Error al leer tokens:', err.message);
     return null;
@@ -27,8 +23,14 @@ export const getTokens = () => {
 
 export const saveTokens = (tokens) => {
   try {
-    fs.writeFileSync(TOKEN_PATH, JSON.stringify(tokens, null, 2));
-    console.log('✅ Tokens guardados correctamente:', tokens);
+    // Nos aseguramos que la carpeta `oauth` exista
+    const dirPath = path.dirname(TOKEN_PATH);
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+
+    fs.writeFileSync(TOKEN_PATH, JSON.stringify(tokens, null, 2), 'utf-8');
+    console.log('✅ Tokens guardados correctamente en oauth/tokens.json');
   } catch (err) {
     console.error('❌ Error al guardar tokens:', err.message);
   }
