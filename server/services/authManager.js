@@ -11,8 +11,8 @@ export const getValidAccessToken = async () => {
 
   // Verificar si el token está vigente
   const now = Date.now();
-  if (now < tokens.expires_at) {
-    return tokens.access_token;
+  if (now() >= tokens.expires_at) {
+    await refreshAccessToken(tokens.refresh_token)
   }
 
   // Token expirado, intentar refresh
