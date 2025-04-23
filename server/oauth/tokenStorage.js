@@ -1,36 +1,43 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-// Usamos import.meta.url para obtener la ruta del directorio actual
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
-const tokensPath = path.join(__dirname, 'tokens.json'); // Asegúrate de que el archivo sea tokens.json
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const tokensPath = path.join(__dirname, 'tokens.json');
 
-// Función para cargar los tokens desde tokens.json
-const loadTokens = () => {
+export const getTokens = () => {
   try {
-    if (fs.existsSync(tokensPath)) {
-      const data = fs.readFileSync(tokensPath);
-      const parsedTokens = JSON.parse(data);
-      console.log('🔹 Tokens cargados desde tokens.json:', parsedTokens); // Console log para depurar
-      return parsedTokens;
+    if (!fs.existsSync(tokensPath)) {
+      console.warn('⚠️ tokens.json no existe');
+      return null;
     }
-    console.log('🔹 No se encontraron tokens, retornando null');
-    return null;
+
+    const data = fs.readFileSync(tokensPath, 'utf-8');
+    if (!data.trim()) {
+      console.warn('⚠️ tokens.json está vacío');
+      return null;
+    }
+
+    const tokens = JSON.parse(data);
+    console.log('✅ Tokens cargados:', tokens);
+    return tokens;
   } catch (err) {
-    console.error("❌ Error al cargar los tokens:", err.message);
+    console.error('❌ Error al leer tokens.json:', err.message);
     return null;
   }
 };
 
-// Función para guardar los tokens en tokens.json
-export const saveTokens = (newTokens) => {
+export const saveTokens = (tokens) => {
   try {
-    console.log('🔹 Guardando tokens:', newTokens); // Console log para ver qué tokens se están guardando
-    fs.writeFileSync(tokensPath, JSON.stringify(newTokens, null, 2)); // Guardar los tokens con formato
+    if (!tokens.access_token || !tokens.refresh_token || !tokens.expires_at) {
+      console.error("❌ Tokens inválidos:", tokens);
+      return;
+    }
+
+    fs.writeFileSync(tokensPath, JSON.stringify(tokens, null, 2));
+    console.log('✅ Tokens guardados correctamente');
   } catch (err) {
-    console.error('❌ Error al guardar los tokens:', err.message);
+    console.error('❌ Error al guardar tokens:', err.message);
   }
 };
-
-// Cargar tokens al inicio
-export const getTokens = () => loadTokens();
