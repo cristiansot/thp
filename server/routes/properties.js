@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getValidAccessToken } from '../services/authManager.js';
-import { getTokens } from './tokenStorage.js';
+import { getTokens } from './oauth/tokenStorage.js';
 
 
 // Esta función obtiene los IDs de las propiedades del usuario.

@@ -1,4 +1,3 @@
-// tokenStorage.js
 
 let tokens = {
   access_token: null,
