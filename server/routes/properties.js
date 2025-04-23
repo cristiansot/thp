@@ -20,7 +20,11 @@ export const fetchPropertiesFromML = async () => {
         Authorization: `Bearer ${access_token}`,
       },
     });
-    // Resto del código...
+
+    const ids = data.results;
+    console.log('✅ IDs obtenidos de ML:', ids);
+
+    return ids;
   } catch (error) {
     console.error('Error al obtener las propiedades:', error.response?.data || error.message);
     throw new Error('No se pudieron obtener las propiedades');
