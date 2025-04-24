@@ -34,6 +34,7 @@ app.get('/oauth/check', checkTokens);
 
 app.post('/send-email', (req, res) => {
   const { property } = req.body;
+  console.log('Propiedad recibida:', property); 
   sendEmailNotification(property);
   res.status(200).send('Correo enviado');
 });

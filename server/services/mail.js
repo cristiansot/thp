@@ -1,14 +1,10 @@
-// mail.js (Backend)
-import nodemailer from 'nodemailer';
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-export const sendEmailNotification = (property) => {
+const sendEmailNotification = (property) => {
+  console.log('Propiedad dentro del backend:', property); // Verificar la propiedad en el backend
+  
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: process.env.EMAIL_PORT,
-    secure: true, // true for 465, false for other ports
+    secure: true,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD,

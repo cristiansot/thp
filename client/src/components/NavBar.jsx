@@ -56,9 +56,6 @@ const NavBar = () => {
               <a className="nav-link" href="#">Home</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Propiedades</a>
-            </li>
-            <li className="nav-item">
               <a className="nav-link" href="#">Nosotros</a>
             </li>
             <li className="nav-item">

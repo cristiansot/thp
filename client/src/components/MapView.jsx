@@ -1,9 +1,9 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
-// Configurar los íconos para evitar errores
+// Configurar los íconos de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png',
@@ -11,8 +11,27 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
 });
 
-const MapView = ({ lat = -33.45, lng = -70.6667, zoom = 20, properties = [] }) => {
-  // Lógica para mostrar la cantidad de dormitorios u oficinas
+// Componente para ajustar la vista del mapa según las propiedades
+const FitMapToProperties = ({ properties }) => {
+  const map = useMap();
+
+  React.useEffect(() => {
+    const coords = properties
+      .filter(p => p.latitude && p.longitude)
+      .map(p => [p.latitude, p.longitude]);
+
+    if (coords.length === 1) {
+      map.setView(coords[0], 17);
+    } else if (coords.length > 1) {
+      const bounds = L.latLngBounds(coords);
+      map.fitBounds(bounds, { padding: [20, 20], maxZoom: 16 });
+    }
+  }, [map, properties]);
+
+  return null;
+};
+
+const MapView = ({ properties = [] }) => {
   const renderBedroomsOrOffices = (bedrooms, offices) => {
     if (bedrooms && bedrooms > 0) {
       return `${bedrooms} ${bedrooms === 1 ? 'Dormitorio' : 'Dormitorios'}`;
@@ -22,7 +41,6 @@ const MapView = ({ lat = -33.45, lng = -70.6667, zoom = 20, properties = [] }) =
     return 'Sin información de dormitorios';
   };
 
-  // Formatea el precio con puntos de miles y prefijo UF o CLP
   const formatPrice = (value) => {
     if (!value) return '';
     const numericPrice = parseInt(value.toString().replace(/\D/g, ''), 10);
@@ -32,13 +50,20 @@ const MapView = ({ lat = -33.45, lng = -70.6667, zoom = 20, properties = [] }) =
   };
 
   return (
-    <MapContainer center={[lat, lng]} zoom={zoom} style={{ height: '800px', width: '100%' }}>
+    <MapContainer
+      center={[-33.45, -70.6667]} // centro inicial de Santiago
+      zoom={13}
+      style={{ height: '800px', width: '100%' }}
+      scrollWheelZoom={true}
+    >
       <TileLayer
         attribution='&copy; <a href="https://carto.com/">Carto</a>'
         url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
       />
 
-      {properties.map((prop) => (
+      <FitMapToProperties properties={properties} />
+
+      {properties.map((prop) =>
         prop.latitude && prop.longitude && (
           <Marker key={prop.id} position={[prop.latitude, prop.longitude]}>
             <Popup>
@@ -83,7 +108,7 @@ const MapView = ({ lat = -33.45, lng = -70.6667, zoom = 20, properties = [] }) =
             </Popup>
           </Marker>
         )
-      ))}
+      )}
     </MapContainer>
   );
 };

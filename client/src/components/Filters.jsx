@@ -1,35 +1,88 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import '../assets/css/filters.css';
 
-const Filters = ({ properties, setFilteredProperties }) => {
+const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => {
   const [selectedType, setSelectedType] = useState('all');
+  const [selectedOperation, setSelectedOperation] = useState('all');
 
-  const handleFilterChange = (e) => {
-    const selected = e.target.value;
-    setSelectedType(selected);
-
-    const filtered = properties.filter((property) => {
-      const op = property.operation?.toUpperCase() || '';
-      if (selected === 'all') return true;
-      if (selected === 'apartment') return op.includes('APARTMENTS');
-      if (selected === 'house') return op.includes('HOUSES');
-      if (selected === 'office') return op.includes('OFFICES');
-      if (selected === 'land') return op.includes('FARMS');
-      return false;
-    });
-
-    setFilteredProperties(filtered);
+  const mapDomainToType = (domainId) => {
+    if (!domainId) return 'other';
+    if (domainId.includes('APARTMENTS')) return 'apartment';
+    if (domainId.includes('HOUSES')) return 'house';
+    if (domainId.includes('OFFICES')) return 'office';
+    if (domainId.includes('FARMS')) return 'land';
+    return 'other';
   };
 
+  const mapOperation = (operation) => {
+    if (operation.toLowerCase() === 'venta') return 'venta';
+    if (operation.toLowerCase() === 'arriendo') return 'arriendo';
+    return operation;
+  };
+
+  useEffect(() => {
+    let filtered = properties;
+
+    if (selectedType !== 'all') {
+      filtered = filtered.filter((property) => mapDomainToType(property.domain_id) === selectedType);
+    }
+
+    if (selectedOperation !== 'all') {
+      filtered = filtered.filter((property) => mapOperation(property.operation) === selectedOperation);
+    }
+
+    setFilteredProperties(filtered);
+  }, [selectedType, selectedOperation, properties, setFilteredProperties]);
+
   return (
-    <div>
-      <label htmlFor="type-filter">Filtrar por tipo:</label>
-      <select id="type-filter" value={selectedType} onChange={handleFilterChange}>
-        <option value="all">Todas</option>
-        <option value="house">Casas</option>
-        <option value="apartment">Departamentos</option>
-        <option value="office">Oficinas</option>
-        <option value="land">Parcelas</option>
-      </select>
+    <div className='container-filters'> 
+      <div className="container my-3">
+        <div className="row g-3 align-items-center">
+          {/* Tipo de propiedad */}
+          <div className="col-md-4 d-flex align-items-center">
+            <label htmlFor="property-type-filter" className="me-2 mb-0 title">Tipo de propiedad:</label>
+            <select
+              id="property-type-filter"
+              className="form-select"
+              style={{ maxWidth: '200px' }}
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+            >
+              <option value="all">Todas</option>
+              <option value="house">Casas</option>
+              <option value="apartment">Departamentos</option>
+              <option value="office">Oficinas</option>
+              <option value="land">Parcelas</option>
+            </select>
+          </div>
+
+          {/* Tipo de operación */}
+          <div className="col-md-4 d-flex align-items-center">
+            <label htmlFor="operation-filter" className="me-2 mb-0 title">Tipo de operación:</label>
+            <select
+              id="operation-filter"
+              className="form-select"
+              style={{ maxWidth: '200px' }}
+              value={selectedOperation}
+              onChange={(e) => setSelectedOperation(e.target.value)}
+            >
+              <option value="all">Todas</option>
+              <option value="venta">Venta</option>
+              <option value="arriendo">Arriendo</option>
+            </select>
+          </div>
+
+          {/* Botón para alternar mapa/propiedades */}
+          <div className="col-md-4 d-flex justify-content-center align-items-center">
+            <button
+              className="col-md-6 btn btn-primary"
+              onClick={() => setShowMap(!showMap)}
+            >
+              {showMap ? 'Ver propiedades' : 'Ver mapa'}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

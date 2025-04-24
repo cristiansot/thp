@@ -48,6 +48,7 @@ npm run dev
     │   │   ├── auth.js 
     │   │   └── products.js       # Endpoint para obtener productos
     │   ├── services/
+    │   │   ├── mail.js 
     │   │   └── authManager.js  
     │   ├── oauth/
     │   │   ├── login.js 

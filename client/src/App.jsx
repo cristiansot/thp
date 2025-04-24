@@ -6,12 +6,14 @@ import Carousel from './components/Carousel';
 import NavBar from './components/Navbar';
 import MapView from './components/MapView';
 import Filters from './components/Filters';
+import Mail from './components/Mail';
 
 function App() {
   const [properties, setProperties] = useState([]);
   const [filteredProperties, setFilteredProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showMap, setShowMap] = useState(false); // Estado para alternar vista
 
   const fetchDetailedProperties = async () => {
     try {
@@ -19,6 +21,7 @@ function App() {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/properties/detailed`);
       setProperties(response.data);
       setFilteredProperties(response.data);
+      console.log("Propiedades obtenidas:", response.data);
     } catch (error) {
       console.error('Error fetching properties:', error.response?.data || error.message);
       setError('Error al obtener las propiedades. Por favor, inténtalo de nuevo más tarde.');
@@ -36,17 +39,18 @@ function App() {
       <div>
         <NavBar />
         <Carousel />
-        <Filters properties={properties} setFilteredProperties={setFilteredProperties} />
-        {loading ? (
-          <p>Cargando propiedades...</p>
-        ) : error ? (
-          <p className="error">{error}</p>
-        ) : (
-          <>
-            <ContainerCard properties={filteredProperties} loading={loading} error={error} />
-            <MapView properties={filteredProperties} zoom={13} />
-          </>
-        )}
+        <Mail property={filteredProperties} />
+        <Filters
+          properties={properties}
+          setFilteredProperties={setFilteredProperties}
+          showMap={showMap}
+          setShowMap={setShowMap}
+        />
+        {
+          showMap
+            ? <MapView properties={filteredProperties} zoom={13} />
+            : <ContainerCard properties={filteredProperties} loading={loading} error={error} />
+        }
       </div>
     </Router>
   );
