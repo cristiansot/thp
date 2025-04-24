@@ -13,7 +13,7 @@ function App() {
   const [filteredProperties, setFilteredProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showMap, setShowMap] = useState(false); // Estado para alternar vista
+  const [showMap, setShowMap] = useState(false);
 
   const fetchDetailedProperties = async () => {
     try {
@@ -39,7 +39,7 @@ function App() {
       <div>
         <NavBar />
         <Carousel />
-        <Mail property={filteredProperties} />
+        <Mail property={filteredProperties} />        
         <Filters
           properties={properties}
           setFilteredProperties={setFilteredProperties}

@@ -33,9 +33,15 @@ app.get('/oauth/callback', callback);
 app.get('/oauth/check', checkTokens);
 
 app.post('/send-email', (req, res) => {
-  const { property } = req.body;
-  console.log('Propiedad recibida en el backend:', property); // Verifica si la propiedad es correcta
+  console.log('Datos recibidos:', req.body.property); // Esto debería mostrar la propiedad que estás enviando
+  const property = req.body.property;
+
+  if (!property) {
+    return res.status(400).send('No se recibió la propiedad');
+  }
+
   sendEmailNotification(property);
+
   res.status(200).send('Correo enviado');
 });
 
