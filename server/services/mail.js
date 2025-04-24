@@ -1,10 +1,13 @@
+// mail.js
+
+import nodemailer from 'nodemailer';
+require('dotenv').config();
+
 const sendEmailNotification = (property) => {
-  console.log('Propiedad dentro del backend:', property); // Verificar la propiedad en el backend
-  
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: process.env.EMAIL_PORT,
-    secure: true,
+    secure: true, // true for 465, false for other ports
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD,
@@ -26,3 +29,6 @@ const sendEmailNotification = (property) => {
     }
   });
 };
+
+// Exportación por defecto
+export default sendEmailNotification;
