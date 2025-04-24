@@ -80,6 +80,7 @@ export const detailProperties = async () => {
         latitude: data.geolocation?.latitude || null, 
         longitude: data.geolocation?.longitude || null,
         operation: extractAttr('OPERATION'),
+        domain_id: data.domain_id,
       };
 
       console.log(`Detalles de la propiedad activa ${id}:`, property);

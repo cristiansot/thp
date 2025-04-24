@@ -3,41 +3,27 @@ import React, { useState } from 'react';
 const Filters = ({ properties, setFilteredProperties }) => {
   const [selectedType, setSelectedType] = useState('all');
 
-  const handleFilterChange = (event) => {
-    const selected = event.target.value;
+  const handleFilterChange = (e) => {
+    const selected = e.target.value;
     setSelectedType(selected);
 
-    if (selected === 'all') {
-      setFilteredProperties(properties);
-    } else {
-      const filtered = properties.filter((property) => {
-        const domain = property.domain_id?.toUpperCase() || '';
-        switch (selected) {
-          case 'apartment':
-            return domain.includes('APARTMENTS');
-          case 'house':
-            return domain.includes('HOUSES');
-          case 'office':
-            return domain.includes('OFFICES');
-          case 'land':
-            return domain.includes('FARMS');
-          default:
-            return true;
-        }
-      });
-      setFilteredProperties(filtered);
-    }
+    const filtered = properties.filter((property) => {
+      const op = property.operation?.toUpperCase() || '';
+      if (selected === 'all') return true;
+      if (selected === 'apartment') return op.includes('APARTMENTS');
+      if (selected === 'house') return op.includes('HOUSES');
+      if (selected === 'office') return op.includes('OFFICES');
+      if (selected === 'land') return op.includes('FARMS');
+      return false;
+    });
+
+    setFilteredProperties(filtered);
   };
 
   return (
-    <div style={{ margin: '1rem' }}>
-      <label htmlFor="type-filter">Filtrar por tipo de propiedad:</label>
-      <select
-        id="type-filter"
-        value={selectedType}
-        onChange={handleFilterChange}
-        style={{ marginLeft: '0.5rem', padding: '0.3rem' }}
-      >
+    <div>
+      <label htmlFor="type-filter">Filtrar por tipo:</label>
+      <select id="type-filter" value={selectedType} onChange={handleFilterChange}>
         <option value="all">Todas</option>
         <option value="house">Casas</option>
         <option value="apartment">Departamentos</option>
