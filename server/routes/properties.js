@@ -79,6 +79,7 @@ export const detailProperties = async () => {
         total_area: extractAttr('TOTAL_AREA'),
         latitude: data.geolocation?.latitude || null, 
         longitude: data.geolocation?.longitude || null,
+        operation: extractAttr('OPERATION'),
       };
 
       console.log(`Detalles de la propiedad activa ${id}:`, property);
