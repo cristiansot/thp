@@ -6,10 +6,11 @@ import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
 import { fetchPropertiesFromML, getDetailedProperties } from './routes/properties.js';
 import { checkTokens } from './routes/auth.js';
+import { sendEmailNotification } from './services/mail.js';
 
 dotenv.config();
 const app = express();
-const { sendEmailNotification } = require('./services/mail.js'); 
+// const { sendEmailNotification } = require('./services/mail.js'); 
 
 // Middlewares
 app.use(helmet());
