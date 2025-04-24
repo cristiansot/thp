@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 require('dotenv').config();
 
-const sendEmailNotification = (property) => {
+export const sendEmailNotification = (property) => {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: process.env.EMAIL_PORT,
@@ -27,6 +27,3 @@ const sendEmailNotification = (property) => {
     }
   });
 };
-
-// Exportación por defecto
-export default sendEmailNotification;
