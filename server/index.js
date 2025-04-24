@@ -9,7 +9,7 @@ import { checkTokens } from './routes/auth.js';
 
 dotenv.config();
 const app = express();
-const { sendEmailNotification } = require('./mail'); 
+const { sendEmailNotification } = require('./services/mail.js'); 
 
 // Middlewares
 app.use(helmet());
