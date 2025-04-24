@@ -1,3 +1,4 @@
+// App.jsx
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
@@ -39,7 +40,9 @@ function App() {
       <div>
         <NavBar />
         <Carousel />
-        <Mail property={filteredProperties} />        
+        {filteredProperties.map((property) => (
+          <Mail key={property.id} property={property} />
+        ))}
         <Filters
           properties={properties}
           setFilteredProperties={setFilteredProperties}
