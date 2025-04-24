@@ -1,5 +1,3 @@
-// mail.js
-
 import nodemailer from 'nodemailer';
 require('dotenv').config();
 
