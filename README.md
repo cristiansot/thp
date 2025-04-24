@@ -44,6 +44,7 @@ npm run dev
 ```bash
     /thp
     ├── server/
+    │   ├── data/
     │   ├── routes/
     │   │   ├── auth.js 
     │   │   └── products.js       # Endpoint para obtener productos
