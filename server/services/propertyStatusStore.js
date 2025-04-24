@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const filePath = path.join(process.cwd(), 'server/data/propertyStatus.json');
+const filePath = path.join(process.cwd(), './data/propertyStatus.json');
 
 const ensurePropertyStatusFile = () => {
   if (!fs.existsSync(filePath)) {
