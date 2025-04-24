@@ -4,8 +4,17 @@ import path from 'path';
 // Ruta del archivo
 const filePath = path.join(process.cwd(), './data/propertyStatus.json');
 
-// Asegura que el archivo y directorio existan
+// Asegura que el directorio y el archivo existan
 const ensurePropertyStatusFile = () => {
+  const dirPath = path.dirname(filePath);
+
+  // Crear el directorio si no existe
+  if (!fs.existsSync(dirPath)) {
+    console.log('📁 Directorio de datos no existe. Creando directorio...');
+    fs.mkdirSync(dirPath, { recursive: true });
+  }
+
+  // Crear el archivo si no existe
   if (!fs.existsSync(filePath)) {
     console.log('📁 Archivo propertyStatus.json no existe. Creando archivo vacío...');
     fs.writeFileSync(filePath, JSON.stringify({}), 'utf-8');
@@ -14,7 +23,7 @@ const ensurePropertyStatusFile = () => {
 
 export const readPropertyStatus = () => {
   try {
-    ensurePropertyStatusFile(); // Verificamos que el archivo exista y sea válido
+    ensurePropertyStatusFile(); // Aseguramos que el archivo y directorio existan
     const data = fs.readFileSync(filePath, 'utf-8');
 
     // Si el archivo está vacío, inicializamos con objeto vacío
@@ -42,7 +51,7 @@ export const readPropertyStatus = () => {
 
 export const writePropertyStatus = (statusData) => {
   try {
-    ensurePropertyStatusFile(); // Verificamos nuevamente que el archivo exista
+    ensurePropertyStatusFile(); // Verificamos que el archivo y directorio existan
     fs.writeFileSync(filePath, JSON.stringify(statusData, null, 2), 'utf-8');
     console.log('✅ Estado actualizado correctamente en el archivo.');
   } catch (error) {
