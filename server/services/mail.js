@@ -3,10 +3,15 @@ import dotenv from 'dotenv'; // Usar import en lugar de require
 dotenv.config(); // Cargar las variables de entorno
 
 const sendEmailNotification = (property) => {
+  if (!property || !property.title || !property.status) {
+    console.log('Faltan datos en la propiedad:', property);
+    return;
+  }
+
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: process.env.EMAIL_PORT,
-    secure: true, // true for 465, false for other ports
+    secure: true,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD,
@@ -28,5 +33,6 @@ const sendEmailNotification = (property) => {
     }
   });
 };
+
 
 export { sendEmailNotification };
