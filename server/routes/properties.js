@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getValidAccessToken } from '../services/authManager.js';
 import { getTokens } from '../oauth/tokenStorage.js';
-
+import { sendEmailNotification } from '../services/mail.js'; // Asegúrate que la ruta sea correcta
 
 // Esta función obtiene los IDs de las propiedades del usuario.
 export const fetchPropertiesFromML = async () => {
@@ -46,21 +46,16 @@ export const detailProperties = async () => {
   for (const id of ids) {
     const url = `https://api.mercadolibre.com/items/${id}`;
     console.log('Consultando detalles para:', url);
-
+  
     try {
       const { data } = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
-      if (data.status !== 'active') {
-        console.log(`Propiedad ${id} ignorada por no estar activa (estado: ${data.status})`);
-        continue;
-      }
-
+  
       const { title, price, pictures, attributes, permalink, video_id } = data;
-
+  
       const extractAttr = (attrId) =>
         attributes.find((attr) => attr.id === attrId)?.value_name || null;
 
@@ -81,6 +76,7 @@ export const detailProperties = async () => {
         longitude: data.geolocation?.longitude || null,
         operation: extractAttr('OPERATION'),
         domain_id: data.domain_id,
+        status: data.status,
       };
 
       console.log(`Detalles de la propiedad activa ${id}:`, property);
