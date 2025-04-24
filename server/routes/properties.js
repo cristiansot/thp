@@ -36,25 +36,28 @@ export const fetchPropertiesFromML = async () => {
 // Esta función obtiene los detalles de cada propiedad usando los IDs
 export const detailProperties = async () => {
   const accessToken = await getValidAccessToken();
-  if (!accessToken) throw new Error('No hay tokens disponibles. Realiza el login.');
-
-  const ids = await fetchPropertiesFromML();
-  if (!ids || ids.length === 0) {
-    console.log('⚠️ No se encontraron propiedades para el usuario.');
-    return [];
+  if (!accessToken) {
+    throw new Error('No hay tokens disponibles. Realiza el login.');
   }
 
-  const previousStatuses = loadPreviousStatuses();
+  const ids = await fetchPropertiesFromML();
   const properties = [];
 
   for (const id of ids) {
     const url = `https://api.mercadolibre.com/items/${id}`;
+
     try {
       const { data } = await axios.get(url, {
-        headers: { Authorization: `Bearer ${accessToken}` },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
 
+      // ❗ Solo agregar si está activa
+      if (data.status !== 'active') continue;
+
       const { title, price, pictures, attributes, permalink, video_id } = data;
+
       const extractAttr = (attrId) =>
         attributes.find((attr) => attr.id === attrId)?.value_name || null;
 
@@ -77,21 +80,11 @@ export const detailProperties = async () => {
         domain_id: data.domain_id,
       };
 
-      // Comparar estado actual vs anterior
-      const prevStatus = previousStatuses[id];
-      if (prevStatus && prevStatus !== property.status) {
-        console.log(`🔔 Cambio de estado detectado para ${id}: ${prevStatus} → ${property.status}`);
-        sendEmailNotification(property);
-      }
-
       properties.push(property);
     } catch (error) {
       console.error(`Error al obtener detalles de la propiedad ${id}:`, error.response?.data || error.message);
     }
   }
-
-  // Guardar los nuevos estados
-  saveCurrentStatuses(properties);
 
   return properties;
 };
