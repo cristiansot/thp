@@ -1,6 +1,6 @@
 // /services/propertyStatusStore.js
 import fs from 'fs';
-const FILE_PATH = './data/propertyStatus.json';
+const FILE_PATH = './service/propertyStatus.json';
 
 export const loadPreviousStatuses = () => {
   try {
