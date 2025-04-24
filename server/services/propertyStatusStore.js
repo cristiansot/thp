@@ -11,15 +11,31 @@ const ensurePropertyStatusFile = () => {
 };
 
 export const readPropertyStatus = () => {
-  try {
-    ensurePropertyStatusFile(); // <-- Asegura que el archivo exista
-    const data = fs.readFileSync(filePath, 'utf-8');
-    return JSON.parse(data);
-  } catch (error) {
-    console.error('❌ Error al leer archivo de estados:', error);
-    return {};
-  }
-};
+    try {
+      ensurePropertyStatusFile();
+      const data = fs.readFileSync(filePath, 'utf-8');
+  
+      // Manejar archivo vacío
+      if (!data || data.trim() === '') {
+        console.warn('⚠️ Archivo vacío, inicializando como objeto vacío.');
+        writePropertyStatus({});
+        return {};
+      }
+  
+      return JSON.parse(data);
+    } catch (error) {
+      console.error('❌ Error al leer archivo de estados:', error.message);
+      
+      // Si hay un error de parseo, lo sobrescribimos
+      if (error instanceof SyntaxError) {
+        console.warn('⚠️ JSON inválido, sobrescribiendo archivo con objeto vacío.');
+        writePropertyStatus({});
+        return {};
+      }
+  
+      return {};
+    }
+  };
 
 export const writePropertyStatus = (statusData) => {
   try {
