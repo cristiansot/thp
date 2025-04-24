@@ -7,7 +7,6 @@ import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
 import { fetchPropertiesFromML, getDetailedProperties } from './routes/properties.js';
 import { checkTokens } from './routes/auth.js';
-import { sendEmailNotification } from './services/mail.js'; 
 
 dotenv.config();
 const app = express();
@@ -31,19 +30,6 @@ app.get('/api/properties/detailed', getDetailedProperties);
 app.get('/oauth/login', login);
 app.get('/oauth/callback', callback);
 app.get('/oauth/check', checkTokens);
-
-app.post('/send-email', (req, res) => {
-  console.log('Datos recibidos:', req.body.property); // Esto debería mostrar la propiedad que estás enviando
-  const property = req.body.property;
-
-  if (!property) {
-    return res.status(400).send('No se recibió la propiedad');
-  }
-
-  sendEmailNotification(property);
-
-  res.status(200).send('Correo enviado');
-});
 
 // Error handler
 app.use((err, req, res, next) => {

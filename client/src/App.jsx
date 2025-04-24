@@ -7,7 +7,6 @@ import Carousel from './components/Carousel';
 import NavBar from './components/Navbar';
 import MapView from './components/MapView';
 import Filters from './components/Filters';
-import Mail from './components/Mail';
 
 function App() {
   const [properties, setProperties] = useState([]);
@@ -40,9 +39,6 @@ function App() {
       <div>
         <NavBar />
         <Carousel />
-        {filteredProperties.map((property) => (
-          <Mail key={property.id} property={property} />
-        ))}
         <Filters
           properties={properties}
           setFilteredProperties={setFilteredProperties}
