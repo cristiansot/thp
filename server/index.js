@@ -1,3 +1,4 @@
+// index.js
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -6,11 +7,10 @@ import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
 import { fetchPropertiesFromML, getDetailedProperties } from './routes/properties.js';
 import { checkTokens } from './routes/auth.js';
-import { sendEmailNotification } from './services/mail.js';
+import { sendEmailNotification } from './services/mail.js'; 
 
 dotenv.config();
 const app = express();
-// const { sendEmailNotification } = require('./services/mail.js'); 
 
 // Middlewares
 app.use(helmet());
@@ -37,7 +37,6 @@ app.post('/send-email', (req, res) => {
   sendEmailNotification(property);
   res.status(200).send('Correo enviado');
 });
-
 
 // Error handler
 app.use((err, req, res, next) => {

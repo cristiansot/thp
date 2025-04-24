@@ -1,8 +1,10 @@
 // mail.js (Backend)
-const nodemailer = require('nodemailer');
-require('dotenv').config();
+import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
 
-const sendEmailNotification = (property) => {
+dotenv.config();
+
+export const sendEmailNotification = (property) => {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: process.env.EMAIL_PORT,
@@ -28,5 +30,3 @@ const sendEmailNotification = (property) => {
     }
   });
 };
-
-module.exports = { sendEmailNotification };
