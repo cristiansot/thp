@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
-
 import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
 import { fetchPropertiesFromML, getDetailedProperties } from './routes/properties.js';
@@ -10,6 +9,7 @@ import { checkTokens } from './routes/auth.js';
 
 dotenv.config();
 const app = express();
+const { sendEmailNotification } = require('./mail'); 
 
 // Middlewares
 app.use(helmet());
@@ -30,6 +30,13 @@ app.get('/api/properties/detailed', getDetailedProperties);
 app.get('/oauth/login', login);
 app.get('/oauth/callback', callback);
 app.get('/oauth/check', checkTokens);
+
+app.post('/send-email', (req, res) => {
+  const { property } = req.body;
+  sendEmailNotification(property);
+  res.status(200).send('Correo enviado');
+});
+
 
 // Error handler
 app.use((err, req, res, next) => {
