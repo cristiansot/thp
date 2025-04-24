@@ -25,25 +25,26 @@ export const readPropertyStatus = () => {
     ensurePropertyStatusFile();  // Asegura que el archivo y directorio existan
     const data = fs.readFileSync(filePath, 'utf-8');
 
-    // Si el archivo está vacío o tiene datos no válidos, lo inicializamos como un objeto vacío
+    // Si el archivo está vacío, lo inicializamos como un objeto vacío
     if (!data || data.trim() === '') {
-      console.warn('⚠️ Archivo vacío, inicializando como objeto vacío.');
+      console.warn('⚠️ El archivo está vacío, inicializando como objeto vacío.');
       writePropertyStatus({});
       return {};
     }
 
-    return JSON.parse(data);
+    // Si los datos no son válidos JSON, lo sobrescribimos con un objeto vacío
+    try {
+      return JSON.parse(data);
+    } catch (jsonError) {
+      console.warn('⚠️ JSON inválido en el archivo, sobrescribiendo archivo con objeto vacío.');
+      writePropertyStatus({});
+      return {};
+    }
   } catch (error) {
     console.error('❌ Error al leer archivo de estados:', error.message);
 
-    // Si hay un error de parseo, sobrescribimos el archivo con un objeto vacío
-    if (error instanceof SyntaxError) {
-      console.warn('⚠️ JSON inválido, sobrescribiendo archivo con objeto vacío.');
-      writePropertyStatus({});
-      return {};
-    }
-
-    return {};  // Retornar objeto vacío si ocurre un error
+    // Si hay algún error de lectura o de archivo, retornamos un objeto vacío
+    return {};
   }
 };
 
