@@ -1,45 +1,68 @@
 import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
 import { getValidAccessToken } from '../services/authManager.js';
 import { getTokens } from '../oauth/tokenStorage.js';
 import { sendEmailNotification } from '../services/mail.js';
-import { loadPreviousStatuses, saveCurrentStatuses } from '../services/propertyStatusStore.js';
- // Asegúrate que la ruta sea correcta
 
-// Esta función obtiene los IDs de las propiedades del usuario.
-export const fetchPropertiesFromML = async () => {
-  const { access_token } = getTokens(); // Obtener el access_token guardado en memoria
+const STATUS_FILE_PATH = path.resolve('./data/propertyStatus.json');
 
-  if (!access_token) {
-    throw new Error('No se encontró un token de acceso válido');
+// 🚨 Compara estado actual con el anterior y envía notificación si cambió
+const detectStatusChanges = async (currentProperties) => {
+  let previousStatus = {};
+
+  // Leer archivo (o crear si no existe)
+  try {
+    if (fs.existsSync(STATUS_FILE_PATH)) {
+      const raw = fs.readFileSync(STATUS_FILE_PATH, 'utf-8');
+      previousStatus = JSON.parse(raw);
+    } else {
+      fs.writeFileSync(STATUS_FILE_PATH, '{}');
+    }
+  } catch (err) {
+    console.error('Error al leer/crear archivo de estados:', err.message);
+    return;
   }
+
+  for (const property of currentProperties) {
+    const prev = previousStatus[property.id];
+    if (prev && prev !== property.status) {
+      console.log(`🔔 Estado cambiado para ${property.title}: ${prev} → ${property.status}`);
+      sendEmailNotification(property);
+    }
+    previousStatus[property.id] = property.status; // actualizar el estado
+  }
+
+  // Guardar estado actualizado
+  try {
+    fs.writeFileSync(STATUS_FILE_PATH, JSON.stringify(previousStatus, null, 2));
+  } catch (err) {
+    console.error('Error al escribir archivo de estados:', err.message);
+  }
+};
+
+// 🔍 Obtener IDs de propiedades del vendedor
+export const fetchPropertiesFromML = async () => {
+  const { access_token } = getTokens();
+  if (!access_token) throw new Error('No se encontró un token de acceso válido');
 
   const user_id = process.env.USER_ID;
   const url = `https://api.mercadolibre.com/users/${user_id}/items/search`;
 
   try {
     const { data } = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
+      headers: { Authorization: `Bearer ${access_token}` },
     });
-
-    const ids = data.results;
-    console.log('✅ IDs obtenidos de ML:', ids);
-
-    return ids;
+    return data.results;
   } catch (error) {
     console.error('Error al obtener las propiedades:', error.response?.data || error.message);
     throw new Error('No se pudieron obtener las propiedades');
   }
 };
 
-// Esta función obtiene los detalles de cada propiedad usando los IDs
+// 🧠 Obtener detalles de propiedades sin filtrar
 export const detailProperties = async () => {
   const accessToken = await getValidAccessToken();
-  if (!accessToken) {
-    throw new Error('No hay tokens disponibles. Realiza el login.');
-  }
-
   const ids = await fetchPropertiesFromML();
   const properties = [];
 
@@ -48,20 +71,15 @@ export const detailProperties = async () => {
 
     try {
       const { data } = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+        headers: { Authorization: `Bearer ${accessToken}` },
       });
-
-      // ❗ Solo agregar si está activa
-      if (data.status !== 'active') continue;
 
       const { title, price, pictures, attributes, permalink, video_id } = data;
 
       const extractAttr = (attrId) =>
         attributes.find((attr) => attr.id === attrId)?.value_name || null;
 
-      const property = {
+      properties.push({
         id,
         title,
         price,
@@ -78,22 +96,27 @@ export const detailProperties = async () => {
         longitude: data.geolocation?.longitude || null,
         operation: extractAttr('OPERATION'),
         domain_id: data.domain_id,
-      };
-
-      properties.push(property);
+      });
     } catch (error) {
-      console.error(`Error al obtener detalles de la propiedad ${id}:`, error.response?.data || error.message);
+      console.error(`Error al obtener detalles de ${id}:`, error.response?.data || error.message);
     }
   }
 
   return properties;
 };
 
-// Endpoint para obtener las propiedades detalladas
+// 📦 Endpoint que retorna solo propiedades activas
 export const getDetailedProperties = async (req, res) => {
   try {
-    const detailed = await detailProperties();
-    res.status(200).json(detailed);
+    const allProperties = await detailProperties();
+
+    // Detectar cambios de estado y notificar
+    await detectStatusChanges(allProperties);
+
+    // Enviar solo propiedades activas al frontend
+    const activeProperties = allProperties.filter((p) => p.status === 'active');
+
+    res.status(200).json(activeProperties);
   } catch (error) {
     console.error('Error al obtener propiedades detalladas:', error.message);
     res.status(500).json({
