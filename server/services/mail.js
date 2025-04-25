@@ -5,8 +5,15 @@ dotenv.config(); // Cargar las variables de entorno
 const sendEmailNotification = (property) => {
   console.log('Propiedad recibida en backend:', property); // Verificar que el backend recibe la propiedad correctamente
 
+  // Verificar que la propiedad tenga los datos necesarios
   if (!property || !property.title || !property.status) {
     console.log('Faltan datos en la propiedad:', property);
+    return;
+  }
+
+  // Enviar correo solo si el estado es distinto de "active"
+  if (property.status === 'active') {
+    console.log(`El estado de la propiedad es "${property.status}". No se enviará el correo.`);
     return;
   }
 
