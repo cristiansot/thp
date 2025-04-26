@@ -11,7 +11,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
 });
 
-// Componente para ajustar la vista del mapa según las propiedades
 const FitMapToProperties = ({ properties }) => {
   const map = useMap();
 
@@ -51,7 +50,7 @@ const MapView = ({ properties = [] }) => {
 
   return (
     <MapContainer
-      center={[-33.45, -70.6667]} // centro inicial de Santiago
+      center={[-33.45, -70.6667]}
       zoom={13}
       style={{ height: '800px', width: '100%' }}
       scrollWheelZoom={true}
@@ -65,8 +64,32 @@ const MapView = ({ properties = [] }) => {
 
       {properties.map((prop) =>
         prop.latitude && prop.longitude && (
-          <Marker key={prop.id} position={[prop.latitude, prop.longitude]}>
-            <Popup>
+          <Marker 
+            key={prop.id} 
+            position={[prop.latitude, prop.longitude]}
+            eventHandlers={{
+              click: (e) => {
+                const map = e.target._map;
+                const marker = e.target;
+                const popup = marker.getPopup();
+                
+                // Abre el popup si no está abierto
+                if (!popup.isOpen()) {
+                  marker.openPopup();
+                }
+                
+                // Ajusta la vista para mostrar completamente el popup
+                const popupLatLng = marker.getLatLng();
+                const popupHeight = popup.getElement().offsetHeight;
+                const offset = map.project(popupLatLng, map.getZoom())
+                  .subtract(map.project(map.getCenter(), map.getZoom()))
+                  .add([0, -popupHeight/2]);
+                
+                map.panBy(offset, { animate: true, duration: 0.5 });
+              }
+            }}
+          >
+            <Popup className="custom-popup">
               <a
                 href={prop.permalink}
                 target="_blank"
@@ -80,7 +103,7 @@ const MapView = ({ properties = [] }) => {
                       alt={prop.title}
                       style={{
                         width: '100%',
-                        height: '100%',
+                        height: '150px',
                         objectFit: 'cover',
                         borderRadius: '5px'
                       }}

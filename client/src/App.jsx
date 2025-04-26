@@ -7,6 +7,7 @@ import Carousel from './components/Carousel';
 import NavBar from './components/Navbar';
 import MapView from './components/MapView';
 import Filters from './components/Filters';
+import Whatsapp from './components/Whatsapp'
 
 function App() {
   const [properties, setProperties] = useState([]);
@@ -39,6 +40,7 @@ function App() {
       <div>
         <NavBar />
         <Carousel />
+        <Whatsapp />
         <Filters
           properties={properties}
           setFilteredProperties={setFilteredProperties}
