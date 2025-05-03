@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import sendMail from '../services/mail.js';
+
 const router = express.Router();
-const sendMail = require('../services/mail');
 
 router.post('/', async (req, res) => {
   const { nombre, correo, asunto } = req.body;
@@ -19,4 +20,4 @@ router.post('/', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

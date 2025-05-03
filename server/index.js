@@ -9,7 +9,7 @@ import { fetchPropertiesFromML, getDetailedProperties } from './routes/propertie
 import { checkTokens } from './routes/auth.js';
 import cron from 'node-cron';
 import { checkPriceDrop } from './scraping/priceChecker.js';
-const contactRoutes = require('./routes/contact');
+import contactRoutes from './routes/contact.js'; 
 
 dotenv.config();
 const app = express();
