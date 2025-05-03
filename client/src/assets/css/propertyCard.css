@@ -56,11 +56,16 @@
 }
 
 @media (max-width: 768px) {
-  /* .card {
-    border-radius: 0 ;
+ 
+  .card {
+    width: 100vw; 
+    margin: 0;   
+    border-radius: 0;
+    border-color: transparent;
+    border: none; 
   }
 
   .card img {
     border-radius: 0;
-  } */
+  }
 }

@@ -74,7 +74,7 @@ const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => 
 
           {/* Botón para alternar mapa/propiedades */}
           <div className="col-md-4 d-flex justify-content-center align-items-center">
-            <button
+            <button 
               className="col-md-6 btn btn-primary"
               onClick={() => setShowMap(!showMap)}
             >

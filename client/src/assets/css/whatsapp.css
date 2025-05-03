@@ -7,7 +7,7 @@
     width: 200px;
     height: 200px;
     cursor: pointer;
-    z-index: 99;
+    z-index: 99 !important;
     -webkit-backface-visibility: hidden;
     -webkit-transform: translateZ(0);
     -webkit-transition: visibility 0.5s;
@@ -19,7 +19,7 @@
   #kmacb {
     position: fixed;
     display: none;
-    background-color: transparent;
+    background-color: transparent;  
     width: 160px;
     height: 160px;
     z-index: 200000 !important;
@@ -142,23 +142,23 @@
     animation: cbh-circle-anim 2.2s infinite ease-in-out !important;
   }
   .cbh-phone.cbh-hover .cbh-ph-circle {
-    border-color: rgba(0, 175, 242, 1);
+    border-color: #42ea60;
     opacity: 0.5;
   }
   .cbh-phone.cbh-green.cbh-hover .cbh-ph-circle {
-    border-color: rgba(117, 235, 80, 1);
+    border-color: #42ea60;
     opacity: 0.5;
   }
   .cbh-phone.cbh-green .cbh-ph-circle {
-    border-color: rgba(0, 175, 242, 1);
+    border-color: #42ea60;
     opacity: 0.5;
   }
   .cbh-phone.cbh-gray.cbh-hover .cbh-ph-circle {
-    border-color: rgba(204, 204, 204, 1);
+    border-color: #42ea60;
     opacity: 0.5;
   }
   .cbh-phone.cbh-gray .cbh-ph-circle {
-    border-color: rgba(117, 235, 80, 1);
+    border-color:#42ea60;
     opacity: 0.5;
   }
   .cbh-ph-circle-fill {
@@ -199,23 +199,23 @@
     opacity: 0 !important;
   }
   .cbh-phone.cbh-hover .cbh-ph-circle-fill {
-    background-color: rgba(0, 175, 242, 0.5);
+    background-color: #42ea60;
     opacity: 0.75 !important;
   }
   .cbh-phone.cbh-green.cbh-hover .cbh-ph-circle-fill {
-    background-color: rgba(117, 235, 80, 0.5);
+    background-color: #42ea60;
     opacity: 0.75 !important;
   }
   .cbh-phone.cbh-green .cbh-ph-circle-fill {
-    background-color: rgba(0, 175, 242, 0.5);
+    background-color: #42ea60;
     opacity: 0.75 !important;
   }
   .cbh-phone.cbh-gray.cbh-hover .cbh-ph-circle-fill {
-    background-color: rgba(204, 204, 204, 0.5);
+    background-color: #42ea60;
     opacity: 0.75 !important;
   }
   .cbh-phone.cbh-gray .cbh-ph-circle-fill {
-    background-color: rgba(117, 235, 80, 0.5);
+    background-color: #42ea60;
     opacity: 1 !important;
   }
   .cbh-ph-img-circle1 {
@@ -224,8 +224,8 @@
     top: 70px;
     left: 70px;
     position: absolute;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAABNmlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjarY6xSsNQFEDPi6LiUCsEcXB4kygotupgxqQtRRCs1SHJ1qShSmkSXl7VfoSjWwcXd7/AyVFwUPwC/0Bx6uAQIYODCJ7p3MPlcsGo2HWnYZRhEGvVbjrS9Xw5+8QMUwDQCbPUbrUOAOIkjvjB5ysC4HnTrjsN/sZ8mCoNTIDtbpSFICpA/0KnGsQYMIN+qkHcAaY6addAPAClXu4vQCnI/Q0oKdfzQXwAZs/1fDDmADPIfQUwdXSpAWpJOlJnvVMtq5ZlSbubBJE8HmU6GmRyPw4TlSaqo6MukP8HwGK+2G46cq1qWXvr/DOu58vc3o8QgFh6LFpBOFTn3yqMnd/n4sZ4GQ5vYXpStN0ruNmAheuirVahvAX34y/Axk/96FpPYgAAACBjSFJNAAB6JQAAgIMAAPn/AACA6AAAUggAARVYAAA6lwAAF2/XWh+QAAAB/ElEQVR42uya7W3CMBCG31QM4A1aNggTlG6QbpBMkHYC1AloJ4BOABuEDcgGtBOETnD9c1ERCH/lwxeaV8oPFGP86Hy+DxMREW5Bd7gRjSDSNGn4/RiAOvm8C0ZCRD5PSkQVXSr1nK/xE3mcWimA1ZV3JYBZCIO4giQANoYxMwYS6+xKY4lT5dJPreWZY+uspqSCKPYN27GJVBDXheVSQe494ksiEWTuMXcu1dld9SARxDX1OAJ4lgjy4zDnFsC076A4adEiRwAZg4hOUSpNoCsBPDGM+HqkNGynYBCuILuWj+dgWysGsNe8nwL4GsrW0m2fxZBq9rW0rNcX5MOQ9eZD8JFahcG5g/iKT671alGAYQggpYWvpEPYWrU/HDTOfeRIX0q2SL3QN4tGhZJukVobQyXYWw7WtLDKDIuM+ZSzscyCE9PCy5IttCvnZNaeiGLNHKuz8ZVh/MXTVu/1xQKmIqLEAuJ0fNo3iG5B51oSkeKnsBi/4bG9gYB/lCytU5G9DryFW+3Gm+JLwU7ehbJrwTjq4DJU8bHcVbEV9dXXqqP6uqO5e2/QZRYJpqu2IUAA4B3tXvx8hgKp05QZW6dJqrLTNkB6vrRURLRwPHqtYgkC3cLWQAcDQGGKH13FER/NATzi786+BPDNjm1dMkfjn2pGkBHkf4D8DgBJDuDHx9BN+gAAAABJRU5ErkJggg==);
-    background-size: 40px 40px;
+    background: url('../img/icons/phone.svg') no-repeat center;
+    background-size: 34px 34px;
     background-color: #42ea60;
     background-position: center center;
     background-repeat: no-repeat;
@@ -255,22 +255,22 @@
     animation: cbh-circle-img-anim 0s infinite ease-in-out !important;
   }
   .cbh-phone.cbh-hover .cbh-ph-img-circle1 {
-    background-color: rgba(0, 175, 242, 1);
+    background-color: #42ea60;
   }
   .cbh-phone.cbh-green.cbh-hover .cbh-ph-img-circle1:hover {
-    background-color: rgba(117, 235, 80, 1);
+    background-color: #42ea60;
   }
   .cbh-phone.cbh-green .cbh-ph-img-circle1 {
-    background-color: rgba(0, 175, 242, 1);
+    background-color: #42ea60;
   }
   .cbh-phone.cbh-green .cbh-ph-img-circle1 {
-    background-color: rgba(0, 175, 242, 1);
+    background-color: #42ea60;
   }
   .cbh-phone.cbh-gray.cbh-hover .cbh-ph-img-circle1 {
-    background-color: rgba(204, 204, 204, 1);
+    background-color: #42ea60;
   }
   .cbh-phone.cbh-gray .cbh-ph-img-circle1 {
-    background-color: rgba(117, 235, 80, 1);
+    background-color: #42ea60;
   }
   @-moz-keyframes cbh-circle-anim {
     0% {
@@ -478,6 +478,7 @@
     }
   }
   .cbh-ph-img-circle1 {
+    border-color: #42ea60;
   }
   .cbh-phone.cbh-green .cbh-ph-circle {
     border-color: #42ea60;
@@ -498,7 +499,7 @@
     margin-top: -39.5px;
     margin-left: -39.5px;
     border-radius: 100%;
-    border: 2px solid #ffe787;
+    border: 2px solid #42ea60;
     -webkit-animation: kmacb__manager-border-anim 1.5s ease-in-out 0.5s infinite;
     -moz-animation: kmacb__manager-border-anim 1.5s ease-in-out 0.5s infinite;
     -ms-animation: kmacb__manager-border-anim 1.5s ease-in-out 0.5s infinite;
@@ -508,7 +509,7 @@
     transform-origin: center;
   }
   .kmacb__manager-fill {
-    background: #52aff7 center bottom no-repeat;
+    background: #42ea60 center bottom no-repeat;
     position: absolute;
     width: 75px;
     height: 75px;
@@ -526,7 +527,7 @@
     transform-origin: center;
   }
   .kmacb__manager-circle {
-    background: #52aff7;
+    background: #42ea60;
     position: absolute;
     width: 120px;
     height: 120px;

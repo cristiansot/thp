@@ -7,9 +7,16 @@ import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
 import { fetchPropertiesFromML, getDetailedProperties } from './routes/properties.js';
 import { checkTokens } from './routes/auth.js';
+import cron from 'node-cron';
+import { checkPriceDrop } from './scraping/priceChecker.js';
 
 dotenv.config();
 const app = express();
+
+cron.schedule('*/30 * * * *', () => {
+  console.log('⏱️ Chequeando precio...');
+  checkPriceDrop();
+});
 
 // Middlewares
 app.use(helmet());

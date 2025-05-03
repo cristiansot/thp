@@ -43,4 +43,25 @@ const sendEmailNotification = (property) => {
   });
 };
 
+//Envío de mail por cambio de precio
+
+export async function sendEmail({ to, subject, text }) {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+
+  await transporter.sendMail({
+    from: `"THP Monitor" <${process.env.EMAIL_USER}>`,
+    to,
+    subject,
+    text,
+  });
+
+  console.log('📬 Correo enviado a', to);
+}
+
 export { sendEmailNotification };

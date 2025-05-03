@@ -62,8 +62,9 @@ body {
 /* ... y así sucesivamente hasta el número máximo de cards por fila */
 
 @media (max-width: 768px) {
-  .container {
-    padding: 1;
+  body, #root {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
   }
-
 }

@@ -8,6 +8,7 @@ import NavBar from './components/Navbar';
 import MapView from './components/MapView';
 import Filters from './components/Filters';
 import Whatsapp from './components/Whatsapp'
+import Footer from './components/Footer';
 
 function App() {
   const [properties, setProperties] = useState([]);
@@ -53,6 +54,7 @@ function App() {
             : <ContainerCard properties={filteredProperties} loading={loading} error={error} />
         }
       </div>
+      <Footer />
     </Router>
   );
 }

@@ -27,7 +27,7 @@ const ContainerCard = ({ properties, loading, error }) => {
   if (error) return <p className="error">Error: {error.message || JSON.stringify(error)}</p>;
 
   return (
-    <div className="container">
+    <div className="container" style={{ padding: '0px' }}>
       <motion.div
         className="row d-flex md"
         variants={containerVariants}

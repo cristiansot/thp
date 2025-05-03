@@ -45,20 +45,26 @@ npm run dev
     /thp
     ├── server/
     │   ├── data/
-    │   ├── routes/
-    │   │   ├── auth.js 
-    │   │   └── products.js       # Endpoint para obtener productos
-    │   ├── services/
-    │   │   ├── mail.js 
-    │   │   └── authManager.js  
+    │   │   └── propertyStatus.json 
     │   ├── oauth/
     │   │   ├── login.js 
     │   │   ├── tokenStorage.js 
     │   │   ├── tokens.json
     │   │   └── callback.js 
+    │   ├── routes/
+    │   │   ├── auth.js 
+    │   │   └── properties.js           # Endpoint para obtener productos
+    │   ├── scraping/
+    │   │   ├── priceChecker.js         # Lógica de scraping y comparación 
+    │   │   ├── previousPrice.json      # Último precio guardado  
+    │   ├── services/
+    │   │   ├── mail.js 
+    │   │   ├── authManager.js  
+    │   │   └── propertyStatusStore.js 
     │   ├── .env
-    │   ├── index.js                # Entry point del servidor
-    │   └── package.json
+    │   ├── index.js                    # Entry point del servidor
+    │   ├── package.json
+    │   └── notified.json
     ├── client/
     │   ├── public/
     │   ├── src/
@@ -70,15 +76,19 @@ npm run dev
     │   │   ├── components/
     │   │   │   ├── Carousel.jsx
     │   │   │   ├── ContainerCard.jsx
+    │   │   │   ├── Filters.jsx
+    │   │   │   ├── Footer.jsx
+    │   │   │   ├── MapView.jsx
     │   │   │   ├── Navbar.jsx
-    │   │   │   └── PropertyCard.jsx
+    │   │   │   ├── PropertyCard.jsx
+    │   │   │   ├── ProtectedRoute.jsx
+    │   │   │   └── Whatsapp.jsx
     │   │   ├── App.jsx
     │   │   └── main.jsx
     │   ├── index.html
     │   ├── package.json
-    │   └── viteconfig.js
-    ├── .env
-    ├── vite.config.js
+    │   ├── viteconfig.js
+    │   └── .env
     ├── .gitignore                      # Archivos/Carpetas a ignorar por Git
     └── README.md                       # Documentación del proyecto
 ```

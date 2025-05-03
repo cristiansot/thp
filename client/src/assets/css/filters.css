@@ -14,3 +14,13 @@
     color: #f1f1f1;
 }
 
+@media screen and (max-width: 650px) {
+    .btn-primary {
+      width: 100%;
+    }
+
+    .container-filters {
+      margin: 0 !important;
+      padding: 0%0 !important;
+    }
+  }

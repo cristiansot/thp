@@ -2,6 +2,7 @@ import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import '../assets/css/map.css';
 
 // Configurar los íconos de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -49,7 +50,7 @@ const MapView = ({ properties = [] }) => {
   };
 
   return (
-    <MapContainer
+    <MapContainer 
       center={[-33.45, -70.6667]}
       zoom={13}
       style={{ height: '800px', width: '100%' }}
