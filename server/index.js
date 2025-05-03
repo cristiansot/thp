@@ -20,16 +20,16 @@ cron.schedule('* */6 * * *', () => {
 });
 
 // Middlewares
-app.use(helmet());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use('/api/contact', router);
-
 const corsOptions = {
   origin: ['http://localhost:5173', 'https://thp-backend-16jj.onrender.com'],
   credentials: true,
 };
 app.use(cors(corsOptions));
+
+app.use(helmet());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/api/contact', router);
 
 // Rutas
 app.get('/test', (req, res) => res.send('Test page'));

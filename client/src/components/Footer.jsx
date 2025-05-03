@@ -19,16 +19,17 @@ const Footer = () => {
     asunto: Yup.string().required("El asunto es obligatorio"),
   });
 
-  const handleSubmit = (values, { resetForm }) => {
+  const handleSubmit = (values, { resetForm, setSubmitting, setStatus }) => {
     fetch('https://thp-backend-16jj.onrender.com/api/contact', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(values),
+      credentials: 'include', // <--- importante si CORS lo requiere
     })
       .then((res) => {
-        if (!res.ok) throw new Error(`Error al enviar la wea de formulario: ${res.statusText}`);
+        if (!res.ok) throw new Error(`Error al enviar el formulario: ${res.statusText}`);
         return res.json(); // Leer la respuesta JSON
       })
       .then((data) => {
@@ -37,16 +38,17 @@ const Footer = () => {
         resetForm();
       })
       .catch((err) => {
-        console.error('Error en el envío de la caga de correo:', err);
-        alert(`Error al enviar el correo: ${err.message}`);
-      });
-  };  
+        console.error('Error al enviar el correo:', err);
+        setStatus({ error: `Error al enviar el correo: ${err.message}` });
+      })
+      .finally(() => setSubmitting(false));
+  };
 
   return (
     <footer className="footer container-fluid py-5">
-      <div className="container mt-2 ">
+      <div className="container mt-2">
         <div className="row justify-content-center align-items-start">
-          
+
           {/* Izquierda: Logotipo */}
           <div className="left col-md-4 text-center mb-4 mb-md-0">
             <img src={logotipo} alt="Logotipo" className="footer-logo" />
@@ -72,7 +74,7 @@ const Footer = () => {
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
             >
-              {() => (
+              {({ isSubmitting, status }) => (
                 <Form className="p-3">
                   <h2 className="footer-title mb-0 text-start">Contáctanos</h2>
 
@@ -113,25 +115,32 @@ const Footer = () => {
                     <ErrorMessage name="asunto" component="div" className="text-danger small text-start ms-0" />
                   </div>
 
-                  <button type="submit" className="btn mt-3 btn-primary w-100">
-                    Enviar
+                  {status && status.error && (
+                    <div className="text-danger mb-3">{status.error}</div>
+                  )}
+
+                  <button 
+                    type="submit" 
+                    className="btn mt-3 btn-primary w-100" 
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? 'Enviando...' : 'Enviar'}
                   </button>
                 </Form>
               )}
             </Formik>
           </div>
-             
+
         </div>
 
         {/* Copyright */}
-        <div className="footer-copyright w-100  p-3">
+        <div className="footer-copyright w-100 p-3">
           <div className="col-12 text-center">
             <p className="m-0">
               &copy; {new Date().getFullYear()} Total Home Propiedades. Todos los derechos reservados.
             </p>
           </div>
         </div>
-
 
       </div>
     </footer>
