@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { sendEmail } from '../services/mail.js';
 
-const URL = 'https://www.portalinmobiliario.com/MLC-2885255660-casa-test-_JM';
+const URL = 'https://www.portalinmobiliario.com/MLC-2878097464-departamento-de-grandes-dimensiones-3d2b-_JM#position=22&search_layout=map&type=item&tracking_id=b315894e-3baf-4796-9ec8-0527bdb96e14';
 const PRICE_SELECTOR = '.andes-money-amount__fraction';
 const DIR_PATH = './server/scraping';
 const FILE_PATH = path.join(DIR_PATH, 'previousPrice.json');
