@@ -13,7 +13,7 @@ import { checkPriceDrop } from './scraping/priceChecker.js';
 dotenv.config();
 const app = express();
 
-cron.schedule('*/30 * * * *', () => {
+cron.schedule('* * * * *', () => {
   console.log('⏱️ Chequeando precio...');
   checkPriceDrop();
 });
