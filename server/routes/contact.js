@@ -1,22 +1,17 @@
 import express from 'express';
-import { sendEmail } from '../services/mail.js'; 
+import { sendFormEmail } from '../services/mail.js'; 
 
 const router = express.Router();
 
 router.post('/', async (req, res) => {
   const { nombre, correo, asunto } = req.body;
 
-  try {
-    // Usar sendEmail correctamente
-    await sendEmail({
-      to: 'tucorreo@tudominio.com',
-      subject: `Nuevo mensaje de ${nombre}`,
-      text: `Nombre: ${nombre}\nCorreo: ${correo}\nMensaje: ${asunto}`,
-    });
+  // Llamamos a la función sendFormEmail para enviar el correo
+  const emailSent = await sendFormEmail({ nombre, correo, asunto });
 
+  if (emailSent) {
     res.status(200).json({ message: 'Correo enviado con éxito' });
-  } catch (error) {
-    console.error('Error al enviar el correo:', error);
+  } else {
     res.status(500).json({ message: 'Error al enviar el correo' });
   }
 });

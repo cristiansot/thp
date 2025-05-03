@@ -70,4 +70,34 @@ async function sendEmail({ to, subject, text }) {
   }
 }
 
-export { sendEmail, sendEmailNotification };
+// Función de envío de correo para el formulario de contacto
+async function sendFormEmail({ nombre, correo, asunto }) {
+  try {
+    const transporter = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_FROM,
+      to: process.env.EMAIL_TO,
+      subject: `Nuevo mensaje de ${nombre}`,
+      text: `Nombre: ${nombre}\nCorreo: ${correo}\nMensaje: ${asunto}`,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log('📬 Correo enviado:', info.response);
+    return true; // Retorna true si el correo se envió correctamente
+  } catch (error) {
+    console.error('❌ Error al enviar el correo:', error.message);
+    return false; // Retorna false si ocurre un error
+  }
+}
+
+export { sendEmail, sendEmailNotification, sendFormEmail };
