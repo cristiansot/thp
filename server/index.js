@@ -24,13 +24,18 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/contact', router);
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); 
 
 const corsOptions = {
   origin: ['http://localhost:5173', 'https://thp-backend-16jj.onrender.com'],
   credentials: true,
 };
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Esto es importante para preflight requests
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', corsOptions.origin);
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 // Rutas
 app.get('/test', (req, res) => res.send('Test page'));
