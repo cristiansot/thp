@@ -46,24 +46,29 @@ const sendEmailNotification = (property) => {
 //Envío de mail por cambio de precio
 
 export async function sendEmail({ to, subject, text }) {
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: true,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-  });
+  try {
+    const transporter = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
 
-  await transporter.sendMail({
-    from: `"THP Monitor" <${process.env.EMAIL_USER}>`,
-    to,
-    subject,
-    text,
-  });
+    const info = await transporter.sendMail({
+      from: `"THP Monitor" <${process.env.EMAIL_USER}>`,
+      to,
+      subject,
+      text,
+    });
 
-  console.log('📬 Correo enviado a', to);
+    console.log('📬 Correo enviado (precio):', info.response);
+  } catch (error) {
+    console.error('❌ Error al enviar correo (precio):', error.message);
+  }
 }
 
-export { sendEmailNotification };
+
+export { sendEmailNotification, sendEmail };

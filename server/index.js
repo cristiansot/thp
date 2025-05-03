@@ -18,6 +18,7 @@ cron.schedule('*/30 * * * *', () => {
   checkPriceDrop();
 });
 
+
 // Middlewares
 app.use(helmet());
 app.use(express.json());
