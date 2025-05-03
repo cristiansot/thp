@@ -28,16 +28,19 @@ const Footer = () => {
       body: JSON.stringify(values),
     })
       .then((res) => {
-        if (!res.ok) throw new Error('Error al enviar el formulario');
+        if (!res.ok) throw new Error(`Error al enviar la wea de formulario: ${res.statusText}`);
+        return res.json(); // Leer la respuesta JSON
+      })
+      .then((data) => {
+        console.log('Respuesta del backend:', data);
         alert('Correo enviado con éxito');
         resetForm();
       })
       .catch((err) => {
-        console.error(err);
-        alert('Error al enviar el correo');
+        console.error('Error en el envío de la caga de correo:', err);
+        alert(`Error al enviar el correo: ${err.message}`);
       });
-  };
-  
+  };  
 
   return (
     <footer className="footer container-fluid py-5">

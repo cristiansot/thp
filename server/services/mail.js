@@ -94,9 +94,10 @@ async function sendFormEmail({ nombre, correo, asunto }) {
     console.log('📬 Correo enviado:', info.response);
     return true;
   } catch (error) {
-    console.error('❌ Error al enviar el correo:', error); 
+    console.error('❌ Error al enviar el correo:', error.message, error.stack);
     return false;
   }
+  
 }
 
 export { sendEmail, sendEmailNotification, sendFormEmail };

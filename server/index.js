@@ -24,6 +24,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/contact', routes);
+app.use(cors());
 
 const corsOptions = {
   origin: ['http://localhost:5173', 'https://thp-backend-16jj.onrender.com'],
