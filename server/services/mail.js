@@ -76,7 +76,7 @@ async function sendFormEmail({ nombre, correo, asunto }) {
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
-      secure: true,
+      secure: true, // Usar 'true' para SSL en el puerto 465
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD,
@@ -91,12 +91,11 @@ async function sendFormEmail({ nombre, correo, asunto }) {
     };
 
     const info = await transporter.sendMail(mailOptions);
-
     console.log('📬 Correo enviado:', info.response);
-    return true; // Retorna true si el correo se envió correctamente
+    return true;
   } catch (error) {
-    console.error('❌ Error al enviar el correo:', error.message);
-    return false; // Retorna false si ocurre un error
+    console.error('❌ Error al enviar el correo:', error); 
+    return false;
   }
 }
 
