@@ -20,9 +20,24 @@ const Footer = () => {
   });
 
   const handleSubmit = (values, { resetForm }) => {
-    console.log("Formulario enviado:", values);
-    resetForm();
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/contact`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error('Error al enviar el formulario');
+        alert('Correo enviado con éxito');
+        resetForm();
+      })
+      .catch((err) => {
+        console.error(err);
+        alert('Error al enviar el correo');
+      });
   };
+  
 
   return (
     <footer className="footer container-fluid py-5">
