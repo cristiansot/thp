@@ -29,7 +29,7 @@ const corsOptions = {
   origin: ['http://localhost:5173', 'https://thp-backend-16jj.onrender.com'],
   credentials: true,
 };
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Esto es importante para preflight requests
 
 
