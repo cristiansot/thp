@@ -18,7 +18,6 @@ cron.schedule('*/30 * * * *', () => {
   checkPriceDrop();
 });
 
-
 // Middlewares
 app.use(helmet());
 app.use(express.json());
@@ -52,6 +51,14 @@ const ENV = process.env.NODE_ENV || 'development';
 
 app.listen(PORT, async () => {
   console.log(`✅ Server running on port ${PORT} in ${ENV} mode`);
+
+  try {
+    console.log('⏳ Ejecutando scraping para monitorear el precio...');
+    await checkPriceDrop();
+    console.log('✅ Scraping inicial completo.');
+  } catch (err) {
+    console.error('❌ Error al ejecutar scraping inicial:', err.message);
+  }
 
   try {
     const properties = await fetchPropertiesFromML();
