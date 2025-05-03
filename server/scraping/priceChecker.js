@@ -1,11 +1,13 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import fs from 'fs';
+import path from 'path';
 import { sendEmail } from '../services/mail.js';
 
 const URL = 'https://www.portalinmobiliario.com/MLC-2885255660-casa-test-_JM';
 const PRICE_SELECTOR = '.andes-money-amount__fraction';
-const FILE_PATH = './server/scraping/previousPrice.json';
+const DIR_PATH = './server/scraping';
+const FILE_PATH = path.join(DIR_PATH, 'previousPrice.json');
 
 export async function checkPriceDrop() {
   try {
@@ -18,12 +20,19 @@ export async function checkPriceDrop() {
 
     console.log(`💰 Precio actual leído: ${currentPrice}`);
 
+    // Crear carpeta si no existe
+    if (!fs.existsSync(DIR_PATH)) {
+      fs.mkdirSync(DIR_PATH, { recursive: true });
+    }
+
+    // Si el archivo no existe, guardar precio actual
     if (!fs.existsSync(FILE_PATH)) {
       console.log('📁 No hay precio previo. Guardando por primera vez...');
       fs.writeFileSync(FILE_PATH, JSON.stringify({ price: currentPrice }, null, 2));
       return;
     }
 
+    // Leer precio anterior
     const previousData = JSON.parse(fs.readFileSync(FILE_PATH, 'utf-8'));
     const previousPrice = previousData.price;
 
@@ -42,6 +51,7 @@ export async function checkPriceDrop() {
     } else {
       console.log(`🔍 Precio sin cambios o superior. Actual: $${currentPrice.toLocaleString()}`);
     }
+
   } catch (err) {
     console.error('❌ Error en priceChecker:', err.message);
   }
