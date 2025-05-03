@@ -9,7 +9,7 @@ import { fetchPropertiesFromML, getDetailedProperties } from './routes/propertie
 import { checkTokens } from './routes/auth.js';
 import cron from 'node-cron';
 import { checkPriceDrop } from './scraping/priceChecker.js';
-import routes from './routes/contact.js'; 
+import router from './routes/contact.js'; 
 
 dotenv.config();
 const app = express();
@@ -23,8 +23,7 @@ cron.schedule('* */6 * * *', () => {
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api/contact', routes);
-app.use(cors());
+app.use('/api/contact', router);
 
 const corsOptions = {
   origin: ['http://localhost:5173', 'https://thp-backend-16jj.onrender.com'],
