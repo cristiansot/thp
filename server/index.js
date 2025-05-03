@@ -1,35 +1,45 @@
+// index.js
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
-import cron from 'node-cron';
-
 import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
 import { fetchPropertiesFromML, getDetailedProperties } from './routes/properties.js';
 import { checkTokens } from './routes/auth.js';
+import cron from 'node-cron';
 import { checkPriceDrop } from './scraping/priceChecker.js';
 import router from './routes/contact.js'; 
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 dotenv.config();
 const app = express();
+
+cron.schedule('* */6 * * *', () => {
+  console.log('⏱️ Chequeando precio...');
+  checkPriceDrop();
+});
+
+// Middlewares
+app.use(helmet());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/api/contact', router);
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Esto es importante para preflight requests
 
 const corsOptions = {
   origin: ['http://localhost:5173', 'https://thp-backend-16jj.onrender.com'],
   credentials: true,
 };
 
-// ✅ CORS primero
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
-
-// 🛡️ Seguridad y formatos
-app.use(helmet());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// ✉️ Rutas
-app.use('/api/contact', router); // Ruta para el formulario de contacto
+// Rutas
 app.get('/test', (req, res) => res.send('Test page'));
 app.get('/health', (req, res) => res.status(200).json({ status: 'OK' }));
 app.get('/api/properties', fetchPropertiesFromML);
@@ -38,13 +48,7 @@ app.get('/oauth/login', login);
 app.get('/oauth/callback', callback);
 app.get('/oauth/check', checkTokens);
 
-// 🔁 Cron job
-cron.schedule('* */6 * * *', () => {
-  console.log('⏱️ Chequeando precio...');
-  checkPriceDrop();
-});
-
-// 🔴 Error handler
+// Error handler
 app.use((err, req, res, next) => {
   console.error('🔴 Error:', err.message);
   res.status(err.status || 500).json({
@@ -52,7 +56,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 🚀 Server start
 const PORT = process.env.PORT || 10000;
 const ENV = process.env.NODE_ENV || 'development';
 
