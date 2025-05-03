@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ✉️ Rutas
-app.use('/api/contact', router);
+app.use('/api/contact', router); // Ruta para el formulario de contacto
 app.get('/test', (req, res) => res.send('Test page'));
 app.get('/health', (req, res) => res.status(200).json({ status: 'OK' }));
 app.get('/api/properties', fetchPropertiesFromML);
