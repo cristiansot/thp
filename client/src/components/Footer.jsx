@@ -20,7 +20,7 @@ const Footer = () => {
   });
 
   const handleSubmit = (values, { resetForm }) => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/contact`, {
+    fetch('https://thp-backend-16jj.onrender.com/api/contact', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
