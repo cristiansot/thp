@@ -45,7 +45,7 @@ const sendEmailNotification = (property) => {
 
 //Envío de mail por cambio de precio
 
-export async function sendEmail({ to, subject, text }) {
+async function sendEmail({ to, subject, text }) {
   try {
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
