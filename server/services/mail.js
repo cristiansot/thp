@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv'; // Usar import en lugar de require
 dotenv.config(); // Cargar las variables de entorno
 
+// Envío de mail por cambio de estado
 const sendEmailNotification = (property) => {
   console.log('Propiedad recibida en backend:', property); // Verificar que el backend recibe la propiedad correctamente
 
@@ -43,8 +44,7 @@ const sendEmailNotification = (property) => {
   });
 };
 
-//Envío de mail por cambio de precio
-
+// Envío de mail por cambio de precio
 async function sendEmail({ to, subject, text }) {
   try {
     const transporter = nodemailer.createTransport({
@@ -70,5 +70,4 @@ async function sendEmail({ to, subject, text }) {
   }
 }
 
-
-export { sendEmailNotification, sendEmail };
+export { sendEmail, sendEmailNotification };

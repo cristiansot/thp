@@ -1,5 +1,5 @@
 import express from 'express';
-import sendMail from '../services/mail.js';
+import { sendEmail } from '../services/mail.js'; 
 
 const router = express.Router();
 
@@ -7,7 +7,8 @@ router.post('/', async (req, res) => {
   const { nombre, correo, asunto } = req.body;
 
   try {
-    await sendMail({
+    // Usar sendEmail correctamente
+    await sendEmail({
       to: 'tucorreo@tudominio.com',
       subject: `Nuevo mensaje de ${nombre}`,
       text: `Nombre: ${nombre}\nCorreo: ${correo}\nMensaje: ${asunto}`,
