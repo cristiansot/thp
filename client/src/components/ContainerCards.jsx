@@ -8,7 +8,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1, // Retraso entre cada card
+      staggerChildren: 0.2, // Retraso entre cada card
     },
   },
 };
@@ -23,7 +23,20 @@ const cardVariants = {
 };
 
 const ContainerCard = ({ properties, loading, error }) => {
-  if (loading) return <p className="loading">Cargando propiedades...</p>;
+  if (loading)
+    return (
+      <div className="text-center p-5">
+  <p className="loading mb-2">Cargando propiedades...</p>
+  <div className="d-flex justify-content-center">
+    <div className="progress" style={{ width: '300px', height: '4px' }}>
+      <div
+        className="progress-bar progress-bar-striped progress-bar-animated bg-info"
+        style={{ width: '100%' }}      ></div>
+    </div>
+  </div>
+</div>
+
+    );
   if (error) return <p className="error">Error: {error.message || JSON.stringify(error)}</p>;
 
   return (

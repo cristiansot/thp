@@ -32,6 +32,16 @@ const NavBar = () => {
     fetchUF();
   }, []);
 
+  const scrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   return (
     <nav className={`navbar navbar-expand-lg fixed-top ${(scrolling || menuOpen) ? "black" : ""}`}>
       <div className="container-fluid">
@@ -53,13 +63,13 @@ const NavBar = () => {
         <div className={`collapse navbar-collapse ${menuOpen ? "show" : ""}`} id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <a className="nav-link" href="#">Home</a>
+              <button className="nav-link" onClick={() => scrollToSection('home')}>Home</button>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Nosotros</a>
+              <button className="nav-link" onClick={() => scrollToSection('contacto')}>Nosotros</button>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Contacto</a>
+              <button className="nav-link" onClick={() => scrollToSection('contacto')}>Contacto</button>
             </li>
             {uf && (
               <li>

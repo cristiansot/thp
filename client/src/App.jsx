@@ -1,4 +1,3 @@
-// App.jsx
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
@@ -7,7 +6,7 @@ import Carousel from './components/Carousel';
 import NavBar from './components/Navbar';
 import MapView from './components/MapView';
 import Filters from './components/Filters';
-import Whatsapp from './components/Whatsapp'
+import Whatsapp from './components/Whatsapp';
 import Footer from './components/Footer';
 
 function App() {
@@ -39,22 +38,28 @@ function App() {
   return (
     <Router>
       <div>
-        <NavBar />
-        <Carousel />
-        <Whatsapp />
-        <Filters
-          properties={properties}
-          setFilteredProperties={setFilteredProperties}
-          showMap={showMap}
-          setShowMap={setShowMap}
-        />
-        {
-          showMap
-            ? <MapView properties={filteredProperties} zoom={13} />
-            : <ContainerCard properties={filteredProperties} loading={loading} error={error} />
-        }
+        <section id="home">
+          <NavBar />
+        </section>
+    
+          <Carousel />
+          <Whatsapp />
+          <Filters
+            properties={properties}
+            setFilteredProperties={setFilteredProperties}
+            showMap={showMap}
+            setShowMap={setShowMap}
+          />
+    
+          {
+            showMap
+              ? <MapView properties={filteredProperties} zoom={13} />
+              : <ContainerCard properties={filteredProperties} loading={loading} error={error} />
+          }
+        <section id="contacto">
+          <Footer />
+        </section>
       </div>
-      <Footer />
     </Router>
   );
 }

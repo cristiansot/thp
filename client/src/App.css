@@ -16,7 +16,12 @@ body {
 }
 
 .loading {
-  color: aliceblue;
+  color: rgb(209, 209, 209);
+  font-family: "Quicksand";
+  font-size: 1.3rem;
+  font-weight: 300;
+  text-align: center;
+  padding: 0;
 }
 
 .container {

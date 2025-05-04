@@ -1,7 +1,11 @@
 .footer {
   background-color: #202b39 !important;
-  margin: 0 !important;
   padding: 0 !important;
+  margin-top: -20px !important;
+}
+
+#container-footer {
+padding: 1px !important;
 }
 
 .footer-logo {
@@ -74,8 +78,6 @@
   pointer-events: none;
   transition: all 0.2s ease-in-out;
   z-index: 99;
-  /* margin-left: 0 !important;
-  padding-left: 0 !important; */
 }
 
 .floating-input:focus + .floating-label,
@@ -99,22 +101,21 @@
 }
 
 /* Copyright */
-  .footer-copyright {
-    background-color: #161e24 !important;
-    color: #bababa; /* O el color de texto que prefieras */
-    font-size: 0.9rem;
-    font-family: 'Quicksand', sans-serif;
-    text-align: center;
-    padding: 10px 0;
-    width: 100% !important; /* Asegura que el contenedor ocupe todo el ancho de la pantalla */
-    position: absolute; /* Asegura que el footer se posicione fuera del flujo normal */
-    bottom: 1; /* Lo ancla al fondo de la página */
-    left: 0;
-    z-index: 10; /* Asegura que el footer quede por encima de otros elementos si es necesario */
-  }
+.footer-copyright {
+  background-color: #161e24 !important;
+  color: #bababa; 
+  font-size: 0.9rem;
+  font-family: 'Quicksand', sans-serif;
+  text-align: center;
+  width: 100%;
+  margin-top: 20px !important;
+  padding: 20px 0; /* Para separar un poco el contenido */
+  margin-top: 40px !important; /* Añadir espacio entre el footer y el copyright */
+  display: block;
+}
   
-  .footer-copyright p {
-    margin: 0;
-  }
+.footer-copyright p {
+  margin: 8px !important;
+}
   
   
