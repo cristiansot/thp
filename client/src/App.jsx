@@ -22,7 +22,7 @@ function App() {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/properties/detailed`);
       setProperties(response.data);
       setFilteredProperties(response.data);
-      console.log("Propiedades obtenidas:", response.data);
+      // console.log("Propiedades obtenidas:", response.data);
     } catch (error) {
       console.error('Error fetching properties:', error.response?.data || error.message);
       setError('Error al obtener las propiedades. Por favor, inténtalo de nuevo más tarde.');

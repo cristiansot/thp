@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import '../assets/css/carousel.css';
 
-import image1 from '../assets/img/carousel/image1.jpg';
-import image2 from '../assets/img/carousel/image2.jpg';
-import image3 from '../assets/img/carousel/image3.jpg';
+import image1 from '../assets/img/carousel/image1.webp';
+import image2 from '../assets/img/carousel/image2.webp';
+import image3 from '../assets/img/carousel/image3.webp';
 
 const slides = [
   {
-    subtitle: 'The grand moment',
-    title: 'Le tour',
+    subtitle: 'Quilicura',
+    title: 'Casa en Venta en Quilicura',
     description:
-      'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
+      'Casa Vendida',
     imageUrl: image1,
   },
   {
-    subtitle: 'The big window',
-    title: 'Minimal window',
+    subtitle: 'Condominio Los Cormoranes Ciudad De Los Valles',
+    title: 'Casa en Venta Santiago',
     description:
-      'Clear Glass Window With Brown and White Wooden Frame iste natus error sit voluptatem accusantium.',
+      'Se Vende espectacular casa semi nueva con tan solo 2 años de uso, modelo Dublín Mediterránea de 2 pisos',
     imageUrl: image2,
   },
   {
-    subtitle: 'Tropical palms',
-    title: 'Palms',
+    subtitle: 'Departamento - Oficina En Santa Lucía a Pasos del Barrio Lastarria',
+    title: 'Departamento Oficina en Venta Santiago',
     description:
-      'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
+      'Se Vende gran departamento de 185 m2, que abarca todo el piso 4° del edificio. Ubicación oriente con hermosa vista hacia el cerro Santa Lucía',
     imageUrl: image3,
   },
 ];
@@ -38,7 +38,7 @@ const Carousel = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
-    }, 5000); // Cambiar cada 3 segundos
+    }, 5000); 
 
     return () => clearInterval(interval); // Limpiar el intervalo al desmontar
   }, [current]); // Dependencia para que se actualice correctamente
@@ -69,7 +69,7 @@ const Carousel = () => {
               <h2 className="carousel-item__subtitle">{slide.subtitle}</h2>
               <h1 className="carousel-item__title">{slide.title}</h1>
               <p className="carousel-item__description">{slide.description}</p>
-              <a href="#" className="carousel-item__btn">Explore</a>
+              {/* <a href="#" className="carousel-item__btn">Explore</a> */}
             </div>
           </div>
         </div>

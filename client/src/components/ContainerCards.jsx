@@ -8,7 +8,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2, // Retraso entre cada card
+      staggerChildren: 0.1, // Retraso entre cada card
     },
   },
 };
