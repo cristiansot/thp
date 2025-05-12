@@ -38,7 +38,18 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  base: mode === 'production' ? '' : '/',
   plugins: [react()],
-  // No incluir configuración de `server` ni `base` para producción en Amplify
-});
+  server: {
+    port: 5173,
+    proxy: {
+      '/api': {
+        target: 'http://back-thp-env.eba-g7htgkzy.us-east-2.elasticbeanstalk.com/',
+        changeOrigin: true,
+        secure: true,
+      },
+    },
+  },
+}));
+
