@@ -30,13 +30,13 @@ const ContainerCard = ({ properties, loading, error }) => {
           <div className="progress" style={{ width: '300px', height: '4px' }}>
             <div
               className="progress-bar progress-bar-striped progress-bar-animated bg-info"
-              style={{ width: '100%' }}      ></div>
+              style={{ width: '100%' }}></div>
           </div>
         </div>
       </div>
 
     );
-  if (error) return <p className="error">Error: {error.message || JSON.stringify(error)}</p>;
+  if (error) return <p className="error">{error.message || JSON.stringify(error)}</p>;
 
   return (
     <div className="container" style={{ padding: '0px' }}>
