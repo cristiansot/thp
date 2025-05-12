@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  preBuild:
+    commands:
+      - echo "Desactivando integración con SSM"
+  build:
+    commands:
+      - echo "Construyendo sin secretos"
+  postBuild:
+    commands:
+      - echo "Post Build commands"
+
+artifacts:
+  files:
+    - '**/*'  # Esto incluye todos los archivos generados en la construcción
+  discard-paths: yes  # Elimina la estructura de directorios dentro del artefacto (opcional)
