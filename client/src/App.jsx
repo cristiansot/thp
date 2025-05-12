@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 import ContainerCard from './components/ContainerCards';
 import Carousel from './components/Carousel';
-import NavBar from './components/Navbar';
+import NavBar from './components/NavBar'
 import MapView from './components/MapView';
 import Filters from './components/Filters';
 import Whatsapp from './components/Whatsapp';
