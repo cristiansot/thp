@@ -6,7 +6,7 @@ application:
         build:
           commands:
             - echo "Skipping build..."
-  artifacts:
-    baseDirectory: dist
-    files:
-      - '**/*'
+artifacts:
+  baseDirectory: dist
+  files:
+    - '**/*'
