@@ -21,7 +21,7 @@ cron.schedule('* */6 * * *', () => {
 
 // Middlewares
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://thp-backend-16jj.onrender.com'],
+  origin: ['https://develop.d2autp5rg0pd7o.amplifyapp.com', 'http://back-thp-env.eba-g7htgkzy.us-east-2.elasticbeanstalk.com'],
   credentials: true,
 };
 app.use(cors(corsOptions));
