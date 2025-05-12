@@ -1,6 +1,6 @@
 import React from 'react';
 import PropertyCard from './PropertyCard';
-import '../assets/css/ContainerCards.css';
+import '../App.css';
 
 const containerVariants = {
   hidden: { opacity: 0 },
