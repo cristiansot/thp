@@ -1,14 +1,14 @@
 version: 1
 env:
   variables:
-    NODE_VERSION: 20
+    NODE_VERSION: 18
 applications:
   - appRoot: client
     frontend:
       phases:
         preBuild:
           commands:
-            - nvm install 20
+            - nvm install 18
             - npm install
         build:
           commands:
