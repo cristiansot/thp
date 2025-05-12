@@ -1,6 +1,6 @@
 import React from 'react';
 import PropertyCard from './PropertyCard';
-import '../App.css';
+import '../assets/css/ContainerCards.css';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -25,15 +25,15 @@ const ContainerCard = ({ properties, loading, error }) => {
   if (loading)
     return (
       <div className="text-center p-5">
-  <p className="loading mb-2">Cargando propiedades...</p>
-  <div className="d-flex justify-content-center">
-    <div className="progress" style={{ width: '300px', height: '4px' }}>
-      <div
-        className="progress-bar progress-bar-striped progress-bar-animated bg-info"
-        style={{ width: '100%' }}      ></div>
-    </div>
-  </div>
-</div>
+        <p className="loading mb-2">Cargando propiedades...</p>
+        <div className="d-flex justify-content-center">
+          <div className="progress" style={{ width: '300px', height: '4px' }}>
+            <div
+              className="progress-bar progress-bar-striped progress-bar-animated bg-info"
+              style={{ width: '100%' }}      ></div>
+          </div>
+        </div>
+      </div>
 
     );
   if (error) return <p className="error">Error: {error.message || JSON.stringify(error)}</p>;
