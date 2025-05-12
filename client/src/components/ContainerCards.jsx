@@ -1,7 +1,6 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import PropertyCard from './PropertyCard';
-import '../app.css';
+// import '../App.css';
 
 const containerVariants = {
   hidden: { opacity: 0 },
