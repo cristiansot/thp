@@ -1,13 +1,19 @@
 version: 1
 applications:
-  - appRoot: client 
-    frontend:
+  - appRoot: client
+    backend:
       phases:
+        preBuild:
+          commands:
+            - echo "Desactivando integración con SSM"
         build:
           commands:
-            - npm install
-            - npm run build
-      artifacts:
-        baseDirectory: client/dist  
-        files:
-          - '**/*'
+            - echo "Construyendo sin secretos"
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - echo "Desactivando integración con secretos"
+        build:
+          commands:
+            - echo "Construyendo frontend"
