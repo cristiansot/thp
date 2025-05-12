@@ -1,28 +1,18 @@
-version: 0.2  # Actualización de la versión para que sea compatible con CodeBuild
-
+version: 1
 applications:
-  - appRoot: client
-    frontend:
+  - frontend:
       phases:
         preBuild:
           commands:
-            - echo "Desactivando integración con secretos para el frontend"
-            - export USE_SECRETS=false  # Desactivar secretos en el frontend si es necesario
+            - npm ci --cache .npm --prefer-offline
         build:
           commands:
-            - echo "Construyendo el frontend sin secretos"
-            - cd client  # Si tienes una carpeta 'client' en tu proyecto
-            - npm install  # Instalar dependencias frontend
-            - npm run build  # Construir frontend
-
-    # Definición de los artefactos generados por la construcción
-    artifacts:
-      files:
-        - '**/*'  # Esto incluirá todos los archivos generados en el proceso de construcción
-      discard-paths: yes  # Para eliminar las rutas de directorios y mantener solo los archivos
-      baseDirectory: client/dist  # Aquí debes colocar la carpeta que contiene los archivos generados del frontend
-
-    # Si tienes algún cache o dependencias que quieras almacenar entre builds, puedes agregar un cache.
-    cache:
-      paths:
-        - '/root/.npm/**/*'  # Por ejemplo, cachear las dependencias de npm
+            - npm run build
+      artifacts:
+        baseDirectory: dist
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - .npm/**/*
+    appRoot: client
