@@ -1,17 +1,17 @@
 version: 0.2
 
-phases:
-  preBuild:
-    commands:
-      - echo "Desactivando integración con SSM"
-  build:
-    commands:
-      - echo "Construyendo sin secretos"
-  postBuild:
-    commands:
-      - echo "Post Build commands"
+applications:
+  - appRoot: client
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - echo "Desactivando integración con secretos"
+        build:
+          commands:
+            - echo "Construyendo frontend"
 
 artifacts:
   files:
-    - '**/*'  # Esto incluye todos los archivos generados en la construcción
-  discard-paths: yes  # Elimina la estructura de directorios dentro del artefacto (opcional)
+    - '**/*'  # Incluye todos los archivos generados en el proceso de construcción
+  baseDirectory: client/build  # Aquí debes colocar la carpeta que contiene los archivos generados del frontend
