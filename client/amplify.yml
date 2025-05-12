@@ -20,7 +20,7 @@ applications:
       files:
         - '**/*'  # Esto incluirá todos los archivos generados en el proceso de construcción
       discard-paths: yes  # Para eliminar las rutas de directorios y mantener solo los archivos
-      baseDirectory: client/build  # Aquí debes colocar la carpeta que contiene los archivos generados del frontend
+      baseDirectory: client/dist  # Aquí debes colocar la carpeta que contiene los archivos generados del frontend
 
     # Si tienes algún cache o dependencias que quieras almacenar entre builds, puedes agregar un cache.
     cache:
