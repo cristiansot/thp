@@ -17,21 +17,28 @@
 //   plugins: [react()],
 // });
 
+// import { defineConfig } from 'vite';
+// import react from '@vitejs/plugin-react';
+
+// export default defineConfig(({ mode }) => ({
+//   base: mode === 'production' ? '' : '/',
+//   plugins: [react()],
+//   server: {
+//     port: 5173,
+//     proxy: {
+//       '/api': {
+//         target: 'http://back-thp-env.eba-g7htgkzy.us-east-2.elasticbeanstalk.com/',
+//         changeOrigin: true,
+//         secure: true,
+//       },
+//     },
+//   },
+// }));
+
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? '' : '/',
+export default defineConfig({
   plugins: [react()],
-  server: {
-    port: 5173,
-    proxy: {
-      '/api': {
-        target: 'http://back-thp-env.eba-g7htgkzy.us-east-2.elasticbeanstalk.com/',
-        changeOrigin: true,
-        secure: true,
-      },
-    },
-  },
-}));
-
+  // No incluir configuración de `server` ni `base` para producción en Amplify
+});
