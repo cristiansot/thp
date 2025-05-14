@@ -45,7 +45,7 @@ export default defineConfig(({ mode }) => ({
     port: 3001,
     proxy: {
       '/api': {
-        target: 'http://back-thp-env.eba-g7htgkzy.us-east-2.elasticbeanstalk.com/', 
+        target: 'https://thp-backend.us-east-2.elasticbeanstalk.com/', 
         changeOrigin: true,
         secure: true,
       },

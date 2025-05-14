@@ -14,6 +14,15 @@ import router from './routes/contact.js';
 dotenv.config();
 const app = express();
 
+app.use((req, res, next) => {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+    return res.redirect(['https://', req.get('Host'), req.url].join(''));
+  }
+  next();
+});
+
+
+
 cron.schedule('* */6 * * *', () => {
   console.log('⏱️ Chequeando precio...');
   checkPriceDrop();
@@ -21,7 +30,7 @@ cron.schedule('* */6 * * *', () => {
 
 // Middlewares
 const corsOptions = {
-  origin: ['https://develop.d2autp5rg0pd7o.amplifyapp.com', 'http://back-thp-env.eba-g7htgkzy.us-east-2.elasticbeanstalk.com'],
+  origin: ['https://develop.d2autp5rg0pd7o.amplifyapp.com', 'https://thp-backend.us-east-2.elasticbeanstalk.com'],
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -49,8 +58,8 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3001;
-// const ENV = process.env.NODE_ENV || 'development';
-const ENV = process.env.NODE_ENV || 'production';
+const ENV = process.env.NODE_ENV || 'development';
+// const ENV = process.env.NODE_ENV || 'production';
 
 
 app.listen(PORT, async () => {
