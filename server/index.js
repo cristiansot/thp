@@ -48,8 +48,10 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 8080;
-const ENV = process.env.NODE_ENV || 'development';
+const PORT = process.env.PORT || 3001;
+// const ENV = process.env.NODE_ENV || 'development';
+const ENV = process.env.NODE_ENV || 'production';
+
 
 app.listen(PORT, async () => {
   console.log(`✅ Server running on port ${PORT} in ${ENV} mode`);
