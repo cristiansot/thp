@@ -25,7 +25,7 @@ function App() {
       // console.log("Propiedades obtenidas:", response.data);
     } catch (error) {
       console.error('Error fetching properties:', error.response?.data || error.message);
-      setError('Error al obtener las propiedades. Por favor, inténtalo de nuevo más tarde.');
+      setError('Error al obtener las propiedades. Por favor inténtalo de nuevo más tarde.');
     } finally {
       setLoading(false);
     }
