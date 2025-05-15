@@ -57,7 +57,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 10000;
 const ENV = process.env.NODE_ENV || 'development';
 // const ENV = process.env.NODE_ENV || 'production';
 
