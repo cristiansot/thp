@@ -62,7 +62,7 @@ const ENV = process.env.NODE_ENV || 'development';
 // const ENV = process.env.NODE_ENV || 'production';
 
 
-app.listen(PORT, async () => {
+app.listen(PORT, '0.0.0.0', async () => {
   console.log(`✅ Server running on port ${PORT} in ${ENV} mode`);
 
   try {
@@ -80,3 +80,4 @@ app.listen(PORT, async () => {
     console.error('🔴 Error inicial al obtener productos:', err.message);
   }
 });
+
