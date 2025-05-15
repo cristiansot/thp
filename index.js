@@ -20,11 +20,11 @@ cron.schedule('* */6 * * *', () => {
 });
 
 // Middlewares
-const corsOptions = {
-  origin: ['https://develop.d2autp5rg0pd7o.amplifyapp.com', 'https://thp-backend.us-east-2.elasticbeanstalk.com'],
-  credentials: true,
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: ['https://develop.d2autp5rg0pd7o.amplifyapp.com', 'https://thp-backend.us-east-2.elasticbeanstalk.com'],
+//   credentials: true,
+// };
+// app.use(cors(corsOptions));
 
 app.use(helmet());
 app.use(express.json());
@@ -49,26 +49,26 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 10000;
-const ENV = process.env.NODE_ENV || 'development';
-// const ENV = process.env.NODE_ENV || 'production';
+// const ENV = process.env.NODE_ENV || 'development';
+const ENV = process.env.NODE_ENV || 'production';
 
 
 app.listen(PORT, '0.0.0.0', async () => {
   console.log(`✅ Server running on port ${PORT} in ${ENV} mode`);
 
-  try {
-    console.log('⏳ Ejecutando scraping para monitorear el precio...');
-    await checkPriceDrop();
-    console.log('✅ Scraping inicial completo.');
-  } catch (err) {
-    console.error('❌ Error al ejecutar scraping inicial:', err.message);
-  }
+  // try {
+  //   console.log('⏳ Ejecutando scraping para monitorear el precio...');
+  //   await checkPriceDrop();
+  //   console.log('✅ Scraping inicial completo.');
+  // } catch (err) {
+  //   console.error('❌ Error al ejecutar scraping inicial:', err.message);
+  // }
 
-  try {
-    const properties = await fetchPropertiesFromML();
-    console.log('🔹 Productos del vendedor al arrancar el servidor:', properties);
-  } catch (err) {
-    console.error('🔴 Error inicial al obtener productos:', err.message);
-  }
+  // try {
+  //   const properties = await fetchPropertiesFromML();
+  //   console.log('🔹 Productos del vendedor al arrancar el servidor:', properties);
+  // } catch (err) {
+  //   console.error('🔴 Error inicial al obtener productos:', err.message);
+  // }
 });
 
