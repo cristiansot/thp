@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
-import { fetchPropertiesFromML, getDetailedProperties } from './routes/properties.js';
+// import { fetchPropertiesFromML, getDetailedProperties } from './routes/properties.js';
 import { checkTokens } from './routes/auth.js';
 import cron from 'node-cron';
 import { checkPriceDrop } from './scraping/priceChecker.js';
@@ -13,15 +13,6 @@ import router from './routes/contact.js';
 
 dotenv.config();
 const app = express();
-
-app.use((req, res, next) => {
-  if (req.headers['x-forwarded-proto'] !== 'https') {
-    return res.redirect(['https://', req.get('Host'), req.url].join(''));
-  }
-  next();
-});
-
-
 
 cron.schedule('* */6 * * *', () => {
   console.log('⏱️ Chequeando precio...');
@@ -43,8 +34,8 @@ app.use('/api/contact', router);
 // Rutas
 app.get('/test', (req, res) => res.send('Test page'));
 app.get('/health', (req, res) => res.status(200).json({ status: 'OK' }));
-app.get('/api/properties', fetchPropertiesFromML);
-app.get('/api/properties/detailed', getDetailedProperties);
+// app.get('/api/properties', fetchPropertiesFromML);
+// app.get('/api/properties/detailed', getDetailedProperties);
 app.get('/oauth/login', login);
 app.get('/oauth/callback', callback);
 app.get('/oauth/check', checkTokens);
