@@ -16,16 +16,10 @@ import fs from 'fs';
 dotenv.config();
 const app = express();
 
-const httpsOptions = {
-  key: fs.readFileSync('./ssl/privkey.pem'),
-  cert: fs.readFileSync('./ssl/fullchain.pem'),
-};
-
 cron.schedule('0 0 0 * * *', () => {
   console.log('⏱️ Chequeando precio una vez al día a la medianoche...');
   checkPriceDrop();
 });
-
 
 // Middlewares
 const corsOptions = {
