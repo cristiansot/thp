@@ -53,7 +53,10 @@ const PORT = process.env.PORT || 10000;
 const ENV = process.env.NODE_ENV || 'production';
 
 
-app.listen(PORT, () => {
+app.listen(10000, '0.0.0.0', () => {
+  console.log('Servidor escuchando en puerto 10000');
+});
+
   console.log(`✅ Servidor HTTP corriendo en el puerto ${PORT}`);
 
   // Para llamar funciones async en el callback, usa una función aparte:
@@ -72,5 +75,4 @@ app.listen(PORT, () => {
     } catch (err) {
       console.error('🔴 Error inicial al obtener productos:', err.message);
     }
-  })();
-});
+})();
