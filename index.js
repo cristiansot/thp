@@ -14,10 +14,12 @@ import router from './routes/contact.js';
 dotenv.config();
 const app = express();
 
-cron.schedule('*/2 * * * * *', () => { // cada 2 segundos (para test)
-  console.log('⏱️ Chequeando precio cada 2 segundos para test...');
+cron.schedule('0 0 0 * * *', () => {
+  console.log('⏱️ Chequeando precio una vez al día a la medianoche...');
   checkPriceDrop();
 });
+
+
 // Middlewares
 // const corsOptions = {
 //   origin: ['https://develop.d2autp5rg0pd7o.amplifyapp.com', 'https://thp-backend.us-east-2.elasticbeanstalk.com'],
