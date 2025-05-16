@@ -10,8 +10,6 @@ import { checkTokens } from './routes/auth.js';
 import cron from 'node-cron';
 import { checkPriceDrop } from './scraping/priceChecker.js';
 import router from './routes/contact.js'; 
-import https from 'https';
-import fs from 'fs';
 
 dotenv.config();
 const app = express();
@@ -23,7 +21,7 @@ cron.schedule('0 0 0 * * *', () => {
 
 // Middlewares
 const corsOptions = {
-  origin: ['https://develop.d1fsc0w13cfzr1.amplifyapp.com', 'https://18.191.85.117/, http://18.191.85.117/'],
+  origin: ['https://develop.d1fsc0w13cfzr1.amplifyapp.com', 'https://3.14.158.64/, http://3.14.158.64/, https://3.14.158.64:8443/'],
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -50,7 +48,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 8443;
+const PORT = process.env.PORT || 10000;
 // const ENV = process.env.NODE_ENV || 'development';
 const ENV = process.env.NODE_ENV || 'production';
 
