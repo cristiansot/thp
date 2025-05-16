@@ -21,10 +21,6 @@ const httpsOptions = {
   cert: fs.readFileSync('./ssl/fullchain.pem'),
 };
 
-https.createServer(httpsOptions, app).listen(443, '0.0.0.0', () => {
-  console.log('✅ Servidor HTTPS corriendo en el puerto 443');
-});
-
 cron.schedule('0 0 0 * * *', () => {
   console.log('⏱️ Chequeando precio una vez al día a la medianoche...');
   checkPriceDrop();
