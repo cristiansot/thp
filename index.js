@@ -65,8 +65,8 @@ const PORT = process.env.PORT || 10000;
 const ENV = process.env.NODE_ENV || 'production';
 
 
-app.listen(PORT, '0.0.0.0', async () => {
-  console.log(`✅ Server running on port ${PORT} in ${ENV} mode`);
+https.createServer(httpsOptions, app).listen(443, '0.0.0.0', async () => {
+  console.log('✅ Servidor HTTPS corriendo en el puerto 443');
 
   try {
     console.log('⏳ Ejecutando scraping para monitorear el precio...');
