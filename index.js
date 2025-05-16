@@ -20,7 +20,7 @@ cron.schedule('0 0 0 * * *', () => {
 });
 
 
-Middlewares
+// Middlewares
 const corsOptions = {
   origin: ['https://develop.d1fsc0w13cfzr1.amplifyapp.com', 'https://18.191.85.117/, http://18.191.85.117/'],
   credentials: true,
