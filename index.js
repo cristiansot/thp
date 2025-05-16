@@ -55,22 +55,24 @@ const PORT = process.env.PORT || 8443;
 const ENV = process.env.NODE_ENV || 'production';
 
 
-https.createServer(httpsOptions, app).listen(8443, '0.0.0.0', async () => {
-  console.log('✅ Servidor HTTPS corriendo en el puerto 443');
+app.listen(PORT, () => {
+  console.log(`✅ Servidor HTTP corriendo en el puerto ${PORT}`);
 
-  try {
-    console.log('⏳ Ejecutando scraping para monitorear el precio...');
-    await checkPriceDrop();
-    console.log('✅ Scraping inicial completo.');
-  } catch (err) {
-    console.error('❌ Error al ejecutar scraping inicial:', err.message);
-  }
+  // Para llamar funciones async en el callback, usa una función aparte:
+  (async () => {
+    try {
+      console.log('⏳ Ejecutando scraping para monitorear el precio...');
+      await checkPriceDrop();
+      console.log('✅ Scraping inicial completo.');
+    } catch (err) {
+      console.error('❌ Error al ejecutar scraping inicial:', err.message);
+    }
 
-  try {
-    const properties = await fetchPropertiesFromML();
-    console.log('🔹 Productos del vendedor al arrancar el servidor:', properties);
-  } catch (err) {
-    console.error('🔴 Error inicial al obtener productos:', err.message);
-  }
+    try {
+      const properties = await fetchPropertiesFromML();
+      console.log('🔹 Productos del vendedor al arrancar el servidor:', properties);
+    } catch (err) {
+      console.error('🔴 Error inicial al obtener productos:', err.message);
+    }
+  })();
 });
-
