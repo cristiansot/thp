@@ -21,7 +21,7 @@ cron.schedule('0 0 0 * * *', () => {
 
 // Middlewares
 const corsOptions = {
-  origin: ['https://develop.d1fsc0w13cfzr1.amplifyapp.com', 'https://3.14.158.64/, http://3.14.158.64/, https://3.14.158.64:8443/'],
+  origin: ['https://develop.d1fsc0w13cfzr1.amplifyapp.com', 'https://3.14.158.64/, http://3.14.158.64/, https://3.14.158.64:8443/, https://3.14.158.64:10000/, http://3.14.158.64:10000/'],
   credentials: true,
 };
 app.use(cors(corsOptions));
