@@ -61,7 +61,7 @@ const PORT = process.env.PORT || 10000;
 const ENV = process.env.NODE_ENV || 'production';
 
 
-https.createServer(httpsOptions, app).listen(443, '0.0.0.0', async () => {
+https.createServer(httpsOptions, app).listen(8443, '0.0.0.0', async () => {
   console.log('✅ Servidor HTTPS corriendo en el puerto 443');
 
   try {
