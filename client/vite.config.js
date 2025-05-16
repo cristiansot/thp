@@ -42,10 +42,10 @@ export default defineConfig(({ mode }) => ({
   base: mode === 'production' ? '' : '/',
   plugins: [react()],
   server: {
-    port: 3001,
+    port: 10000,
     proxy: {
       '/api': {
-        target: 'https://thp-backend.us-east-2.elasticbeanstalk.com/', 
+        target: 'http://18.191.85.117/', 
         changeOrigin: true,
         secure: true,
       },
