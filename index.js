@@ -10,9 +10,20 @@ import { checkTokens } from './routes/auth.js';
 import cron from 'node-cron';
 import { checkPriceDrop } from './scraping/priceChecker.js';
 import router from './routes/contact.js'; 
+import https from 'https';
+import fs from 'fs';
 
 dotenv.config();
 const app = express();
+
+const httpsOptions = {
+  key: fs.readFileSync('./ssl/privkey.pem'),
+  cert: fs.readFileSync('./ssl/fullchain.pem'),
+};
+
+https.createServer(httpsOptions, app).listen(443, '0.0.0.0', () => {
+  console.log('✅ Servidor HTTPS corriendo en el puerto 443');
+});
 
 cron.schedule('0 0 0 * * *', () => {
   console.log('⏱️ Chequeando precio una vez al día a la medianoche...');
