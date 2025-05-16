@@ -56,7 +56,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 8443;
 // const ENV = process.env.NODE_ENV || 'development';
 const ENV = process.env.NODE_ENV || 'production';
 
