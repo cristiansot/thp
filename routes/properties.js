@@ -7,7 +7,7 @@ import { sendEmailNotification } from '../services/mail.js';
 
 const STATUS_FILE_PATH = path.resolve('./data/propertyStatus.json');
 
-// 🚨 Compara estado actual con el anterior y envía notificación si cambió
+// Compara estado actual con el anterior y envía notificación si cambió
 const detectStatusChanges = async (currentProperties) => {
   let previousStatus = {};
 
