@@ -53,8 +53,8 @@ const PORT = process.env.PORT || 10000;
 const ENV = process.env.NODE_ENV || 'production';
 
 
-app.listen(10000, '0.0.0.0', () => {
-  console.log('Servidor escuchando en puerto 10000');
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT} in ${ENV} mode`);
 });
 
   console.log(`✅ Servidor HTTP corriendo en el puerto ${PORT}`);
