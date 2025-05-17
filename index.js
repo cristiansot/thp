@@ -21,7 +21,7 @@ cron.schedule('0 0 0 * * *', () => {
 
 // Middlewares
 const corsOptions = {
-  origin: ['https://develop.d1fsc0w13cfzr1.amplifyapp.com', 'https://api.thp.cl/'],
+  origin: ['https://www.thp.cl', 'https://api.thp.cl/'],
   credentials: true,
 };
 app.use(cors(corsOptions));
