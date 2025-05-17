@@ -1,7 +1,6 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-
 import bedroomIcon from '../assets/img/icons/bedroom.svg';
 import bathroomIcon from '../assets/img/icons/bathroom.svg';
 import metersIcon from '../assets/img/icons/meters.svg';
