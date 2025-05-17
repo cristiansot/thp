@@ -45,7 +45,7 @@ export default defineConfig(({ mode }) => ({
     port: 10000,
     proxy: {
       '/api': {
-        target: 'http://18.191.85.117/', 
+        target: 'https://api.thp.cl/', 
         changeOrigin: true,
         secure: true,
       },
