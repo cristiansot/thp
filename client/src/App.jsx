@@ -8,6 +8,7 @@ import MapView from './components/MapView';
 import Filters from './components/Filters';
 import Whatsapp from './components/Whatsapp';
 import Footer from './components/Footer';
+import './App.css';
 
 function App() {
   const [properties, setProperties] = useState([]);
