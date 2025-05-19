@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../assets/css/NavBar.css";
+import mail from "../assets/img/icons/mail.svg";
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -63,6 +64,15 @@ const NavBar = () => {
         <div className={`collapse navbar-collapse ${menuOpen ? "show" : ""}`} id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
+              <a
+                className="nav-link"
+                href="tel:+56992992640"
+                style={{ color: "#42ea60" }}
+              >
+                +56 9 9299 2640
+              </a>
+            </li>
+            <li className="nav-item">
               <button className="nav-link" onClick={() => scrollToSection('home')}>Home</button>
             </li>
             <li className="nav-item">
@@ -70,6 +80,16 @@ const NavBar = () => {
             </li>
             <li className="nav-item">
               <button className="nav-link" onClick={() => scrollToSection('contacto')}>Contacto</button>
+            </li>
+             <li className="nav-item">
+              <a className="nav-link d-flex align-items-center" href="mailto:paula@thp.cl">
+                <img
+                  src={mail}
+                  alt="Correo"
+                  style={{ width: "20px", height: "20px", marginRight: "8px" }}
+                />
+                Escríbenos
+              </a>
             </li>
             {uf && (
               <li>
