@@ -64,6 +64,7 @@ const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => 
       ref={filtersRef}
       className={`filters-container ${isSticky ? 'sticky' : ''}`}
     >
+
       <div className="container my-3">
         <div className="row g-3 align-items-center">
           {/* Tipo de propiedad */}

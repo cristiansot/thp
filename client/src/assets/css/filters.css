@@ -1,5 +1,6 @@
 .filters-container {
-  background-color: rgba(0, 0, 0, 0.779);
+  background-color: #161e24d5;
+  backdrop-filter: blur(10px);
   margin-top: 0 !important;
   padding: 2px;
   width: 100%;
@@ -33,6 +34,9 @@
 }
 
 @media screen and (max-width: 650px) {
+  .filters-container {
+      padding: 14px  !important;
+  }
   .filters-container.sticky {
     top: 76px; /* Ajusta si tu navbar en móvil es más pequeño */
   }
@@ -41,15 +45,8 @@
     width: 100%;
   }
 
-  .container-filters {
-    position: sticky !important;
-    top: px !important;
-    z-index: 999 !important;
-  }
-
   select  {
     height: 30px;
     font-size: 14px !important; 
   }
-
 }
