@@ -60,7 +60,7 @@
   transition: all 200ms linear;
 }
 
-.navbar .nav-item:after {
+/* .navbar .nav-item:after {
   margin-left: 6px;
   content: "";
   position: absolute;
@@ -71,7 +71,7 @@
   background-color: #5a6365;
   opacity: 0;
   transition: all 300ms linear;
-}
+} */
 
 .navbar .nav-item:hover:after {
   bottom: 0;

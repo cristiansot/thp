@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../assets/css/NavBar.css";
 import mail from "../assets/img/icons/mail.svg";
+import phone from "../assets/img/icons/phone_calling.svg";
+
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -65,10 +67,15 @@ const NavBar = () => {
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
               <a
-                className="nav-link"
+                className="nav-link d-flex align-items-center"
                 href="tel:+56992992640"
                 style={{ color: "#42ea60" }}
               >
+                <img
+                  src={phone}
+                  alt="Teléfono"
+                  style={{ width: "20px", height: "20px", marginRight: "8px" }}
+                />
                 +56 9 9299 2640
               </a>
             </li>
