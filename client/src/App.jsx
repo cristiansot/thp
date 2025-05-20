@@ -51,11 +51,11 @@ function App() {
             setShowMap={setShowMap}
           />
     
-          {/* {
+          {
             showMap
               ? <MapView properties={filteredProperties} zoom={13} />
               : <ContainerCard properties={filteredProperties} loading={loading} error={error} />
-          } */}
+          } 
         <section id="contacto">
           <Footer />
         </section>
