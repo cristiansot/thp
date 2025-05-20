@@ -62,7 +62,7 @@ const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => 
   return (
     <div
       ref={filtersRef}
-      className={`filters-container ${isSticky ? 'sticky' : ''}`}
+      className="filters-container"
     >
 
       <div className="container my-3">
