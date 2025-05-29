@@ -68,38 +68,48 @@ const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => 
       <div className="container my-3">
         <div className="row g-3 align-items-center">
           {/* Tipo de propiedad */}
-          <div className="col-md-4 d-flex align-items-center">
-            <label htmlFor="property-type-filter" className="me-2 mb-0 title">Tipo de propiedad:</label>
-            <select
-              id="property-type-filter"
-              className="form-select"
-              style={{ maxWidth: '200px' }}
-              value={selectedType}
-              onChange={(e) => setSelectedType(e.target.value)}
-            >
-              <option value="all">Todas</option>
-              <option value="house">Casas</option>
-              <option value="apartment">Departamentos</option>
-              <option value="office">Oficinas</option>
-              <option value="land">Parcelas</option>
-            </select>
-          </div>
+         <div className="col-md-4 d-flex align-items-center">
+          <label
+            htmlFor="property-type-filter"
+            className="me-2 mb-0 title flex-shrink-0"
+          >
+            Tipo de propiedad:
+          </label>
+          <select
+            id="property-type-filter"
+            className="form-select flex-grow-1"
+            value={selectedType}
+            onChange={(e) => setSelectedType(e.target.value)}
+          >
+            <option value="all">Todas</option>
+            <option value="house">Casas</option>
+            <option value="apartment">Departamentos</option>
+            <option value="office">Oficinas</option>
+            <option value="land">Parcelas</option>
+          </select>
+        </div>
+
 
           {/* Tipo de operación */}
-          <div className="col-md-4 d-flex align-items-center">
-            <label htmlFor="operation-filter" className="me-2 mb-0 title">Tipo de operación:</label>
-            <select
-              id="operation-filter"
-              className="form-select"
-              style={{ maxWidth: '200px' }}
-              value={selectedOperation}
-              onChange={(e) => setSelectedOperation(e.target.value)}
-            >
-              <option value="all">Todas</option>
-              <option value="venta">Venta</option>
-              <option value="arriendo">Arriendo</option>
-            </select>
-          </div>
+       <div className="col-md-4 d-flex align-items-center">
+          <label
+            htmlFor="operation-filter"
+            className="me-2 mb-0 title flex-shrink-0"
+          >
+            Tipo de operación:
+          </label>
+          <select
+            id="operation-filter"
+            className="form-select flex-grow-1"
+            value={selectedOperation}
+            onChange={(e) => setSelectedOperation(e.target.value)}
+          >
+            <option value="all">Todas</option>
+            <option value="venta">Venta</option>
+            <option value="arriendo">Arriendo</option>
+          </select>
+        </div>
+
 
           {/* Botón para alternar mapa/propiedades */}
           <div className="col-md-4 d-flex justify-content-center align-items-center">
