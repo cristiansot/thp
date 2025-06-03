@@ -6,19 +6,19 @@ import image2 from '../assets/img/carousel/image2.webp';
 import image3 from '../assets/img/carousel/image3.webp';
 
 const slides = [
+   {
+    subtitle: 'Condominio La Foresta 2',
+    title: 'Departamento Promesado',
+    description:
+      'Condominio La Foresta 2, Carlos Walker Martínez, Ciudad del Niño, Santiago',
+    imageUrl: image2,
+  },
   {
     subtitle: 'Quilicura',
     title: 'Casa en Venta en Quilicura',
     description:
       'Casa Vendida',
     imageUrl: image1,
-  },
-  {
-    subtitle: 'Condominio Los Cormoranes Ciudad De Los Valles',
-    title: 'Casa en Venta Santiago',
-    description:
-      'Se Vende espectacular casa semi nueva con tan solo 2 años de uso, modelo Dublín Mediterránea de 2 pisos',
-    imageUrl: image2,
   },
   {
     subtitle: 'Departamento - Oficina En Santa Lucía a Pasos del Barrio Lastarria',
