@@ -7,17 +7,10 @@ import image3 from '../assets/img/carousel/image3.webp';
 
 const slides = [
    {
-    subtitle: 'Condominio La Foresta 2',
+    subtitle: 'La Cisterna',
     title: 'Departamento Promesado',
     description:
-      'Condominio La Foresta 2, Carlos Walker Martínez, Ciudad del Niño, Santiago',
-    imageUrl: image2,
-  },
-  {
-    subtitle: 'Quilicura',
-    title: 'Casa en Venta en Quilicura',
-    description:
-      'Casa Vendida',
+      'Departamento Cercano A Metro El Parrón, La Cisterna',
     imageUrl: image1,
   },
   {
@@ -26,6 +19,13 @@ const slides = [
     description:
       'Se Vende gran departamento de 185 m2, que abarca todo el piso 4° del edificio. Ubicación oriente con hermosa vista hacia el cerro Santa Lucía',
     imageUrl: image3,
+  },
+   {
+    subtitle: 'Condominio La Foresta 2',
+    title: 'Departamento Promesado',
+    description:
+      'Condominio La Foresta 2, Carlos Walker Martínez, Ciudad del Niño, Santiago',
+    imageUrl: image2,
   },
 ];
 
