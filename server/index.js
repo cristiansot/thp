@@ -1,4 +1,3 @@
-// index.js
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -8,7 +7,7 @@ import { callback } from './oauth/callback.js';
 import { fetchPropertiesFromML, getDetailedProperties } from './routes/properties.js';
 import { checkTokens } from './routes/auth.js';
 import cron from 'node-cron';
-import { checkPriceDrop } from './scraping/priceChecker.js';
+// import { checkPriceDrop } from './scraping/priceChecker.js';
 import router from './routes/contact.js'; 
 
 dotenv.config();
@@ -21,12 +20,10 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
-cron.schedule('* */6 * * *', () => {
-  console.log('⏱️ Chequeando precio...');
-  checkPriceDrop();
-});
+// cron.schedule('* */6 * * *', () => {
+//   console.log('⏱️ Chequeando precio...');
+//   checkPriceDrop();
+// });
 
 // Middlewares
 const corsOptions = {
@@ -65,13 +62,13 @@ const ENV = process.env.NODE_ENV || 'development';
 app.listen(PORT, async () => {
   console.log(`✅ Server running on port ${PORT} in ${ENV} mode`);
 
-  try {
-    console.log('⏳ Ejecutando scraping para monitorear el precio...');
-    await checkPriceDrop();
-    console.log('✅ Scraping inicial completo.');
-  } catch (err) {
-    console.error('❌ Error al ejecutar scraping inicial:', err.message);
-  }
+  // try {
+  //   console.log('⏳ Ejecutando scraping para monitorear el precio...');
+  //   await checkPriceDrop();
+  //   console.log('✅ Scraping inicial completo.');
+  // } catch (err) {
+  //   console.error('❌ Error al ejecutar scraping inicial:', err.message);
+  // }
 
   try {
     const properties = await fetchPropertiesFromML();
