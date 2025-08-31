@@ -2,10 +2,17 @@ import React, { useState, useEffect } from 'react';
 import '../assets/css/carousel.css';
 
 import image1 from '../assets/img/carousel/image1.webp';
-import image2 from '../assets/img/carousel/image2.webp';
+import image4 from '../assets/img/carousel/image4.webp';
 import image3 from '../assets/img/carousel/image3.webp';
 
 const slides = [
+  {
+    subtitle: 'Edificio Departamental II',
+    title: 'Departamento Arrendado',
+    description:
+      'Nueva Cuatro 6277 La Florida, Santiago',
+    imageUrl: image4,
+  },
    {
     subtitle: 'La Cisterna',
     title: 'Departamento Promesado',
@@ -19,13 +26,6 @@ const slides = [
     description:
       'Se Vende gran departamento de 185 m2, que abarca todo el piso 4° del edificio. Ubicación oriente con hermosa vista hacia el cerro Santa Lucía',
     imageUrl: image3,
-  },
-   {
-    subtitle: 'Condominio La Foresta 2',
-    title: 'Departamento Promesado',
-    description:
-      'Condominio La Foresta 2, Carlos Walker Martínez, Ciudad del Niño, Santiago',
-    imageUrl: image2,
   },
 ];
 
