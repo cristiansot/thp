@@ -4,8 +4,17 @@ import '../assets/css/carousel.css';
 import image1 from '../assets/img/carousel/image1.webp';
 import image4 from '../assets/img/carousel/image4.webp';
 import image3 from '../assets/img/carousel/image3.webp';
+import image5 from '../assets/img/carousel/image5.webp';
+
 
 const slides = [
+   {
+    subtitle: 'San Miguel',
+    title: 'Departamento Vendido',
+    description:
+      'Departamento Ubicado en calle Barros Luco, San Miguel',
+    imageUrl: image5,
+  },
   {
     subtitle: 'Edificio Departamental II',
     title: 'Departamento Arrendado',
