@@ -4,31 +4,31 @@ import "../assets/css/filters.css";
 const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => {
   const [selectedType, setSelectedType] = useState('all');
   const [selectedOperation, setSelectedOperation] = useState('all');
-  const [isSticky, setIsSticky] = useState(false);
+  // const [isSticky, setIsSticky] = useState(false);
   const filtersRef = useRef(null);
-  const lastScrollY = useRef(0);
+  // const lastScrollY = useRef(0);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      const filterTop = filtersRef.current.getBoundingClientRect().top;
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const currentScrollY = window.scrollY;
+  //     const filterTop = filtersRef.current.getBoundingClientRect().top;
       
-      // Al bajar, cuando el filtro pasa los 80px del top, debe quedarse sticky
-      if (currentScrollY > filterTop && currentScrollY > lastScrollY.current) {
-        setIsSticky(true);
-      }
-      // Al subir, debe quedarse visible hasta que vuelva a la posición original
-      else if (currentScrollY < lastScrollY.current && currentScrollY < filterTop) {
-        setIsSticky(false);
-      }
+  //     // Al bajar, cuando el filtro pasa los 80px del top, debe quedarse sticky
+  //     if (currentScrollY > filterTop && currentScrollY > lastScrollY.current) {
+  //       setIsSticky(true);
+  //     }
+  //     // Al subir, debe quedarse visible hasta que vuelva a la posición original
+  //     else if (currentScrollY < lastScrollY.current && currentScrollY < filterTop) {
+  //       setIsSticky(false);
+  //     }
       
-      // Mantenemos la referencia del scroll
-      lastScrollY.current = currentScrollY;
-    };
+  //     // Mantenemos la referencia del scroll
+  //     lastScrollY.current = currentScrollY;
+  //   };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, []);
 
   useEffect(() => {
     let filtered = properties;
@@ -61,6 +61,7 @@ const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => 
 
   return (
     <div
+      style={{ zIndex: 'auto' }}
       ref={filtersRef}
       className="filters-container"
     >
