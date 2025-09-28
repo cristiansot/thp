@@ -15,8 +15,8 @@
 
 // export default Whatsapp;
 
-// import React from 'react';
-// import '../assets/css/whatsapp.css'
+import React from 'react';
+import '../assets/css/whatsapp.css'
 
 const Whatsapp = () => {
   return (
