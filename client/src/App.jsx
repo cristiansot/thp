@@ -45,6 +45,7 @@ function App() {
           <Carousel />
           <Whatsapp />
           <Filters
+            style={{ zIndex: 0 }}
             properties={properties}
             setFilteredProperties={setFilteredProperties}
             showMap={showMap}
