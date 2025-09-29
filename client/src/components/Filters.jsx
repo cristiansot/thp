@@ -87,7 +87,6 @@ const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => 
           </select>
         </div>
 
-
           {/* Botón para alternar mapa/propiedades */}
           <div className="col-md-4 d-flex justify-content-center align-items-center">
             <button
