@@ -13,7 +13,6 @@ body {
   align-items: center;
   background-color: #161e24;
   padding: 0;
-  z-index: -1;
 }
 
 .loading, .error {
