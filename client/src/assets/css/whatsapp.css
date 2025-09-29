@@ -7,7 +7,7 @@
     width: 200px;
     height: 200px;
     cursor: pointer;
-    z-index: 99 !important;
+    z-index: 2147483647 !important;
     -webkit-backface-visibility: hidden;
     -webkit-transform: translateZ(0);
     -webkit-transition: visibility 0.5s;
@@ -22,7 +22,7 @@
     background-color: transparent;  
     width: 160px;
     height: 160px;
-    z-index: 200000 !important;
+    z-index: 2147483647 !important;
     -webkit-backface-visibility: hidden;
     -webkit-transform: translateZ(0);
     -webkit-transition: visibility 0.5s;
