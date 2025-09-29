@@ -59,8 +59,7 @@ function PropertyCard({ title, price, permalink, image, area, bedrooms, bathroom
         />
       )}
 
-      <Card.Body style={{ zIndex: '-1' }} 
->
+      <Card.Body>
         <Card.Title className="card--title">{title}</Card.Title>
         <Card.Text className="card--price">{formatPrice(price)}</Card.Text>
 
