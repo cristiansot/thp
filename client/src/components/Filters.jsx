@@ -37,7 +37,6 @@ const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => 
 
   return (
     <div
-      style={{ zIndex: '-1' }}
       ref={filtersRef}
       className="filters-container"
     >
