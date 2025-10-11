@@ -27,7 +27,6 @@ body {
 
 .container {
   margin-top: 40px;
-  z-index: -10;
 }
 
 .card-enter {

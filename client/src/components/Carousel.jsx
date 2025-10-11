@@ -2,39 +2,39 @@ import React, { useState, useEffect } from 'react';
 import '../assets/css/carousel.css';
 
 import image1 from '../assets/img/carousel/image1.webp';
-import image4 from '../assets/img/carousel/image4.webp';
+import image2 from '../assets/img/carousel/image2.webp';
 import image3 from '../assets/img/carousel/image3.webp';
-import image5 from '../assets/img/carousel/image5.webp';
+import image4 from '../assets/img/carousel/image4.webp';
 
 
 const slides = [
    {
-    subtitle: 'San Miguel',
-    title: 'Departamento Vendido',
-    description:
-      'Departamento Ubicado en calle Barros Luco, San Miguel',
-    imageUrl: image5,
-  },
-  {
-    subtitle: 'Edificio Departamental II',
-    title: 'Departamento Arrendado',
-    description:
-      'Nueva Cuatro 6277 La Florida, Santiago',
-    imageUrl: image4,
-  },
-   {
     subtitle: 'La Cisterna',
-    title: 'Departamento Promesado',
+    title: 'Departamento Vendido',
     description:
       'Departamento Cercano A Metro El Parrón, La Cisterna',
     imageUrl: image1,
   },
   {
-    subtitle: 'Departamento - Oficina En Santa Lucía a Pasos del Barrio Lastarria',
-    title: 'Departamento Oficina en Venta Santiago',
+    subtitle: 'San Miguel',
+    title: 'Departamento Vendido',
     description:
-      'Se Vende gran departamento de 185 m2, que abarca todo el piso 4° del edificio. Ubicación oriente con hermosa vista hacia el cerro Santa Lucía',
+      'Departamento ubicado en Condominio La Foresta II, C. Del Niño',
+    imageUrl: image2,
+  },
+     {
+    subtitle: 'Macul',
+    title: 'Departamento Vendido',
+    description:
+      'Condominio Parque Las Palmas, Metro Macul',
     imageUrl: image3,
+  },
+     {
+    subtitle: 'San Miguel',
+    title: 'Departamento Vendido',
+    description:
+      'Departamento Ubicado en calle Barros Luco, San Miguel',
+    imageUrl: image4,
   },
 ];
 
