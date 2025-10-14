@@ -7,10 +7,10 @@
 #root {
   margin: 0 auto;
   padding: 0;
+  max-width: 100%;
 }
 
 body {
-  max-width: 100%;
   align-items: center;
   background-color: #161e24;
   padding: 0;
