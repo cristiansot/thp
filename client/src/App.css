@@ -10,6 +10,7 @@
 }
 
 body {
+  max-width: 100%;
   align-items: center;
   background-color: #161e24;
   padding: 0;
