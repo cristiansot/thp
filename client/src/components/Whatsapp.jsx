@@ -4,7 +4,7 @@ const Whatsapp = () => {
   return (
     <div className="phone-call cbh-phone cbh-green cbh-show cbh-static" id="clbh_phone_div" 
       style={{ position: 'fixed', bottom: '0px', right: '5px', zIndex: '2147483647' }}>
-      <a id="WhatsApp-button" href="whatsapp://send?text= Hola Total Home Propiedades, necesito de tus servicios&amp;phone=+56981607737" className="phoneJs" title="Enviar mensaje!">
+      <a id="WhatsApp-button" href="whatsapp://send?text= Hola Total Home Propiedades, necesito de tus servicios&amp;phone=+56992992640" className="phoneJs" title="Enviar mensaje!">
         <div className="cbh-ph-circle"></div>
         <div className="cbh-ph-circle-fill"></div>
         <div className="cbh-ph-img-circle1"></div>
