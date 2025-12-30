@@ -9,10 +9,10 @@ import image4 from '../assets/img/carousel/image4.webp';
 
 const slides = [
    {
-    subtitle: 'La Cisterna',
+    subtitle: 'San Miguel',
     title: 'Departamento Vendido',
     description:
-      'Departamento Cercano A Metro El Parrón, La Cisterna',
+      'Departamento ubicado en Metro El LLano',
     imageUrl: image1,
   },
   {
