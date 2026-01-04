@@ -2,16 +2,14 @@ import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
 import { getValidAccessToken } from '../services/authManager.js';
-import { getTokens } from '../oauth/tokenStorage.js';
 import { sendEmailNotification } from '../services/mail.js';
 
 const STATUS_FILE_PATH = path.resolve('./data/propertyStatus.json');
 
-// 🚨 Compara estado actual con el anterior y envía notificación si cambió
+// 🚨 Detecta cambios de estado y envía notificaciones
 const detectStatusChanges = async (currentProperties) => {
   let previousStatus = {};
 
-  // Leer archivo (o crear si no existe)
   try {
     if (fs.existsSync(STATUS_FILE_PATH)) {
       const raw = fs.readFileSync(STATUS_FILE_PATH, 'utf-8');
@@ -30,10 +28,9 @@ const detectStatusChanges = async (currentProperties) => {
       console.log(`🔔 Estado cambiado para ${property.title}: ${prev} → ${property.status}`);
       sendEmailNotification(property);
     }
-    previousStatus[property.id] = property.status; // actualizar el estado
+    previousStatus[property.id] = property.status;
   }
 
-  // Guardar estado actualizado
   try {
     fs.writeFileSync(STATUS_FILE_PATH, JSON.stringify(previousStatus, null, 2));
   } catch (err) {
@@ -43,16 +40,17 @@ const detectStatusChanges = async (currentProperties) => {
 
 // 🔍 Obtener IDs de propiedades del vendedor
 export const fetchPropertiesFromML = async () => {
-  const { access_token } = getTokens();
-  if (!access_token) throw new Error('No se encontró un token de acceso válido');
+  const accessToken = await getValidAccessToken();
+  if (!accessToken) throw new Error('No se encontró un token de acceso válido');
 
   const user_id = process.env.USER_ID;
   const url = `https://api.mercadolibre.com/users/${user_id}/items/search`;
 
   try {
     const { data } = await axios.get(url, {
-      headers: { Authorization: `Bearer ${access_token}` },
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
+
     return data.results;
   } catch (error) {
     console.error('Error al obtener las propiedades:', error.response?.data || error.message);
@@ -60,7 +58,7 @@ export const fetchPropertiesFromML = async () => {
   }
 };
 
-// 🧠 Obtener detalles de propiedades sin filtrar
+// 🧠 Obtener detalles de propiedades
 export const detailProperties = async () => {
   const accessToken = await getValidAccessToken();
   const ids = await fetchPropertiesFromML();
@@ -74,10 +72,9 @@ export const detailProperties = async () => {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
-      const { title, price, pictures, attributes, permalink, video_id } = data;
+      const { title, price, pictures, attributes, permalink, video_id, status, geolocation, domain_id } = data;
 
-      const extractAttr = (attrId) =>
-        attributes.find((attr) => attr.id === attrId)?.value_name || null;
+      const extractAttr = (attrId) => attributes.find((a) => a.id === attrId)?.value_name || null;
 
       properties.push({
         id,
@@ -87,15 +84,15 @@ export const detailProperties = async () => {
         bedrooms: extractAttr('BEDROOMS'),
         bathrooms: extractAttr('FULL_BATHROOMS'),
         area: extractAttr('COVERED_AREA'),
-        status: data.status,
+        status,
         permalink,
         video_id,
         offices: extractAttr('OFFICES'),
         total_area: extractAttr('TOTAL_AREA'),
-        latitude: data.geolocation?.latitude || null,
-        longitude: data.geolocation?.longitude || null,
+        latitude: geolocation?.latitude || null,
+        longitude: geolocation?.longitude || null,
         operation: extractAttr('OPERATION'),
-        domain_id: data.domain_id,
+        domain_id,
       });
     } catch (error) {
       console.error(`Error al obtener detalles de ${id}:`, error.response?.data || error.message);
