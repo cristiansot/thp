@@ -2,7 +2,6 @@ import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
 import { getValidAccessToken } from '../services/authManager.js';
-import { getTokens } from '../oauth/tokenStorage.js';
 import { sendEmailNotification } from '../services/mail.js';
 
 const STATUS_FILE_PATH = path.resolve('./data/propertyStatus.json');
@@ -28,7 +27,11 @@ const detectStatusChanges = async (currentProperties) => {
     const prev = previousStatus[property.id];
     if (prev && prev !== property.status) {
       console.log(`🔔 Estado cambiado para ${property.title}: ${prev} → ${property.status}`);
-      sendEmailNotification(property);
+      try {
+        await sendEmailNotification(property);
+      } catch (err) {
+        console.error('Error enviando email:', err.message);
+      }
     }
     previousStatus[property.id] = property.status; // actualizar el estado
   }
@@ -41,29 +44,38 @@ const detectStatusChanges = async (currentProperties) => {
   }
 };
 
-// 🔍 Obtener IDs de propiedades del vendedor
-export const fetchPropertiesFromML = async () => {
-  const { access_token } = getTokens();
-  if (!access_token) throw new Error('No se encontró un token de acceso válido');
+// 🔍 Obtener IDs de propiedades del vendedor de manera segura
+export const fetchPropertiesFromML = async (accessToken) => {
+  if (!accessToken) {
+    console.warn('⚠️ No hay access_token válido, se omite fetch de propiedades');
+    return [];
+  }
 
   const user_id = process.env.USER_ID;
   const url = `https://api.mercadolibre.com/users/${user_id}/items/search`;
 
   try {
     const { data } = await axios.get(url, {
-      headers: { Authorization: `Bearer ${access_token}` },
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
-    return data.results;
+    return data.results || [];
   } catch (error) {
     console.error('Error al obtener las propiedades:', error.response?.data || error.message);
-    throw new Error('No se pudieron obtener las propiedades');
+    return [];
   }
 };
 
-// 🧠 Obtener detalles de propiedades sin filtrar
+// 🧠 Obtener detalles de propiedades de forma segura
 export const detailProperties = async () => {
   const accessToken = await getValidAccessToken();
-  const ids = await fetchPropertiesFromML();
+
+  // ⚠️ Protección: si no hay token, retornamos array vacío
+  if (!accessToken) {
+    console.warn('⚠️ No hay token válido, detailProperties retorna vacío');
+    return [];
+  }
+
+  const ids = await fetchPropertiesFromML(accessToken);
   const properties = [];
 
   for (const id of ids) {
@@ -74,10 +86,10 @@ export const detailProperties = async () => {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
-      const { title, price, pictures, attributes, permalink, video_id } = data;
+      const { title, price, pictures, attributes, permalink, video_id, geolocation, status, domain_id, date_created, last_updated } = data;
 
       const extractAttr = (attrId) =>
-        attributes.find((attr) => attr.id === attrId)?.value_name || null;
+        attributes?.find((attr) => attr.id === attrId)?.value_name || null;
 
       properties.push({
         id,
@@ -87,17 +99,17 @@ export const detailProperties = async () => {
         bedrooms: extractAttr('BEDROOMS'),
         bathrooms: extractAttr('FULL_BATHROOMS'),
         area: extractAttr('COVERED_AREA'),
-        status: data.status,
+        status,
         permalink,
         video_id,
         offices: extractAttr('OFFICES'),
         total_area: extractAttr('TOTAL_AREA'),
-        latitude: data.geolocation?.latitude || null,
-        longitude: data.geolocation?.longitude || null,
+        latitude: geolocation?.latitude || null,
+        longitude: geolocation?.longitude || null,
         operation: extractAttr('OPERATION'),
-        domain_id: data.domain_id,
-        date_created: data.date_created || null,
-        last_updated: data.last_updated || null,
+        domain_id,
+        date_created: date_created || null,
+        last_updated: last_updated || null,
       });
     } catch (error) {
       console.error(`Error al obtener detalles de ${id}:`, error.response?.data || error.message);
@@ -127,7 +139,7 @@ export const getDetailedProperties = async (req, res) => {
   } catch (error) {
     console.error('Error al obtener propiedades detalladas:', error.message);
     res.status(500).json({
-      error: error.message || 'No se pudieron obtener los detalles de las propiedades',
+      error: 'No se pudieron obtener los detalles de las propiedades',
     });
   }
 };

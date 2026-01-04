@@ -10,13 +10,13 @@ export const getTokens = () => {
   try {
     if (!fs.existsSync(tokensPath)) {
       console.warn('⚠️ tokens.json no existe');
-      return null;
+      return {};
     }
 
     const data = fs.readFileSync(tokensPath, 'utf-8');
     if (!data.trim()) {
       console.warn('⚠️ tokens.json está vacío');
-      return null;
+      return {};
     }
 
     const tokens = JSON.parse(data);
@@ -24,14 +24,14 @@ export const getTokens = () => {
     return tokens;
   } catch (err) {
     console.error('❌ Error al leer tokens.json:', err.message);
-    return null;
+    return {};
   }
 };
 
 export const saveTokens = (tokens) => {
   try {
     if (!tokens.access_token || !tokens.refresh_token || !tokens.expires_at) {
-      console.error("❌ Tokens inválidos:", tokens);
+      console.error('❌ Tokens inválidos:', tokens);
       return;
     }
 

@@ -13,8 +13,9 @@ import router from './routes/contact.js';
 dotenv.config();
 const app = express();
 
+// 🔒 Forzar HTTPS solo si existe la cabecera (evita crash local)
 app.use((req, res, next) => {
-  if (req.headers['x-forwarded-proto'] !== 'https') {
+  if (req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] !== 'https') {
     return res.redirect(['https://', req.get('Host'), req.url].join(''));
   }
   next();
@@ -27,28 +28,38 @@ app.use((req, res, next) => {
 
 // Middlewares
 const corsOptions = {
-  origin: ['https://develop.d2autp5rg0pd7o.amplifyapp.com', 'https://thp-backend.us-east-2.elasticbeanstalk.com'],
+  origin: [
+    'https://develop.d2autp5rg0pd7o.amplifyapp.com',
+    'https://thp-backend.us-east-2.elasticbeanstalk.com'
+  ],
   credentials: true,
 };
 app.use(cors(corsOptions));
-
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/contact', router);
 
-// Rutas
+// ✅ Rutas básicas
 app.get('/test', (req, res) => res.send('Test page'));
 app.get('/health', (req, res) => res.status(200).json({ status: 'OK' }));
-app.get('/api/properties', fetchPropertiesFromML);
+app.get('/api/properties', async (req, res) => {
+  try {
+    const props = await fetchPropertiesFromML();
+    res.status(200).json(props);
+  } catch (err) {
+    console.error('🔴 Error en /api/properties:', err.message);
+    res.status(500).json({ error: 'No se pudieron obtener las propiedades' });
+  }
+});
 app.get('/api/properties/detailed', getDetailedProperties);
 app.get('/oauth/login', login);
 app.get('/oauth/callback', callback);
 app.get('/oauth/check', checkTokens);
 
-// Error handler
+// Error handler global
 app.use((err, req, res, next) => {
-  console.error('🔴 Error:', err.message);
+  console.error('🔴 Error global:', err.message);
   res.status(err.status || 500).json({
     error: err.message || 'Algo salió mal.',
   });
