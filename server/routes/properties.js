@@ -96,6 +96,8 @@ export const detailProperties = async () => {
         longitude: data.geolocation?.longitude || null,
         operation: extractAttr('OPERATION'),
         domain_id: data.domain_id,
+        date_created: data.date_created || null,
+        last_updated: data.last_updated || null,
       });
     } catch (error) {
       console.error(`Error al obtener detalles de ${id}:`, error.response?.data || error.message);
@@ -109,6 +111,11 @@ export const detailProperties = async () => {
 export const getDetailedProperties = async (req, res) => {
   try {
     const allProperties = await detailProperties();
+
+    // ✅ ORDENAR POR FECHA DE PUBLICACIÓN (más nuevo primero)
+    allProperties.sort(
+      (a, b) => new Date(b.date_created) - new Date(a.date_created)
+    );
 
     // Detectar cambios de estado y notificar
     await detectStatusChanges(allProperties);
