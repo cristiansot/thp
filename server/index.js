@@ -55,11 +55,9 @@ app.get('/oauth/check', checkTokens);
 // });
 
 app.use((req, res, next) => {
-  // Si no es HTTPS, redirige al host correcto
-  if (!req.secure) {
-    // Usa el host real, no 127.0.0.1
-    const host = req.get('host'); // viene de Nginx o Cloudflare
-    return res.redirect(`https://${host}${req.url}`);
+  // Sólo redirige si la petición viene desde un cliente externo (no localhost) y no es https
+  if (req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] !== 'https') {
+    return res.redirect(`https://${req.headers.host}${req.url}`);
   }
   next();
 });
