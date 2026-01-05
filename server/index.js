@@ -18,7 +18,7 @@ app.set('trust proxy', true);
 // Middleware para HTTPS correcto con Cloudflare Flexible
 app.use((req, res, next) => {
   if (!req.secure) {
-    // Redirige usando el host real que Nginx pasa
+    // Redirige usando el host real que Nginx/Cloudflare pasa
     return res.redirect(`https://${req.headers.host}${req.url}`);
   }
   next();
@@ -54,12 +54,14 @@ app.get('/oauth/check', checkTokens);
 //   checkPriceDrop();
 // });
 
-// Error handler
-app.use((err, req, res, next) => {
-  console.error('🔴 Error:', err.message);
-  res.status(err.status || 500).json({
-    error: err.message || 'Algo salió mal.',
-  });
+app.use((req, res, next) => {
+  // Si no es HTTPS, redirige al host correcto
+  if (!req.secure) {
+    // Usa el host real, no 127.0.0.1
+    const host = req.get('host'); // viene de Nginx o Cloudflare
+    return res.redirect(`https://${host}${req.url}`);
+  }
+  next();
 });
 
 // Inicialización del servidor
