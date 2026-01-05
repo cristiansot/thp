@@ -12,25 +12,18 @@ import router from './routes/contact.js';
 dotenv.config();
 const app = express();
 
-// ⚡ Configurar Express detrás de un proxy (Nginx/Cloudflare)
-app.set('trust proxy', true);
+// ⚡ Configurar Express detrás de Cloudflare
+app.set('trust proxy', 1); // Cambia a 1 o true
 
-// Middleware para HTTPS correcto con Cloudflare Flexible
-// Detecta si la petición vino HTTPS real a través de un proxy (Cloudflare, Nginx)
-app.use((req, res, next) => {
-  if (req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] !== 'https') {
-    // Solo redirige si no vino HTTPS
-    return res.redirect(301, `https://${req.headers.host}${req.url}`);
-  }
-  next();
-});
-
-
-// Middlewares
+// Middleware de CORS CORREGIDO
 const corsOptions = {
   origin: [
     'https://develop.d2autp5rg0pd7o.amplifyapp.com',
-    'https://thp-backend.us-east-2.elasticbeanstalk.com'
+    'https://thp-backend.us-east-2.elasticbeanstalk.com',
+    'https://api.thp.cl',  // ← AGREGAR TU DOMINIO
+    'https://thp.cl',      // ← SI TAMBIÉN LO USAS
+    'http://localhost:3000', // Para desarrollo local
+    'http://localhost:3001'  // Para desarrollo local
   ],
   credentials: true,
 };
@@ -41,6 +34,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/contact', router);
 
+// 🚨 ELIMINAR O COMENTAR LOS MIDDLEWARE DE REDIRECCIÓN HTTPS
+// CloudFlare ya maneja HTTPS, tu backend recibe HTTP
+// app.use((req, res, next) => {
+//   if (req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] !== 'https') {
+//     return res.redirect(301, `https://${req.headers.host}${req.url}`);
+//   }
+//   next();
+// });
+
 // Rutas
 app.get('/test', (req, res) => res.send('Test page'));
 app.get('/health', (req, res) => res.status(200).json({ status: 'OK' }));
@@ -50,34 +52,22 @@ app.get('/oauth/login', login);
 app.get('/oauth/callback', callback);
 app.get('/oauth/check', checkTokens);
 
-// Cron job comentado (puedes activarlo cuando quieras)
-// cron.schedule('* */6 * * *', () => {
-//   console.log('⏱️ Chequeando precio...');
-//   checkPriceDrop();
+// 🚨 ELIMINAR ESTE MIDDLEWARE TAMBIÉN
+// app.use((req, res, next) => {
+//   if (!req.secure) {
+//     return res.redirect(`https://${req.headers.host}${req.url}`);
+//   }
+//   next();
 // });
 
-app.use((req, res, next) => {
-  if (!req.secure) { // verifica si la petición es segura
-    return res.redirect(`https://${req.headers.host}${req.url}`);
-  }
-  next();
-});
 // Inicialización del servidor
 const PORT = process.env.PORT || 3001;
 const ENV = process.env.NODE_ENV || 'development';
 
-app.listen(PORT, async () => {
+app.listen(PORT, '0.0.0.0', async () => { // ← ESCUCHAR EN TODAS LAS INTERFACES
   console.log(`✅ Server running on port ${PORT} in ${ENV} mode`);
 
-  // try {
-  //   console.log('⏳ Ejecutando scraping para monitorear el precio...');
-  //   await checkPriceDrop();
-  //   console.log('✅ Scraping inicial completo.');
-  // } catch (err) {
-  //   console.error('❌ Error al ejecutar scraping inicial:', err.message);
-  // }
-
-   try {
+  try {
     const properties = await fetchPropertiesFromML();
     console.log('🔹 Productos del vendedor al arrancar el servidor:', properties);
   } catch (err) {
