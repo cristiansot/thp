@@ -6,70 +6,85 @@ import { login } from './oauth/login.js';
 import { callback } from './oauth/callback.js';
 import { fetchPropertiesFromML, getDetailedProperties } from './routes/properties.js';
 import { checkTokens } from './routes/auth.js';
-import cron from 'node-cron';
-import router from './routes/contact.js'; 
+import router from './routes/contact.js';
 
 dotenv.config();
 const app = express();
 
-// ⚡ Configurar Express detrás de Cloudflare
-app.set('trust proxy', 1); // Cambia a 1 o true
+// Configuración robusta de CORS
+const allowedOrigins = [
+  'https://www.thp.cl',
+  'https://thp.cl',
+  'http://www.thp.cl',
+  'http://thp.cl',
+  'https://api.thp.cl',
+  'https://develop.d2autp5rg0pd7o.amplifyapp.com',
+  'https://thp-backend.us-east-2.elasticbeanstalk.com',
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:5173'
+];
 
-// Middleware de CORS CORREGIDO
 const corsOptions = {
-  origin: [
-    'https://develop.d2autp5rg0pd7o.amplifyapp.com',
-    'https://thp-backend.us-east-2.elasticbeanstalk.com',
-    'https://api.thp.cl',  // ← AGREGAR TU DOMINIO
-    'https://thp.cl',      // ← SI TAMBIÉN LO USAS
-    'http://localhost:3000', // Para desarrollo local
-    'http://localhost:3001'  // Para desarrollo local
-  ],
+  origin: function (origin, callback) {
+    console.log('🌐 CORS Origin recibido:', origin);
+    
+    // Permitir requests sin origin (como curl, postman)
+    if (!origin) {
+      console.log('✅ Request sin origin (permitido)');
+      return callback(null, true);
+    }
+    
+    // Verificar si el origin está en la lista blanca
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      console.log('✅ Origin permitido:', origin);
+      return callback(null, true);
+    } else {
+      console.log('❌ Origin bloqueado:', origin);
+      return callback(new Error('CORS no permitido para este origen'));
+    }
+  },
   credentials: true,
+  optionsSuccessStatus: 200,
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 };
+
+// Aplicar CORS globalmente
 app.use(cors(corsOptions));
 
+// Handle preflight OPTIONS requests
+app.options('*', cors(corsOptions));
+
+app.set('trust proxy', 1);
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/contact', router);
 
-// 🚨 ELIMINAR O COMENTAR LOS MIDDLEWARE DE REDIRECCIÓN HTTPS
-// CloudFlare ya maneja HTTPS, tu backend recibe HTTP
-// app.use((req, res, next) => {
-//   if (req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] !== 'https') {
-//     return res.redirect(301, `https://${req.headers.host}${req.url}`);
-//   }
-//   next();
-// });
-
 // Rutas
-app.get('/test', (req, res) => res.send('Test page'));
-app.get('/health', (req, res) => res.status(200).json({ status: 'OK' }));
+app.get('/test', (req, res) => res.send('Test page - CORS Fixed'));
+app.get('/health', (req, res) => res.status(200).json({ 
+  status: 'OK', 
+  cors: 'enabled',
+  timestamp: new Date().toISOString()
+}));
 app.get('/api/properties', fetchPropertiesFromML);
 app.get('/api/properties/detailed', getDetailedProperties);
 app.get('/oauth/login', login);
 app.get('/oauth/callback', callback);
 app.get('/oauth/check', checkTokens);
 
-// 🚨 ELIMINAR ESTE MIDDLEWARE TAMBIÉN
-// app.use((req, res, next) => {
-//   if (!req.secure) {
-//     return res.redirect(`https://${req.headers.host}${req.url}`);
-//   }
-//   next();
-// });
-
-// Inicialización del servidor
 const PORT = process.env.PORT || 3001;
 const ENV = process.env.NODE_ENV || 'development';
 
-app.listen(PORT, '0.0.0.0', async () => { // ← ESCUCHAR EN TODAS LAS INTERFACES
+app.listen(PORT, '0.0.0.0', async () => {
   console.log(`✅ Server running on port ${PORT} in ${ENV} mode`);
+  console.log(`🌐 CORS habilitado para: ${allowedOrigins.join(', ')}`);
 
   try {
     const properties = await fetchPropertiesFromML();
-    console.log('🔹 Productos del vendedor al arrancar el servidor:', properties);
+    console.log('🔹 Productos del vendedor al arrancar el servidor:', properties.length, 'propiedades');
   } catch (err) {
     console.error('🔴 Error inicial al obtener productos:', err.message);
   }
