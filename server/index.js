@@ -16,12 +16,15 @@ const app = express();
 app.set('trust proxy', true);
 
 // Middleware para HTTPS correcto con Cloudflare Flexible
+// Detecta si la petición vino HTTPS real a través de un proxy (Cloudflare, Nginx)
 app.use((req, res, next) => {
-  if (!req.secure && req.get('x-forwarded-proto') !== 'https') {
-    return res.redirect(`https://${req.headers.host}${req.url}`);
+  if (req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] !== 'https') {
+    // Solo redirige si no vino HTTPS
+    return res.redirect(301, `https://${req.headers.host}${req.url}`);
   }
   next();
 });
+
 
 // Middlewares
 const corsOptions = {
