@@ -19,7 +19,7 @@ function App() {
   const fetchDetailedProperties = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/properties/detailed`);
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}api/properties/detailed`);
       setProperties(response.data);
       setFilteredProperties(response.data);
       // console.log("Propiedades obtenidas:", response.data);
