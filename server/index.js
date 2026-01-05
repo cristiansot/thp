@@ -55,13 +55,11 @@ app.get('/oauth/check', checkTokens);
 // });
 
 app.use((req, res, next) => {
-  // Sólo redirige si la petición viene desde un cliente externo (no localhost) y no es https
-  if (req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] !== 'https') {
+  if (!req.secure) { // verifica si la petición es segura
     return res.redirect(`https://${req.headers.host}${req.url}`);
   }
   next();
 });
-
 // Inicialización del servidor
 const PORT = process.env.PORT || 3001;
 const ENV = process.env.NODE_ENV || 'development';
