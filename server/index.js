@@ -17,8 +17,7 @@ app.set('trust proxy', true);
 
 // Middleware para HTTPS correcto con Cloudflare Flexible
 app.use((req, res, next) => {
-  if (!req.secure) {
-    // Redirige usando el host real que Nginx/Cloudflare pasa
+  if (!req.secure && req.get('x-forwarded-proto') !== 'https') {
     return res.redirect(`https://${req.headers.host}${req.url}`);
   }
   next();
