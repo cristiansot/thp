@@ -4,8 +4,6 @@ import '../assets/css/carousel.css';
 import image1 from '../assets/img/carousel/image1.webp';
 import image2 from '../assets/img/carousel/image2.webp';
 import image3 from '../assets/img/carousel/image3.webp';
-import image4 from '../assets/img/carousel/image4.webp';
-
 
 const slides = [
    {
@@ -23,18 +21,11 @@ const slides = [
     imageUrl: image2,
   },
      {
-    subtitle: 'Macul',
-    title: 'Departamento Vendido',
+    subtitle: 'Padre Hurtado',
+    title: 'Se Vende Casa',
     description:
-      'Condominio Parque Las Palmas, Metro Macul',
+      'Casa ubicada en Av. San Ignacio',
     imageUrl: image3,
-  },
-     {
-    subtitle: 'San Miguel',
-    title: 'Departamento Vendido',
-    description:
-      'Departamento Ubicado en calle Barros Luco, San Miguel',
-    imageUrl: image4,
   },
 ];
 
