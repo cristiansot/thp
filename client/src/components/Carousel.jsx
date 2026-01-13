@@ -17,9 +17,9 @@ const slides = [
   },
   {
     subtitle: 'San Miguel',
-    title: 'Departamento Vendido',
+    title: 'Se Vende Departamento',
     description:
-      'Departamento ubicado en Condominio La Foresta II, C. Del Niño',
+      'Ubicado a Pasos de Metro Ciudad Del Niño',
     imageUrl: image2,
   },
      {
