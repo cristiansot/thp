@@ -111,7 +111,7 @@
 }
 
 .carousel-item__price {
-  font-size: 3,5rem;
+  font-size: 3.5rem !important;
   font-family: 'Playfair Display', serif;
   color: #2c2c2c;
   margin: 15px 0 0;
