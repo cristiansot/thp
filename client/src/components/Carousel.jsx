@@ -70,7 +70,7 @@ const Carousel = () => {
             <div className="carousel-item__container">
               <h2 className="carousel-item__subtitle">{slide.subtitle}</h2>
               <h1 className="carousel-item__title">{slide.title}</h1>
-              {slide.price && <h1 className="carousel-item__price">{slide.price}</h1>}
+              {slide.price && <p className="carousel-item__price">{slide.price}</p>}
               <p className="carousel-item__description">{slide.description}</p>
               {/* <a href="#" className="carousel-item__btn">Explore</a> */}
             </div>
