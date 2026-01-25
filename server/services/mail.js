@@ -1,6 +1,14 @@
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv'; // Usar import en lugar de require
-dotenv.config(); // Cargar las variables de entorno
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({
+  path: path.join(__dirname, '.env')
+});
 
 // Envío de mail por cambio de estado
 const sendEmailNotification = (property) => {
