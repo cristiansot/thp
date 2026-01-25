@@ -15,14 +15,16 @@ const slides = [
   },
   {
     subtitle: 'San Miguel',
-    title: 'Se Vende Departamento\nUF 2.370',
+    title: 'Se Vende Departamento',
+    price: 'UF 2.370',
     description:
       'Ubicado a Pasos de Metro Ciudad Del Niño',
     imageUrl: image2,
   },
      {
     subtitle: 'Padre Hurtado',
-    title: 'Se Vende Casa\nUF 3.590',
+    title: 'Se Vende Casa',
+    price: 'UF 3.590',
     description:
       'Casa ubicada en Av. San Ignacio',
     imageUrl: image3,

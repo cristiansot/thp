@@ -74,6 +74,7 @@
 /* Animación de entrada para los elementos de texto */
 .carousel-item__subtitle,
 .carousel-item__title,
+.carousel-item__price,
 .carousel-item__description,
 .carousel-item__btn {
   transform: translateY(25%);
@@ -84,6 +85,7 @@
 
 .carousel-item.active .carousel-item__subtitle,
 .carousel-item.active .carousel-item__title,
+.carousel-item.active .carousel-item__price,
 .carousel-item.active .carousel-item__description,
 .carousel-item.active .carousel-item__btn {
   transform: translateY(0);
@@ -102,6 +104,13 @@
 
 .carousel-item__title {
   font-size: 3rem;
+  font-family: 'Playfair Display', serif;
+  color: #2c2c2c;
+  margin: 15px 0 0;
+}
+
+.carousel-item__price {
+  font-size: 3,5rem;
   font-family: 'Playfair Display', serif;
   color: #2c2c2c;
   margin: 15px 0 0;
@@ -192,6 +201,11 @@
   
   .carousel-item__title {
     font-size: 1.8rem;
+    margin: 10px 0 0;
+  }
+
+  .carousel-item__price {
+    font-size: 2rem;
     margin: 10px 0 0;
   }
   
