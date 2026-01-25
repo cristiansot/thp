@@ -29,8 +29,5 @@ dist-ssr
 amplify_outputs*
 amplifyconfiguration*
 
-# Server
-server/oauth/tokenStorage.js
-server/routes/properties.js
-server/services/authManager.js
+
 
