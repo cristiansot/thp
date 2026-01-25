@@ -111,7 +111,7 @@ export const getDetailedProperties = async (req, res) => {
     await detectStatusChanges(allProperties);
 
     // Enviar solo propiedades activas al frontend
-    const activeProperties = allProperties.filter((p) => p.status === 'active');
+    const activeProperties = allProperties .filter((p) => p.status === 'active') .reverse();
 
     res.status(200).json(activeProperties);
   } catch (error) {
