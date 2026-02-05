@@ -10,6 +10,7 @@ const slides = [
     {
     subtitle: 'Peñalolén',
     title: 'Se Vende Casa',
+    price: 'UF 8.700',
     description:
       'Sendero el Jardín Poniente',
     imageUrl: image4,
