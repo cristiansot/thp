@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import '../assets/css/carousel.css';
 
 import image1 from '../assets/img/carousel/image1.webp';
-import image2 from '../assets/img/carousel/image2.webp';
 import image3 from '../assets/img/carousel/image3.webp';
 import image4 from '../assets/img/carousel/image4.webp';
 
@@ -22,15 +21,7 @@ const slides = [
       'Departamento ubicado en Metro El LLano',
     imageUrl: image1,
   },
-  {
-    subtitle: 'San Miguel',
-    title: 'Se Vende Departamento',
-    price: 'UF 2.370',
-    description:
-      'Ubicado a Pasos de Metro Ciudad Del Niño',
-    imageUrl: image2,
-  },
-     {
+    {
     subtitle: 'Padre Hurtado',
     title: 'Se Vende Casa',
     price: 'UF 3.590',
