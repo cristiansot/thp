@@ -3,17 +3,8 @@ import '../assets/css/carousel.css';
 
 import image1 from '../assets/img/carousel/image1.webp';
 import image3 from '../assets/img/carousel/image3.webp';
-import image4 from '../assets/img/carousel/image4.webp';
 
 const slides = [
-    {
-    subtitle: 'Peñalolén',
-    title: 'Se Vende Casa',
-    price: 'UF 8.700',
-    description:
-      'Sendero el Jardín Poniente',
-    imageUrl: image4,
-  },
    {
     subtitle: 'San Miguel',
     title: 'Departamento Vendido',
