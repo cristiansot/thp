@@ -3,7 +3,7 @@ import '../assets/css/seosection.css';
 
 const SeoSection = () => {
   return (
-    <section className="container my-5 py-5">
+    <section className="container my-5 py-5 seo-section">
       <div className="row justify-content-center">
         <div className="col-lg-10">
 
