@@ -95,14 +95,7 @@
     "image": "http://http2.mlstatic.com/D_630349-MLC83763771485_042025-O.jpg",
     "bedrooms": "6"
   },
-  "MLC2856622608": {
-    "status": "active",
-    "lastUpdated": "2025-04-24T12:00:00Z",
-    "title": "Vendo Departamento En Lazo Cerca De Metro Lo Vial San Miguel",
-    "price": 3270,
-    "image": "http://http2.mlstatic.com/D_653715-MLC83471877312_042025-O.jpg",
-    "bedrooms": "2"
-  },
+  "MLC2856622608": "closed",
   "MLC1594938707": {
     "status": "active",
     "lastUpdated": "2025-04-24T12:00:00Z",
@@ -135,14 +128,7 @@
     "image": "http://http2.mlstatic.com/D_623517-MLC83790144577_042025-O.jpg",
     "bedrooms": "1"
   },
-  "MLC2837655690": {
-    "status": "active",
-    "lastUpdated": "2025-04-24T12:00:00Z",
-    "title": "Vendo Parcela En Condominio Alto Linares ||",
-    "price": 130000000,
-    "image": "http://http2.mlstatic.com/D_743521-MLC82089670009_012025-O.jpg",
-    "bedrooms": "0"
-  },
+  "MLC2837655690": "closed",
   "MLC1571467149": {
     "status": "active",
     "lastUpdated": "2025-04-24T12:00:00Z",
@@ -151,12 +137,34 @@
     "image": "http://http2.mlstatic.com/D_967348-MLC83764048681_042025-O.jpg",
     "bedrooms": null
   },
-  "MLC2839032200": {
-    "status": "active",
-    "lastUpdated": "2025-04-24T12:00:00Z",
-    "title": "Vendo Oficina En Guardia Vieja Metro Los Leones",
-    "price": 5640,
-    "image": "http://http2.mlstatic.com/D_883862-MLC83764969069_042025-O.jpg",
-    "bedrooms": null
-  }
+  "MLC2839032200": "closed",
+  "MLC1625271825": "closed",
+  "MLC1641509829": "closed",
+  "MLC1820892919": "closed",
+  "MLC1839113067": "closed",
+  "MLC1785414761": "closed",
+  "MLC3018784826": "closed",
+  "MLC3518730918": "closed",
+  "MLC3537653100": "closed",
+  "MLC1584592025": "closed",
+  "MLC3142574930": "paused",
+  "MLC1713921739": "active",
+  "MLC1713883151": "closed",
+  "MLC3263876260": "closed",
+  "MLC3364803448": "paused",
+  "MLC3466961884": "active",
+  "MLC1812443331": "active",
+  "MLC1827595823": "active",
+  "MLC1838400977": "active",
+  "MLC3541428570": "closed",
+  "MLC1839050929": "closed",
+  "MLC3545580802": "active",
+  "MLC3545380490": "closed",
+  "MLC3553643380": "closed",
+  "MLC1848820063": "active",
+  "MLC3563482934": "closed",
+  "MLC1860235279": "active",
+  "MLC3741393594": "active",
+  "MLC1889020341": "closed",
+  "MLC1905278327": "active"
 }
