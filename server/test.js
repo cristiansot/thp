@@ -1,16 +1,25 @@
-import { sendEmail, verifyConnection } from './tu-archivo.js';
+// test.js - Versión corregida
+// Cambia la importación según tu estructura real
+
+// Opción 1: Si tu archivo de email está en services/emailService.js
+import { sendFormEmail } from './services/emailService.js';
+
+// Opción 2: Si tu archivo de email está en la raíz con otro nombre
+// import { sendFormEmail } from './emailService.js';
 
 async function test() {
-  console.log('🧪 Probando conexión...');
-  const connected = await verifyConnection();
+  console.log('🧪 Probando envío de email...');
   
-  if (connected) {
-    console.log('🧪 Enviando correo de prueba...');
-    await sendEmail({
-      to: 'destinatario@test.com',
-      subject: 'Prueba de correo',
-      text: 'Este es un correo de prueba desde Nodemailer'
-    });
+  const result = await sendFormEmail({
+    nombre: 'Usuario Prueba',
+    correo: 'test@example.com',
+    asunto: 'Mensaje de prueba desde terminal'
+  });
+  
+  if (result) {
+    console.log('✅ Email enviado correctamente');
+  } else {
+    console.log('❌ Error al enviar email');
   }
 }
 
