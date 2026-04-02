@@ -30,7 +30,7 @@ const SeoSection = () => {
           </p>
 
           {/* Beneficios */}
-          <div className="row my-4">
+          <div className="row mt-0 mb-4 seo-section">
             <div className="col-md-6">
               <ul className="list-unstyled">
                 <li>✔ Publicación de tu propiedad</li>
@@ -50,7 +50,7 @@ const SeoSection = () => {
           {/* BLOQUE DE CAPTACIÓN (MUY IMPORTANTE) */}
           <div className="bg-dark p-4 rounded text-center mt-5">
             <h3 className="mb-3">
-              ¿Quieres arrendar tu propiedad sin complicaciones?
+              ¿Quieres vender o arrendar tu propiedad sin complicaciones?
             </h3>
 
             <p>

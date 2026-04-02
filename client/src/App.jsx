@@ -51,13 +51,12 @@ function App() {
             showMap={showMap}
             setShowMap={setShowMap}
           />
-    
+          <SeoSection />
           {
             showMap
               ? <MapView properties={filteredProperties} zoom={13} />
               : <ContainerCard properties={filteredProperties} loading={loading} error={error} />
           } 
-          <SeoSection />
         <section id="contacto">
           <Footer />
         </section>

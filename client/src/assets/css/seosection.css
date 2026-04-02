@@ -32,5 +32,8 @@ li {
 
 .text-center {
     text-align: center !important;
-    margin-top: -80px !important;
+}
+
+.seo-section {
+  margin-top: 0;
 }
