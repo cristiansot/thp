@@ -54,7 +54,7 @@ const SeoSection = () => {
             </h3>
 
             <p className="SeoSection-paragraph">
-              Déjanos tu propiedad y nosotros nos encargamos de todo el proceso de arriendo y administración.
+              Déjanos tu propiedad y nosotros nos encargamos de todo el proceso de venta, arriendo y administración.
             </p>
 
             <a
