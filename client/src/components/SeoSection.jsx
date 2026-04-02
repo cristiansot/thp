@@ -1,4 +1,5 @@
 import React from "react";
+import '../assets/css/seosection.css';
 
 const SeoSection = () => {
   return (

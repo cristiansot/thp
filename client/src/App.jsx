@@ -44,7 +44,6 @@ function App() {
         </section>
     
           <Carousel />
-          <SeoSection />
           <Whatsapp />
           <Filters
             properties={properties}
@@ -58,6 +57,7 @@ function App() {
               ? <MapView properties={filteredProperties} zoom={13} />
               : <ContainerCard properties={filteredProperties} loading={loading} error={error} />
           } 
+          <SeoSection />
         <section id="contacto">
           <Footer />
         </section>
