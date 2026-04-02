@@ -3,9 +3,9 @@ import '../assets/css/seosection.css';
 
 const SeoSection = () => {
   return (
-    <section className="container my-5 py-5 seo-section">
+    <section className="container my-6 py-6 seo-section">
       <div className="row justify-content-center">
-        <div className="col-lg-10">
+        <div className="col-lg-12">
 
           {/* H2 SEO */}
           <h2 className="mb-4 text-center">
@@ -30,7 +30,7 @@ const SeoSection = () => {
           </p>
 
           {/* Beneficios */}
-          <div className="row mt-0 mb-4 seo-section">
+          <div className="row mt-0 mb-4">
             <div className="col-md-6">
               <ul className="list-unstyled">
                 <li>✔ Publicación de tu propiedad</li>
