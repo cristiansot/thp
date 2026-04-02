@@ -1,69 +1,67 @@
 import nodemailer from 'nodemailer';
-import dotenv from 'dotenv'; // Usar import en lugar de require
-import path from 'path';
-import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+dotenv.config(); // 🔥 importante: sin path en EC2
 
-dotenv.config({
-  path: path.join(__dirname, '.env')
-});
-
-// Envío de mail por cambio de estado
-const sendEmailNotification = (property) => {
-  console.log('Propiedad recibida en backend:', property); // Verificar que el backend recibe la propiedad correctamente
-
-  // Verificar que la propiedad tenga los datos necesarios
-  if (!property || !property.title || !property.status) {
-    console.log('Faltan datos en la propiedad:', property);
-    return;
-  }
-
-  // Enviar correo solo si el estado es distinto de "active"
-  if (property.status === 'active') {
-    console.log(`El estado de la propiedad es "${property.status}". No se enviará el correo.`);
-    return;
-  }
-
+// 🔥 función reutilizable para no repetir código
+const createTransporter = async () => {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: false,
+    port: Number(process.env.EMAIL_PORT),
+    secure: Number(process.env.EMAIL_PORT) === 465, // automático
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD,
     },
   });
 
-  const mailOptions = {
-    from: process.env.EMAIL_FROM,
-    to: process.env.EMAIL_TO,
-    subject: `Notificación de cambio de estado de propiedad`,
-    text: `La propiedad con título: "${property.title}" ha cambiado de estado a: "${property.status}".`,
-  };
+  // 🔍 verificar conexión SMTP (clave para debug)
+  try {
+    await transporter.verify();
+    console.log("✅ SMTP conectado correctamente");
+  } catch (error) {
+    console.error("❌ Error conexión SMTP:", error.message);
+    throw error;
+  }
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log('Error al enviar el correo:', error);
-    } else {
-      console.log('Correo enviado: ' + info.response);
-    }
-  });
+  return transporter;
 };
 
-// Envío de mail por cambio de precio
-async function sendEmail({ to, subject, text }) {
+// 📩 Envío de mail por cambio de estado
+const sendEmailNotification = async (property) => {
   try {
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
-      secure: false,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
-      },
+    console.log('Propiedad recibida:', property);
+
+    if (!property || !property.title || !property.status) {
+      console.log('❌ Faltan datos en la propiedad');
+      return;
+    }
+
+    if (property.status === 'active') {
+      console.log('ℹ️ Estado activo, no se envía correo');
+      return;
+    }
+
+    const transporter = await createTransporter();
+
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL_FROM,
+      to: process.env.EMAIL_TO,
+      subject: 'Notificación de cambio de estado de propiedad',
+      text: `La propiedad "${property.title}" cambió a estado: "${property.status}"`,
     });
+
+    console.log('📬 Correo enviado:', info.response);
+
+  } catch (error) {
+    console.error('❌ Error en sendEmailNotification:', error);
+  }
+};
+
+// 📩 Envío de mail por cambio de precio
+const sendEmail = async ({ to, subject, text }) => {
+  try {
+    const transporter = await createTransporter();
 
     const info = await transporter.sendMail({
       from: `"THP Monitor" <${process.env.EMAIL_USER}>`,
@@ -73,39 +71,46 @@ async function sendEmail({ to, subject, text }) {
     });
 
     console.log('📬 Correo enviado (precio):', info.response);
+
   } catch (error) {
-    console.error('❌ Error al enviar correo (precio):', error.message);
+    console.error('❌ Error envío precio:', error);
   }
-}
+};
 
-// Función de envío de correo para el formulario de contacto
-async function sendFormEmail({ nombre, correo, asunto }) {
+// 📩 Formulario de contacto (IMPORTANTE)
+const sendFormEmail = async ({ nombre, correo, asunto }) => {
   try {
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
-      secure: true, // Usar 'true' para SSL en el puerto 465
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
-      },
-    });
+    console.log("📨 Datos recibidos:", { nombre, correo, asunto });
 
-    const mailOptions = {
-      from: process.env.EMAIL_FROM,
+    if (!nombre || !correo || !asunto) {
+      console.log("❌ Datos incompletos");
+      return false;
+    }
+
+    const transporter = await createTransporter();
+
+    const info = await transporter.sendMail({
+      from: `"THP Web" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_TO,
       subject: `Nuevo mensaje de ${nombre}`,
-      text: `Nombre: ${nombre}\nCorreo: ${correo}\nMensaje: ${asunto}`,
-    };
+      text: `
+Nombre: ${nombre}
+Correo: ${correo}
+Mensaje: ${asunto}
+      `,
+    });
 
-    const info = await transporter.sendMail(mailOptions);
-    console.log('📬 Correo enviado:', info.response);
+    console.log('📬 Correo enviado (formulario):', info.response);
     return true;
+
   } catch (error) {
-    console.error('❌ Error al enviar el correo:', error.message, error.stack);
+    console.error('❌ Error formulario:', error);
     return false;
   }
-  
-}
+};
 
-export { sendEmail, sendEmailNotification, sendFormEmail };
+export {
+  sendEmail,
+  sendEmailNotification,
+  sendFormEmail
+};
