@@ -3,28 +3,16 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// 🔥 Crear transporter UNA sola vez
-// const transporter = nodemailer.createTransport({
-//   host: process.env.EMAIL_HOST,
-//   port: Number(process.env.EMAIL_PORT),
-//   secure: Number(process.env.EMAIL_PORT) === 465, // true solo si puerto 465
-//   auth: {
-//     user: process.env.EMAIL_USER,
-//     pass: process.env.EMAIL_PASSWORD,
-//   },
-// });
+// ✅ Transporter limpio y compatible con Titan
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
   port: 587,
-  secure: false,
+  secure: false, // 🔥 SIEMPRE false en 587
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
   },
-  requireTLS: true, // 🔥 IMPORTANTE
-  tls: {
-    ciphers: 'SSLv3',
-  },
+  requireTLS: true,
 });
 
 // 🔍 Verificar conexión SMTP al iniciar
@@ -33,14 +21,12 @@ const transporter = nodemailer.createTransport({
     await transporter.verify();
     console.log("✅ SMTP conectado correctamente");
   } catch (error) {
-    console.error("❌ Error conexión SMTP:", error.message);
+    console.error("❌ Error conexión SMTP:", error); // 🔥 error completo
   }
 })();
 
-// 🔥 Helper para FROM
-const getFrom = () => {
-  return process.env.EMAIL_FROM || `"THP" <${process.env.EMAIL_USER}>`;
-};
+// 🔥 FROM SIEMPRE IGUAL AL USER (clave para Titan)
+const getFrom = () => process.env.EMAIL_USER;
 
 // 📩 Envío de mail por cambio de estado
 const sendEmailNotification = async (property) => {
@@ -67,11 +53,11 @@ const sendEmailNotification = async (property) => {
     console.log('📬 Correo enviado (estado):', info.response);
 
   } catch (error) {
-    console.error('❌ Error en sendEmailNotification:', error.message);
+    console.error('❌ Error en sendEmailNotification:', error);
   }
 };
 
-// 📩 Envío de mail por cambio de precio
+// 📩 Envío de mail genérico (precio u otros)
 const sendEmail = async ({ to, subject, text }) => {
   try {
     if (!to || !subject || !text) {
@@ -80,23 +66,28 @@ const sendEmail = async ({ to, subject, text }) => {
     }
 
     const info = await transporter.sendMail({
-      from: `"THP Monitor" <${process.env.EMAIL_USER}>`,
+      from: getFrom(),
       to,
       subject,
       text,
     });
 
-    console.log('📬 Correo enviado (precio):', info.response);
+    console.log('📬 Correo enviado:', info.response);
 
   } catch (error) {
-    console.error('❌ Error envío precio:', error.message);
+    console.error('❌ Error envío:', error);
   }
 };
 
-// 📩 Formulario de contacto
-const sendFormEmail = async ({ nombre, correo, asunto }) => {
+// 📩 FORMULARIO DE CONTACTO (CORREGIDO)
+const sendFormEmail = async (data) => {
   try {
-    console.log("📨 Datos recibidos:", { nombre, correo, asunto });
+    console.log("📨 BODY RECIBIDO:", data);
+
+    // 🔥 soporta distintos nombres desde frontend
+    const nombre = data.nombre || data.name;
+    const correo = data.correo || data.email;
+    const asunto = data.asunto || data.message;
 
     if (!nombre || !correo || !asunto) {
       console.log("❌ Datos incompletos");
@@ -104,13 +95,16 @@ const sendFormEmail = async ({ nombre, correo, asunto }) => {
     }
 
     const info = await transporter.sendMail({
-      from: getFrom(),
+      from: getFrom(), // 🔥 clave
       to: process.env.EMAIL_TO,
       subject: `Nuevo mensaje de ${nombre}`,
+      replyTo: correo, // 🔥 MUY IMPORTANTE (para responder al cliente)
       text: `
 Nombre: ${nombre}
 Correo: ${correo}
-Mensaje: ${asunto}
+
+Mensaje:
+${asunto}
       `,
     });
 
@@ -118,7 +112,7 @@ Mensaje: ${asunto}
     return true;
 
   } catch (error) {
-    console.error('❌ Error formulario:', error.message);
+    console.error('❌ Error formulario:', error);
     return false;
   }
 };
