@@ -4,18 +4,17 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Configuración SMTP para Titan Email
+// Configuración SMTP para Titan con puerto 465
 const smtpConfig = {
-  host: process.env.EMAIL_HOST || 'smtp.titan.email',
-  port: Number(process.env.EMAIL_PORT) || 465,
-  secure: true,  // Importante: true para puerto 465
+  host: process.env.EMAIL_HOST,
+  port: Number(process.env.EMAIL_PORT),
+  secure: true,  // IMPORTANTE: true para puerto 465
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
   },
   tls: {
-    rejectUnauthorized: false,
-    ciphers: 'TLSv1.2'
+    rejectUnauthorized: false
   },
   debug: true,
   logger: true,
