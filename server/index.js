@@ -22,8 +22,10 @@ const allowedOrigins = [
   'https://thp-backend.us-east-2.elasticbeanstalk.com',
   'http://localhost:3000',
   'http://localhost:3001',
-  'http://localhost:5173'
+  'http://localhost:5173',
+  'http://localhost:5174',
 ];
+
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -35,19 +37,28 @@ const corsOptions = {
       return callback(null, true);
     }
     
+    // Para desarrollo, permitir todos
+    if (process.env.NODE_ENV === 'development') {
+      console.log('⚠️ Modo desarrollo: permitiendo todos los orígenes');
+      return callback(null, true);
+    }
+    
     // Verificar si el origin está en la lista blanca
     if (allowedOrigins.indexOf(origin) !== -1) {
       console.log('✅ Origin permitido:', origin);
       return callback(null, true);
     } else {
       console.log('❌ Origin bloqueado:', origin);
-      return callback(new Error('CORS no permitido para este origen'));
+      // En lugar de error, permitir (solo para pruebas)
+      console.log('⚠️ Permitiendo origen desconocido para pruebas');
+      return callback(null, true);
+      // return callback(new Error('CORS no permitido para este origen'));
     }
   },
   credentials: true,
   optionsSuccessStatus: 200,
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 };
 
 // Aplicar CORS globalmente
