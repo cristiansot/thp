@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => ({
     port: 10000,
     proxy: {
       '/api': {
-        target: 'https://api.thp.cl/', 
+        target: 'https://api.thp.cl', //si le saco el slash final no muestra las propiedades
         changeOrigin: true,
         secure: true,
       },
