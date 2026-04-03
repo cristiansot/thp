@@ -7,19 +7,22 @@ dotenv.config();
 // Configuración SMTP
 const smtpConfig = {
   host: 'smtp.titan.email',
-  port: 465,  // Cambia de 587 a 465
-  secure: true,  // true para puerto 465
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
   },
-  // Configuración adicional para Titan
   tls: {
-    rejectUnauthorized: false,  // Solo para pruebas
-    ciphers: 'SSLv3'
+    rejectUnauthorized: false,
+    ciphers: 'TLSv1.2',
+    minVersion: 'TLSv1.2'
   },
   debug: true,
   logger: true,
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
 };
 
 // Crear transporter
