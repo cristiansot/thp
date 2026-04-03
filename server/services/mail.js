@@ -6,24 +6,21 @@ dotenv.config();
 
 // Configuración SMTP
 const smtpConfig = {
-  host: process.env.EMAIL_HOST,
-  port: Number(process.env.EMAIL_PORT),
-  secure: Number(process.env.EMAIL_PORT) === 465,
+  host: 'smtp.titan.email',
+  port: 465,  // Cambia de 587 a 465
+  secure: true,  // true para puerto 465
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
   },
+  // Configuración adicional para Titan
+  tls: {
+    rejectUnauthorized: false,  // Solo para pruebas
+    ciphers: 'SSLv3'
+  },
   debug: true,
   logger: true,
 };
-
-console.log('📧 Configuración SMTP:', {
-  host: smtpConfig.host,
-  port: smtpConfig.port,
-  secure: smtpConfig.secure,
-  user: smtpConfig.auth.user ? '✅ definido' : '❌ faltante',
-  pass: smtpConfig.auth.pass ? '✅ definido' : '❌ faltante',
-});
 
 // Crear transporter
 const transporter = nodemailer.createTransport(smtpConfig);
