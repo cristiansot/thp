@@ -25,12 +25,11 @@
 //     },
 //   },
 // }));
-
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig({
-  base: '/',  // ← Fijo para producción en dominio raíz
+export default defineConfig(({ mode }) => ({
+  base: mode === 'production' ? '/' : '/',  // ← Ambos usan '/'
   plugins: [react()],
   server: {
     port: 10000,
@@ -39,14 +38,7 @@ export default defineConfig({
         target: 'https://api.thp.cl',
         changeOrigin: true,
         secure: true,
-        rewrite: (path) => path.replace(/^\/api/, ''), // Opcional: limpia el path
       },
     },
   },
-  build: {
-    outDir: 'dist',
-    assetsDir: 'assets',
-    sourcemap: false, // Desactiva sourcemaps en producción
-    minify: 'terser',
-  },
-});
+}));
