@@ -18,6 +18,7 @@ const allowedOrigins = [
   'http://www.thp.cl',
   'http://thp.cl',
   'https://api.thp.cl',
+  'https://api.thp.cl/',
   'https://develop.d2autp5rg0pd7o.amplifyapp.com',
   'https://thp-backend.us-east-2.elasticbeanstalk.com',
   'http://localhost:3000',

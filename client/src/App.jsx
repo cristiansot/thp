@@ -17,13 +17,23 @@ function App() {
   const [error, setError] = useState(null);
   const [showMap, setShowMap] = useState(false);
 
+  // 🔧 Función helper para construir URLs correctamente
+  const buildApiUrl = (endpoint) => {
+    const baseUrl = import.meta.env.VITE_BACKEND_URL?.replace(/\/$/, '') || '';
+    const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    return `${baseUrl}${cleanEndpoint}`;
+  };
+
   const fetchDetailedProperties = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}api/properties/detailed`);
+      // ✅ Usar la función helper
+      const url = buildApiUrl('api/properties/detailed');
+      console.log('📡 Fetching properties from:', url); // Para debugging
+      
+      const response = await axios.get(url);
       setProperties(response.data);
       setFilteredProperties(response.data);
-      // console.log("Propiedades obtenidas:", response.data);
     } catch (error) {
       console.error('Error fetching properties:', error.response?.data || error.message);
       setError('Error al obtener las propiedades. Por favor inténtalo de nuevo más tarde.');
