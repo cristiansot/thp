@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@marsidev/react-turnstile": "^1.5.0",
     "aws-amplify": "^6.14.4",
     "axios": "^1.8.4",
     "bootstrap": "^5.3.5",
@@ -44,5 +45,6 @@
     "vite": "^6.2.0"
   },
   "engines": {
-  "node": "20.x"  }
+    "node": "20.x"
+  }
 }
