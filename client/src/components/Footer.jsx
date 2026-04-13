@@ -14,7 +14,7 @@ const Footer = () => {
     nombre: "",
     correo: "",
     asunto: "",
-    website: "",
+    website: "", // honeypot
   };
 
   const validationSchema = Yup.object({
@@ -27,6 +27,7 @@ const Footer = () => {
 
   const handleSubmit = (values, { resetForm, setSubmitting, setStatus }) => {
 
+    // 🔒 Validar captcha antes de enviar
     if (!token) {
       setStatus({ error: "Por favor verifica que no eres humano" });
       setSubmitting(false);
@@ -40,7 +41,7 @@ const Footer = () => {
       },
       body: JSON.stringify({
         ...values,
-        token,
+        token, // 🔥 clave
       }),
       credentials: 'include',
     })
@@ -49,16 +50,16 @@ const Footer = () => {
         return res.json();
       })
       .then((data) => {
-        console.log('✅ Respuesta backend:', data);
+        console.log('Respuesta del backend:', data);
 
-        alert('Correo enviado con éxito');
+        alert('Correo enviado con éxito, pronto nos pondremos en contacto con usted.');
 
         resetForm();
-        setToken(null);
+        setToken(null); // 🔄 reset captcha
       })
       .catch((err) => {
-        console.error('❌ Error:', err);
-        setStatus({ error: `Error: ${err.message}` });
+        console.error('Error al enviar el correo:', err);
+        setStatus({ error: `Error al enviar el correo: ${err.message}` });
       })
       .finally(() => setSubmitting(false));
   };
@@ -68,17 +69,25 @@ const Footer = () => {
       <div className="container" id="container-footer">
         <div className="row justify-content-center align-items-start mt-4">
 
+          {/* Izquierda: Logotipo */}
           <div className="left col-md-4 text-center mb-4 mb-md-0">
             <img src={logotipo} alt="Logotipo" className="footer-logo" />
           </div>
 
+          {/* Centro: Nosotros */}
           <div className="center col-md-4 text-center mb-4 mb-md-0">
             <h2 className="mb-3 mt-3 footer-title">Nosotros</h2>
             <p className="text-muted">
-              Somos una corredora de propiedades con más de 6 años de experiencia...
+              Somos una corredora de propiedades con más de 6 años de experiencia,
+              ofreciendo atención personalizada y un servicio de excelencia.<br />
+              Acompañamos a nuestros clientes en todo el proceso de compraventa o arriendo,
+              utilizando tecnología de punta, recorridos virtuales y difusión en los principales portales
+              y redes sociales.<br /> Nuestra visión es ser una corredora comprometida, confiable, cercana
+              y transparente, destacando en el corretaje boutique.
             </p>
           </div>
 
+          {/* Derecha: Formulario */}
           <div className="right col-md-4">
             <Formik
               initialValues={initialValues}
@@ -89,49 +98,67 @@ const Footer = () => {
                 <Form className="p-3">
                   <h2 className="footer-title mb-0 text-start">Contáctanos</h2>
 
+                  {/* Nombre */}
                   <div className="form-floating mb-0">
-                    <Field type="text" name="nombre" className="form-control" placeholder="Nombre" />
-                    <label>Nombre</label>
-                    <ErrorMessage name="nombre" component="div" className="text-danger small" />
+                    <Field
+                      type="text"
+                      id="nombre"
+                      name="nombre"
+                      className="form-control floating-input ms-0"
+                      placeholder="Nombre"
+                    />
+                    <label htmlFor="nombre" className="floating-label ms-0">Nombre</label>
+                    <ErrorMessage name="nombre" component="div" className="text-danger small text-start ms-0" />
                   </div>
 
+                  {/* Correo */}
                   <div className="form-floating mb-0">
-                    <Field type="email" name="correo" className="form-control" placeholder="Correo" />
-                    <label>Correo</label>
-                    <ErrorMessage name="correo" component="div" className="text-danger small" />
+                    <Field
+                      type="email"
+                      id="correo"
+                      name="correo"
+                      className="form-control floating-input ms-0"
+                      placeholder="Correo"
+                    />
+                    <label htmlFor="correo" className="floating-label ms-0">Correo</label>
+                    <ErrorMessage name="correo" component="div" className="text-danger small text-start ms-0" />
                   </div>
 
-                  <div className="form-floating mb-3">
-                    <Field as="textarea" name="asunto" className="form-control" placeholder="Mensaje" />
-                    <label>Mensaje</label>
-                    <ErrorMessage name="asunto" component="div" className="text-danger small" />
+                  {/* Mensaje */}
+                  <div className="form-floating mb-3 mt-0">
+                    <Field
+                      as="textarea"
+                      id="asunto"
+                      name="asunto"
+                      className="form-control floating-input ms-0"
+                      placeholder="Asunto"
+                      rows="3"
+                    />
+                    <label htmlFor="asunto" className="floating-label ms-0">Mensaje</label>
+                    <ErrorMessage name="asunto" component="div" className="text-danger small text-start ms-0" />
                   </div>
 
-                  {/* Honeypot */}
-                  <Field type="text" name="website" style={{ display: "none" }} />
+                  {/* 🧠 Honeypot oculto */}
+                  <Field
+                    type="text"
+                    name="website"
+                    style={{ display: "none" }}
+                  />
 
-                  {/* 🔒 Turnstile con DEBUG */}
+                  {/* 🔒 Turnstile */}
                   <div className="mb-3">
                     <Turnstile
                       siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-                      onSuccess={(token) => {
-                        console.log("🔥 TOKEN GENERADO:", token);
-                        setToken(token);
-                      }}
-                      onError={() => {
-                        console.log("❌ Error en Turnstile");
-                      }}
-                      onExpire={() => {
-                        console.log("⚠️ Token expirado");
-                        setToken(null);
-                      }}
+                      onSuccess={(token) => setToken(token)}
                     />
                   </div>
 
+                  {/* Error */}
                   {status && status.error && (
                     <div className="text-danger mb-3">{status.error}</div>
                   )}
 
+                  {/* Botón */}
                   <button
                     type="submit"
                     className="btn mt-3 btn-primary w-100"
@@ -148,11 +175,13 @@ const Footer = () => {
         </div>
       </div>
 
+      {/* Copyright */}
       <div className="footer-copyright">
         <p className="m-0">
-          &copy; {new Date().getFullYear()} Total Home Propiedades.
+          &copy; {new Date().getFullYear()} Total Home Propiedades. Todos los derechos reservados.
         </p>
       </div>
+
     </footer>
   );
 };
