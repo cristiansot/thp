@@ -89,11 +89,11 @@ export const sendEmailNotification = async (property) => {
     if (property.status === 'active') return;
 
     const info = await transporter.sendMail({
-      from: getFrom(),
-      to: process.env.EMAIL_TO,
-      subject: 'Notificación de cambio de estado de propiedad',
-      text: `La propiedad "${property.title}" cambió a estado: "${property.status}"`,
-    });
+    from: `"Total Home Propiedades" <sitio@thp.cl>`,  // <--- Forzar email correcto
+    to: process.env.EMAIL_TO,
+    subject: `Nuevo mensaje de ${nombre}`,
+    text: `Nombre: ${nombre}\nCorreo: ${correo}\nMensaje: ${asunto}`,
+  });
 
     console.log('✅ Correo enviado (estado):', info.response);
     return info;
