@@ -57,7 +57,7 @@ ensureConnection();
 
 // 🔧 CORREGIDO: Forzar el email correcto
 const getFrom = () => {
-  return `"Total Home Propiedades" <sitio@thp.cl>`;
+  return `"Total Home Propiedades" <site@thp.cl>`;
 };
 
 // ===============================
