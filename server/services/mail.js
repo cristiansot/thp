@@ -55,9 +55,9 @@ async function ensureConnection() {
 
 ensureConnection();
 
+// 🔧 CORREGIDO: Forzar el email correcto
 const getFrom = () => {
-  // Usar el mismo email que el usuario SMTP
-  return `"Total Home Propiedades" <${process.env.EMAIL_USER}>`;
+  return `"Total Home Propiedades" <sitio@thp.cl>`;
 };
 
 // ===============================
@@ -89,11 +89,11 @@ export const sendEmailNotification = async (property) => {
     if (property.status === 'active') return;
 
     const info = await transporter.sendMail({
-    from: `"Total Home Propiedades" <sitio@thp.cl>`,  // <--- Forzar email correcto
-    to: process.env.EMAIL_TO,
-    subject: `Nuevo mensaje de ${nombre}`,
-    text: `Nombre: ${nombre}\nCorreo: ${correo}\nMensaje: ${asunto}`,
-  });
+      from: getFrom(),
+      to: process.env.EMAIL_TO,
+      subject: 'Notificación de cambio de estado de propiedad',
+      text: `La propiedad "${property.title}" cambió a estado: "${property.status}"`,
+    });
 
     console.log('✅ Correo enviado (estado):', info.response);
     return info;
@@ -113,7 +113,7 @@ export const sendEmail = async ({ to, subject, text }) => {
     if (!to || !subject || !text) return;
 
     const info = await transporter.sendMail({
-      from: `"THP Monitor" <${process.env.EMAIL_USER}>`,
+      from: getFrom(),
       to,
       subject,
       text,
