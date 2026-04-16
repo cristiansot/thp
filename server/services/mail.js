@@ -56,7 +56,8 @@ async function ensureConnection() {
 ensureConnection();
 
 const getFrom = () => {
-  return process.env.EMAIL_FROM || `"THP" <${process.env.EMAIL_USER}>`;
+  // Usar el mismo email que el usuario SMTP
+  return `"Total Home Propiedades" <${process.env.EMAIL_USER}>`;
 };
 
 // ===============================
