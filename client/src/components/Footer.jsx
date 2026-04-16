@@ -34,23 +34,35 @@ const Footer = () => {
       return;
     }
 
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/contact`, {
+    const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/api/contact`;
+    console.log('📡 Enviando a:', apiUrl);
+
+    fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        ...values,
-        token, // 🔥 clave
+        nombre: values.nombre,
+        correo: values.correo,
+        asunto: values.asunto,
+        token: token,
+        website: values.website, // honeypot
       }),
       credentials: 'include',
     })
-      .then((res) => {
-        if (!res.ok) throw new Error(`Error al enviar el formulario: ${res.statusText}`);
-        return res.json();
+      .then(async (res) => {
+        const data = await res.json();
+        
+        if (!res.ok) {
+          // Usar el mensaje del backend o uno genérico
+          throw new Error(data.message || `Error ${res.status}: ${res.statusText}`);
+        }
+        
+        return data;
       })
       .then((data) => {
-        console.log('Respuesta del backend:', data);
+        console.log('✅ Respuesta del backend:', data);
 
         alert('Correo enviado con éxito, pronto nos pondremos en contacto con usted.');
 
@@ -58,8 +70,8 @@ const Footer = () => {
         setToken(null); // 🔄 reset captcha
       })
       .catch((err) => {
-        console.error('Error al enviar el correo:', err);
-        setStatus({ error: `Error al enviar el correo: ${err.message}` });
+        console.error('❌ Error al enviar:', err);
+        setStatus({ error: err.message });
       })
       .finally(() => setSubmitting(false));
   };
