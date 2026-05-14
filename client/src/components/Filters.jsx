@@ -4,7 +4,9 @@ import "../assets/css/filters.css";
 const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => {
   const [selectedType, setSelectedType] = useState('all');
   const [selectedOperation, setSelectedOperation] = useState('all');
+  const [isSticky, setIsSticky] = useState(false);
   const filtersRef = useRef(null);
+  const initialOffsetTop = useRef(0);
 
   useEffect(() => {
     let filtered = properties;
@@ -20,6 +22,55 @@ const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => 
     setFilteredProperties(filtered);
   }, [selectedType, selectedOperation, properties, setFilteredProperties]);
 
+  useEffect(() => {
+    // Guardar la posición original del filtro
+    if (filtersRef.current && initialOffsetTop.current === 0) {
+      initialOffsetTop.current = filtersRef.current.offsetTop;
+    }
+
+    const handleScroll = () => {
+      if (filtersRef.current) {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const navbarHeight = getNavbarHeight();
+        
+        // Calcular el punto donde debe activarse el sticky
+        const stickyPoint = initialOffsetTop.current - navbarHeight;
+        
+        // Activar sticky cuando el scroll pasa el punto, desactivar cuando vuelve
+        if (scrollTop > stickyPoint) {
+          if (!isSticky) setIsSticky(true);
+        } else {
+          if (isSticky) setIsSticky(false);
+        }
+      }
+    };
+
+    const getNavbarHeight = () => {
+      const navbar = document.querySelector('nav') || document.querySelector('.navbar') || document.querySelector('[class*="NavBar"]');
+      if (navbar) {
+        return navbar.offsetHeight;
+      }
+      return window.innerWidth <= 768 ? 60 : 76;
+    };
+
+    // Ejecutar al inicio
+    handleScroll();
+    
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', () => {
+      // Recalcular posición cuando cambia el tamaño de la ventana
+      if (filtersRef.current) {
+        initialOffsetTop.current = filtersRef.current.offsetTop;
+        handleScroll();
+      }
+    });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, [isSticky]);
+
   const mapDomainToType = (domainId) => {
     if (!domainId) return 'other';
     if (domainId.includes('APARTMENTS')) return 'apartment';
@@ -30,61 +81,76 @@ const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => 
   };
 
   const mapOperation = (operation) => {
-    if (operation.toLowerCase() === 'venta') return 'venta';
-    if (operation.toLowerCase() === 'arriendo') return 'arriendo';
+    if (operation?.toLowerCase() === 'venta') return 'venta';
+    if (operation?.toLowerCase() === 'arriendo') return 'arriendo';
     return operation;
+  };
+
+  const getNavbarHeight = () => {
+    const navbar = document.querySelector('nav') || document.querySelector('.navbar') || document.querySelector('[class*="NavBar"]');
+    if (navbar) {
+      return navbar.offsetHeight;
+    }
+    return window.innerWidth <= 768 ? 60 : 76;
   };
 
   return (
     <div
       ref={filtersRef}
-      className="filters-container"
+      className={`filters-container ${isSticky ? 'sticky-active' : ''}`}
+      style={{
+        position: isSticky ? 'fixed' : 'relative',
+        top: isSticky ? `${getNavbarHeight()}px` : 'auto',
+        left: isSticky ? '0' : 'auto',
+        right: isSticky ? '0' : 'auto',
+        width: '100%',
+        zIndex: isSticky ? 999 : 'auto',
+        margin: isSticky ? '0' : '0',
+      }}
     >
-
       <div className="container my-3">
         <div className="row g-3 align-items-center">
           {/* Tipo de propiedad */}
-         <div className="col-md-4 d-flex align-items-center">
-          <label
-            htmlFor="property-type-filter"
-            className="me-2 mb-0 title flex-shrink-0"
-          >
-            Tipo de propiedad:
-          </label>
-          <select
-            id="property-type-filter"
-            className="form-select flex-grow-1"
-            value={selectedType}
-            onChange={(e) => setSelectedType(e.target.value)}
-          >
-            <option value="all">Todas</option>
-            <option value="house">Casas</option>
-            <option value="apartment">Departamentos</option>
-            <option value="office">Oficinas</option>
-            <option value="land">Parcelas</option>
-          </select>
-        </div>
-
+          <div className="col-md-4 d-flex align-items-center">
+            <label
+              htmlFor="property-type-filter"
+              className="me-2 mb-0 title flex-shrink-0"
+            >
+              Tipo de propiedad:
+            </label>
+            <select
+              id="property-type-filter"
+              className="form-select flex-grow-1"
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+            >
+              <option value="all">Todas</option>
+              <option value="house">Casas</option>
+              <option value="apartment">Departamentos</option>
+              <option value="office">Oficinas</option>
+              <option value="land">Parcelas</option>
+            </select>
+          </div>
 
           {/* Tipo de operación */}
-       <div className="col-md-4 d-flex align-items-center">
-          <label
-            htmlFor="operation-filter"
-            className="me-2 mb-0 title flex-shrink-0"
-          >
-            Tipo de operación:
-          </label>
-          <select
-            id="operation-filter"
-            className="form-select flex-grow-1"
-            value={selectedOperation}
-            onChange={(e) => setSelectedOperation(e.target.value)}
-          >
-            <option value="all">Todas</option>
-            <option value="venta">Venta</option>
-            <option value="arriendo">Arriendo</option>
-          </select>
-        </div>
+          <div className="col-md-4 d-flex align-items-center">
+            <label
+              htmlFor="operation-filter"
+              className="me-2 mb-0 title flex-shrink-0"
+            >
+              Tipo de operación:
+            </label>
+            <select
+              id="operation-filter"
+              className="form-select flex-grow-1"
+              value={selectedOperation}
+              onChange={(e) => setSelectedOperation(e.target.value)}
+            >
+              <option value="all">Todas</option>
+              <option value="venta">Venta</option>
+              <option value="arriendo">Arriendo</option>
+            </select>
+          </div>
 
           {/* Botón para alternar mapa/propiedades */}
           <div className="col-md-4 d-flex justify-content-center align-items-center">

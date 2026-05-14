@@ -48,7 +48,7 @@ const SeoSection = () => {
           </div>
 
           {/* BLOQUE DE CAPTACIÓN (MUY IMPORTANTE) */}
-          <div className="bg-dark p-4 rounded text-center mt-5 bloque">
+          <div className="bg-dark p-4 rounded text-center mt-5 mb-5 bloque">
             <h3 className="mb-3 SeoSection-subtitle">
               ¿Quieres vender o arrendar tu propiedad sin complicaciones?
             </h3>

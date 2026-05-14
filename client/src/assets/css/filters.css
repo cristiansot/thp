@@ -1,31 +1,17 @@
-main {
-  overflow: visible;
-}
-
+/* filters.css - Versión simplificada que funciona */
 .filters-container {
   background-color: #0c0f12e8;
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   width: 100%;
-  z-index: 999;
-  transition: transform 0.3s ease-in-out;
   padding: 10px;
-  
-  /* Sticky corregido */
-  position: sticky;
-  top: 76px;
-  left: 0;
-  right: 0;
-  
-  /* Para mejor rendimiento en móvil */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Asegurar que el contenedor interno también funcione bien */
-.filters-container > div {
-  width: 100%;
+/* Cuando está sticky, añadir sombra */
+.filters-container.sticky-active {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .title {
@@ -38,30 +24,10 @@ main {
   white-space: nowrap;
 }
 
-/* Estilos para desktop */
-@media screen and (min-width: 651px) {
-  .filters-container {
-    position: sticky;
-    top: 76px;
-  }
-}
-
-/* Estilos para móvil - CORREGIDO */
+/* Ajustes responsive */
 @media screen and (max-width: 650px) {
   .filters-container {
-    position: sticky !important;
-    top: 60px; /* Ajusta este valor según la altura de tu navbar en móvil */
-    left: 0;
-    right: 0;
     padding: 8px 12px;
-    
-    /* Forzar sticky en móvil */
-    position: -webkit-sticky !important;
-    position: sticky !important;
-    
-    /* Asegurar que el blur no afecte el sticky */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
   }
   
   .btn-primary {
@@ -72,41 +38,13 @@ main {
     font-size: 17px !important;
   }
   
-  /* Mejorar el scroll horizontal si hay muchos filtros */
-  .filters-scroll {
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    padding-bottom: 5px;
+  .title {
+    font-size: 0.9rem;
+    margin-right: 10px !important;
   }
   
-  .filters-scroll::-webkit-scrollbar {
-    height: 3px;
-  }
-  
-  .filters-scroll::-webkit-scrollbar-track {
-    background: #2c3e50;
-    border-radius: 3px;
-  }
-  
-  .filters-scroll::-webkit-scrollbar-thumb {
-    background: #e67e22;
-    border-radius: 3px;
-  }
-}
-
-/* Si el navbar también es sticky, ajustar para que no se superpongan */
-.navbar-sticky {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-/* Asegurar que el filters-container esté por debajo del navbar pero por encima del contenido */
-@media screen and (max-width: 650px) {
-  .filters-container {
-    z-index: 999;
+  .form-select {
+    font-size: 14px;
+    padding: 6px 8px;
   }
 }
