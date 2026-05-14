@@ -1,17 +1,10 @@
-/* filters.css - Versión simplificada que funciona */
+/* filters.css - Mantén solo esto */
 .filters-container {
   background-color: #0c0f12e8;
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   width: 100%;
   padding: 10px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Cuando está sticky, añadir sombra */
-.filters-container.sticky-active {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  /* ELIMINA cualquier position: sticky de aquí */
 }
 
 .title {
@@ -21,10 +14,8 @@
   margin-top: 0;
   margin-right: 20px !important;
   color: #f1f1f1;
-  white-space: nowrap;
 }
 
-/* Ajustes responsive */
 @media screen and (max-width: 650px) {
   .filters-container {
     padding: 8px 12px;
@@ -32,19 +23,5 @@
   
   .btn-primary {
     width: 100%;
-  }
-  
-  label {
-    font-size: 17px !important;
-  }
-  
-  .title {
-    font-size: 0.9rem;
-    margin-right: 10px !important;
-  }
-  
-  .form-select {
-    font-size: 14px;
-    padding: 6px 8px;
   }
 }

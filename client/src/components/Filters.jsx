@@ -4,9 +4,10 @@ import "../assets/css/filters.css";
 const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => {
   const [selectedType, setSelectedType] = useState('all');
   const [selectedOperation, setSelectedOperation] = useState('all');
-  const [isSticky, setIsSticky] = useState(false);
   const filtersRef = useRef(null);
-  const initialOffsetTop = useRef(0);
+  const [stickyTop, setStickyTop] = useState(0);
+  const [isSticky, setIsSticky] = useState(false);
+  const [navbarHeight, setNavbarHeight] = useState(0);
 
   useEffect(() => {
     let filtered = properties;
@@ -22,54 +23,58 @@ const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => 
     setFilteredProperties(filtered);
   }, [selectedType, selectedOperation, properties, setFilteredProperties]);
 
+  // Obtener la altura del navbar
   useEffect(() => {
-    // Guardar la posición original del filtro
-    if (filtersRef.current && initialOffsetTop.current === 0) {
-      initialOffsetTop.current = filtersRef.current.offsetTop;
-    }
+    const getNavbarHeight = () => {
+      const navbar = document.querySelector('nav') || document.querySelector('.navbar') || document.querySelector('[class*="NavBar"]');
+      if (navbar) {
+        const height = navbar.offsetHeight;
+        setNavbarHeight(height);
+        return height;
+      }
+      return 0;
+    };
 
-    const handleScroll = () => {
+    getNavbarHeight();
+    
+    // Recalcular cuando cambie el tamaño de la ventana
+    window.addEventListener('resize', getNavbarHeight);
+    return () => window.removeEventListener('resize', getNavbarHeight);
+  }, []);
+
+  // Calcular la posición donde debe activarse el sticky
+  useEffect(() => {
+    const calculateSticky = () => {
       if (filtersRef.current) {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const navbarHeight = getNavbarHeight();
+        const offsetTop = filtersRef.current.offsetTop;
+        setStickyTop(offsetTop - navbarHeight);
+      }
+    };
+
+    if (navbarHeight > 0) {
+      calculateSticky();
+      window.addEventListener('resize', calculateSticky);
+      return () => window.removeEventListener('resize', calculateSticky);
+    }
+  }, [navbarHeight]);
+
+  // Manejar el scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (filtersRef.current && navbarHeight > 0) {
+        const scrollY = window.scrollY;
         
-        // Calcular el punto donde debe activarse el sticky
-        const stickyPoint = initialOffsetTop.current - navbarHeight;
-        
-        // Activar sticky cuando el scroll pasa el punto, desactivar cuando vuelve
-        if (scrollTop > stickyPoint) {
-          if (!isSticky) setIsSticky(true);
+        if (scrollY >= stickyTop) {
+          setIsSticky(true);
         } else {
-          if (isSticky) setIsSticky(false);
+          setIsSticky(false);
         }
       }
     };
 
-    const getNavbarHeight = () => {
-      const navbar = document.querySelector('nav') || document.querySelector('.navbar') || document.querySelector('[class*="NavBar"]');
-      if (navbar) {
-        return navbar.offsetHeight;
-      }
-      return window.innerWidth <= 768 ? 60 : 76;
-    };
-
-    // Ejecutar al inicio
-    handleScroll();
-    
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', () => {
-      // Recalcular posición cuando cambia el tamaño de la ventana
-      if (filtersRef.current) {
-        initialOffsetTop.current = filtersRef.current.offsetTop;
-        handleScroll();
-      }
-    });
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-    };
-  }, [isSticky]);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [stickyTop, navbarHeight]);
 
   const mapDomainToType = (domainId) => {
     if (!domainId) return 'other';
@@ -86,36 +91,23 @@ const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => 
     return operation;
   };
 
-  const getNavbarHeight = () => {
-    const navbar = document.querySelector('nav') || document.querySelector('.navbar') || document.querySelector('[class*="NavBar"]');
-    if (navbar) {
-      return navbar.offsetHeight;
-    }
-    return window.innerWidth <= 768 ? 60 : 76;
-  };
-
   return (
     <div
       ref={filtersRef}
       className={`filters-container ${isSticky ? 'sticky-active' : ''}`}
       style={{
         position: isSticky ? 'fixed' : 'relative',
-        top: isSticky ? `${getNavbarHeight()}px` : 'auto',
+        top: isSticky ? `${navbarHeight}px` : 'auto',
         left: isSticky ? '0' : 'auto',
         right: isSticky ? '0' : 'auto',
+        zIndex: isSticky ? 1000 : 'auto',
         width: '100%',
-        zIndex: isSticky ? 999 : 'auto',
-        margin: isSticky ? '0' : '0',
       }}
     >
       <div className="container my-3">
         <div className="row g-3 align-items-center">
-          {/* Tipo de propiedad */}
           <div className="col-md-4 d-flex align-items-center">
-            <label
-              htmlFor="property-type-filter"
-              className="me-2 mb-0 title flex-shrink-0"
-            >
+            <label htmlFor="property-type-filter" className="me-2 mb-0 title flex-shrink-0">
               Tipo de propiedad:
             </label>
             <select
@@ -132,12 +124,8 @@ const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => 
             </select>
           </div>
 
-          {/* Tipo de operación */}
           <div className="col-md-4 d-flex align-items-center">
-            <label
-              htmlFor="operation-filter"
-              className="me-2 mb-0 title flex-shrink-0"
-            >
+            <label htmlFor="operation-filter" className="me-2 mb-0 title flex-shrink-0">
               Tipo de operación:
             </label>
             <select
@@ -152,12 +140,8 @@ const Filters = ({ properties, setFilteredProperties, showMap, setShowMap }) => 
             </select>
           </div>
 
-          {/* Botón para alternar mapa/propiedades */}
           <div className="col-md-4 d-flex justify-content-center align-items-center">
-            <button
-              className="col-md-6 btn btn-primary"
-              onClick={() => setShowMap(!showMap)}
-            >
+            <button className="col-md-6 btn btn-primary" onClick={() => setShowMap(!showMap)}>
               {showMap ? 'Ver propiedades' : 'Ver mapa'}
             </button>
           </div>
