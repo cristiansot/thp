@@ -6,10 +6,11 @@ import image3 from '../assets/img/carousel/image3.webp';
 
 const slides = [
    {
-    subtitle: 'San Miguel',
-    title: 'Departamento Vendido',
+    subtitle: 'Ñuñoa',
+    title: 'Se Vende Departamento',
+    price: 'UF 7.420',
     description:
-      'Departamento ubicado en Metro El LLano',
+      'A pasos del Metro Chile España',
     imageUrl: image1,
   },
     {
@@ -63,7 +64,6 @@ const Carousel = () => {
               <h1 className="carousel-item__title">{slide.title}</h1>
               {slide.price && <p className="carousel-item__price">{slide.price}</p>}
               <p className="carousel-item__description">{slide.description}</p>
-              {/* <a href="#" className="carousel-item__btn">Explore</a> */}
             </div>
           </div>
         </div>
