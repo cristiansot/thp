@@ -55,13 +55,13 @@ function App() {
     
           <Carousel />
           <Whatsapp />
+          <SeoSection />
           <Filters
             properties={properties}
             setFilteredProperties={setFilteredProperties}
             showMap={showMap}
             setShowMap={setShowMap}
           />
-          <SeoSection />
           {
             showMap
               ? <MapView properties={filteredProperties} zoom={13} />
