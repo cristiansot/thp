@@ -2,16 +2,25 @@ import React, { useState, useEffect } from 'react';
 import '../assets/css/carousel.css';
 
 import image1 from '../assets/img/carousel/image1.webp';
+import image2 from '../assets/img/carousel/image2.webp';
 import image3 from '../assets/img/carousel/image3.webp';
 
 const slides = [
+  {
+    subtitle: 'Ñuñoa',
+    title: 'Se Arrienda Departamento',
+    price: '$860.000',
+    description:
+      'A pasos del Metro Simón Bolivar',
+    imageUrl: image1,
+  },
    {
     subtitle: 'Ñuñoa',
     title: 'Se Vende Departamento',
     price: 'UF 7.420',
     description:
       'A pasos del Metro Chile España',
-    imageUrl: image1,
+    imageUrl: image2,
   },
     {
     subtitle: 'Padre Hurtado',
