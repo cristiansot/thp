@@ -31,14 +31,6 @@ const slides = [
       'Cerca de Metro Monseñor Eyzaguirre',
     imageUrl: image3,
   },
-    {
-    subtitle: 'Padre Hurtado',
-    title: 'Se Vende Casa',
-    price: 'UF 3.590',
-    description:
-      'Casa ubicada en Av. San Ignacio',
-    imageUrl: image4,
-  },
 ];
 
 const Carousel = () => {
