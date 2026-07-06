@@ -10,7 +10,7 @@ const slides = [
    {
     subtitle: 'Ñuñoa',
     title: 'Se Vende Departamento',
-    price: 'UF 5290',
+    price: 'UF 5.290',
     description:
       'A pasos de Plaza Ñuñoa',
     imageUrl: image1,
