@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import '../assets/css/carousel.css';
 
-import image1 from '../assets/img/carousel/image1.webp';
 import image2 from '../assets/img/carousel/image2.webp';
 import image3 from '../assets/img/carousel/image3.webp';
 import image4 from '../assets/img/carousel/image4.webp';
 
 const slides = [
-   {
-    subtitle: 'Ñuñoa',
-    title: 'Se Vende Departamento',
-    price: 'UF 5.290',
-    description:
-      'A pasos de Plaza Ñuñoa',
-    imageUrl: image1,
-  },
+
   {
     subtitle: 'Ñuñoa',
     title: 'Se Arrienda Departamento',
