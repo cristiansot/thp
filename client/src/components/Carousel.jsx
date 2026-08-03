@@ -3,7 +3,6 @@ import '../assets/css/carousel.css';
 
 import image1 from '../assets/img/carousel/image1.webp';
 import image2 from '../assets/img/carousel/image2.webp';
-import image3 from '../assets/img/carousel/image3.webp';
 import image4 from '../assets/img/carousel/image4.webp';
 
 const slides = [
@@ -24,15 +23,7 @@ const slides = [
       'A pasos del Metro Simón Bolivar',
     imageUrl: image2,
   },
-   {
-    subtitle: 'Ñuñoa',
-    title: 'Se Vende Departamento',
-    price: 'UF 7.420',
-    description:
-      'A pasos del Metro Chile España',
-    imageUrl: image3,
-  },
-    {
+  {
     subtitle: 'Ñuñoa',
     title: 'Se Arrienda Departamento',
     price: '$800.000',
