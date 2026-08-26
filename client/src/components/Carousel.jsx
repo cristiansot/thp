@@ -3,7 +3,6 @@ import '../assets/css/carousel.css';
 
 import image1 from '../assets/img/carousel/image1.webp';
 import image2 from '../assets/img/carousel/image2.webp';
-import image4 from '../assets/img/carousel/image4.webp';
 
 const slides = [
 
@@ -22,14 +21,6 @@ const slides = [
     description:
       'A pasos del Metro Simón Bolivar',
     imageUrl: image2,
-  },
-  {
-    subtitle: 'Ñuñoa',
-    title: 'Se Arrienda Departamento',
-    price: '$800.000',
-    description:
-      'Cerca de Metro Monseñor Eyzaguirre',
-    imageUrl: image4,
   },
 ];
 
