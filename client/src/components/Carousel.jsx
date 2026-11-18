@@ -27,7 +27,7 @@ const slides = [
    {
     subtitle: 'Padre Hurtado',
     title: 'Se Vende Casa',
-    price: 'UF 3.550',
+    price: 'UF 3.490',
     description:
       'Av. San Ignacio, entre Carretra el SOl y Camino a Melipilla',
     imageUrl: image3,
