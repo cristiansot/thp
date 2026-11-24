@@ -4,7 +4,6 @@ import '../assets/css/carousel.css';
 import image1 from '../assets/img/carousel/image1.webp';
 import image2 from '../assets/img/carousel/image2.webp';
 import image3 from '../assets/img/carousel/image3.webp';
-import image4 from '../assets/img/carousel/image4.webp';
 
 const slides = [
 
@@ -31,14 +30,6 @@ const slides = [
     description:
       'Av. San Ignacio, entre Carretra el SOl y Camino a Melipilla',
     imageUrl: image3,
-  },
-    {
-    subtitle: 'Padre Hurtado',
-    title: 'Se Vende Casa con Local Comercial',
-    price: '$170.000.000',
-    description:
-      'Av. San Ignacio, entre Carretra el SOl y Camino a Melipilla',
-    imageUrl: image4,
   },
 ];
 

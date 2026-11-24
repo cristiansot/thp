@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // ===============================
-// 📧 CONFIG SMTP (Titan)
+// 📧 CONFIG SMTP 
 // ===============================
 const smtpConfig = {
   host: process.env.EMAIL_HOST,
